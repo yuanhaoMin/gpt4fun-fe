@@ -1,0 +1,32 @@
+:root {
+	--mainColor: #343541;
+	--sideColor: #565869;
+	--buttonColor: #225c5b;
+	--buttonHoverColor: #4e9897;
+	--buttonTextColor: #ffffff;
+	--userTextColor: #ffffff;
+	--gptTextColor: #c6ccd6;
+}
+
+body {
+	align-items: center;
+	background-color: var(--mainColor);
+	display: flex-end;
+	flex-direction: column;
+	font-family: Arial, sans-serif;
+	height: 100vh;
+	/* prevent body default margin in case it exceeds the max view */
+	justify-content: center;
+	/* centers child horizontally since child has 90% height */
+	margin: 0;
+	overflow-x: hidden;
+	width: 100vw;
+}
+
+.app {
+	align-items: center;
+	display: flex-end;
+	flex-direction: column;
+	height: 90%;
+	width: 60%;
+}

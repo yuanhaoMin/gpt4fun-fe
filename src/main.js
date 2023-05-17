@@ -1,5 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './styles/app.css'
+import './style.css'
+import HomeLeft from './component/HomeLeft.vue'
+import HomeMiddle from './component/HomeMiddle.vue'
 
-createApp(App).mount('#app')
+createApp(App)
+  .component('HomeLeft', HomeLeft)
+  .component('HomeMiddle', HomeMiddle)
+  .mount('#app')

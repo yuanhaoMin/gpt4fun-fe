@@ -7,7 +7,7 @@
           &emsp;<el-icon v-show="isShowExpand"><Expand /></el-icon>
           <el-icon v-show="isShowFold"><Fold /></el-icon>
         </div>
-        <span class="login" @click="login">未登录&emsp;</span>
+        <span class="login" @click="loginout">退出&emsp;</span>
       </div>
       <!-- 输出内容 -->
       <router-view />
@@ -33,8 +33,8 @@ let menuIsSpend = () => {
 
 //未登录，跳转登录页
 let router = useRouter();
-let login = () => {
-  router.push("/login");
+let loginout = () => {
+  router.replace("/login");
 };
 </script>
 

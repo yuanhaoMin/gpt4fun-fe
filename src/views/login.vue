@@ -39,14 +39,22 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { login } from "../api/login";
 const router = useRouter();
 
-const username = ref("");
-const password = ref("");
+const username = ref("demo@bizcamp.com");
+const password = ref("999");
 
-function jump() {
-  router.replace("chat");
-}
+let jump = async () => {
+  let time = +new Date();
+  let res = await login({ username: username.value, password: password.value });
+  let aftertime = +new Date();
+  console.log("login delay time:", aftertime - time);
+  // console.log("loginRes", res);
+  if (res.status === 200) {
+    router.replace("/chat");
+  }
+};
 </script>>
 
 <style  scoped>

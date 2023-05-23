@@ -14,7 +14,6 @@ axios.interceptors.response.use(res => {
 //post
 export let post = (url, data = {}) => {
     return new Promise((resolve, reject) => {
-        console.log(data)
         axios.post(url, data).then((res) => {
             resolve(res);
         }).catch(err => {

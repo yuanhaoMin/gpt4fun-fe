@@ -141,6 +141,8 @@ export default {
       selectedImagineImageNum: "1",
       selectedImagineImageSize: "512x512",
       isShowLoading: false,
+      senderAssistant: "0",
+      senderUser: "1",
       isreset: true,
       isupdate: true,
     };
@@ -184,6 +186,7 @@ export default {
       const messagesContainer = this.$refs.messagesContainer;
       const messageElement = document.createElement("div");
       const messageParagraph = document.createElement("p");
+      messageParagraph.style.display = "inline-block";
       // messageParagraph.style.width = "100%"; // Achieve word wrap
       messageParagraph.style.wordWrap = "break-word"; // Achieve word wrap
       const processedText = this.achieveLineBreak(text); // Required anyway
@@ -192,27 +195,30 @@ export default {
       messagesContainer.appendChild(messageElement);
       //调节对话位置
       let messagesContainerChildren = document.querySelectorAll(
-        ".messages-container>div"
+        ".messages-container>div>p"
       );
+      let a = document.querySelectorAll(".messages-container>div");
+      for (let i = 0; i < a.length; i++) {
+        a[i].style.overflow = "hidden";
+      }
       if (messagesContainerChildren.length) {
         messagesContainerChildren.forEach((v, k) => {
           v.style.borderRadius = "6px";
           v.style.padding = "15px";
           v.style.marginBottom = "15px";
-          if (k % 2 == 0) {
-            v.style.textAlign = "right";
-            v.style.background = "#e8f8ff";
-          } else {
-            v.style.background = "#eeeeee";
-          }
         });
       }
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      //sender
+      console.log("我是sender", sender);
       // 用户消息和AI消息的颜色不同
       if (sender == this.senderUser) {
+        messageParagraph.style.float = "right";
+        messageParagraph.style.background = "#e8f8ff";
         messageElement.style.color = "#000000";
       } else if (sender == this.senderAssistant) {
         messageElement.style.color = "#0a0a0a";
+        messageParagraph.style.background = "#eeeeee";
       }
       messageElement.style.fontFamily = "Microsoft YaHei";
       return messageParagraph;
@@ -350,12 +356,7 @@ export default {
       eventSource.onerror = (error) => {
         console.log("EventSource error: ", error);
         if (error.type == "error") {
-          ElMessage({
-            message: "Please refresh page!",
-            type: "info",
-            duration: 1100,
-            grouping: true,
-          });
+          location.reload();
         }
         eventSource.close();
       };

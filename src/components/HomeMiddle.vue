@@ -4,13 +4,14 @@
     <div class="loading" v-show="isShowLoading">
       <img src="/img/loading.gif" alt="" />
     </div>
+
     <!-- 左边 -->
     <div class="home-middle-container">
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
       </div>
-      <div class="button-container">
+      <div class="button-container" v-show="hiddenSetAndClearBtn">
         <button
           class="update-button button"
           ref="updateButton"
@@ -38,82 +39,163 @@
         消息发送
       </button>
     </div>
-    <!-- 右边 -->
-    <div class="home-right-container">
-      <div class="chat-mode-container">
-        <input
-          type="radio"
-          id="chat-mode"
-          name="mode"
-          class="chat-mode-radio"
-          checked
-        />
-        <span class="chat-mode-titel">对话模式</span>
+    <!-- 旧的 右边 -->
+    <div class="oldRightSel">
+      <div class="home-right-container">
+        <div class="chat-mode-container">
+          <input
+            type="radio"
+            id="chat-mode"
+            name="mode"
+            class="chat-mode-radio"
+            checked
+          />
+
+          <span class="chat-mode-titel">对话模式</span>
+        </div>
+        <div class="chat-mode-model-container">
+          <span class="chat-mode-model-titel">AI模型:</span>
+          <select class="chat-mode-model-list" v-model="selectedChatModel">
+            <!-- 这里的gpt-3.5-turbo和gpt-4用于传入后端api, 不要更改value -->
+            <option value="gpt-3.5-turbo" selected>GPT-3.5</option>
+            <option value="gpt-4">GPT-4</option>
+          </select>
+        </div>
+        <div class="chat-mode-temperature-container">
+          <span class="chat-mode-temperature-titel">AI创造力:</span>
+          <select class="chat-mode-num-list" v-model="selectedChatTemperature">
+            <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
+            <option value="0">保守模式</option>
+            <option value="0.2" selected>均衡模式</option>
+            <option value="0.6">创造模式</option>
+          </select>
+        </div>
+        <div class="completion-mode-container">
+          <input
+            type="radio"
+            id="completion-mode"
+            name="mode"
+            class="completion-mode-radio"
+          />
+          <span class="completion-mode-titel">问答模式</span>
+        </div>
+        <div class="completion-mode-online-option-container">
+          <span class="completion-mode-online-option-titel">
+            <span>联网</span>
+            <br />
+          </span>
+          <input
+            type="checkbox"
+            v-model="isCompletionModeOnline"
+            class="completion-mode-online-option-checkbox"
+          />
+        </div>
+        <div class="imagine-mode-container">
+          <input
+            type="radio"
+            id="imagine-mode"
+            name="mode"
+            class="imagine-mode-radio"
+          />
+          <span class="imagine-mode-titel">图片生成</span>
+        </div>
+        <div class="imagine-mode-num-container">
+          <span class="imagine-mode-num-titel">图片数量:</span>
+          <select
+            class="imagine-mode-num-list"
+            v-model="selectedImagineImageNum"
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <div class="imagine-mode-size-container">
+          <span class="imagine-mode-size-titel">图片尺寸:</span>
+          <select
+            class="imagine-mode-size-list"
+            v-model="selectedImagineImageSize"
+          >
+            <option value="256x256">256x256</option>
+            <option value="512x512">512x512</option>
+            <option value="1024x1024">1024x1024</option>
+          </select>
+        </div>
       </div>
-      <div class="chat-mode-model-container">
-        <span class="chat-mode-model-titel">AI模型:</span>
-        <select class="chat-mode-model-list" v-model="selectedChatModel">
-          <!-- 这里的gpt-3.5-turbo和gpt-4用于传入后端api, 不要更改value -->
-          <option value="gpt-3.5-turbo" selected>GPT-3.5</option>
-          <option value="gpt-4">GPT-4</option>
-        </select>
-      </div>
-      <div class="chat-mode-temperature-container">
-        <span class="chat-mode-temperature-titel">AI创造力:</span>
-        <select class="chat-mode-num-list" v-model="selectedChatTemperature">
-          <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
-          <option value="0">保守模式</option>
-          <option value="0.2" selected>均衡模式</option>
-          <option value="0.6">创造模式</option>
-        </select>
-      </div>
-      <div class="completion-mode-container">
-        <input
-          type="radio"
-          id="completion-mode"
-          name="mode"
-          class="completion-mode-radio"
-        />
-        <span class="completion-mode-titel">问答模式</span>
-      </div>
-      <div class="completion-mode-online-option-container">
-        <span class="completion-mode-online-option-titel">
-          <span>联网</span>
+    </div>
+
+    <!-- 按钮新样式 -->
+    <div class="syan">
+      <div class="tall">
+        <div>
+          <div>
+            <el-button type="primary" @click="dialogue" class="buton"
+              >对话模式</el-button
+            >&emsp;&emsp;
+            <el-switch v-model="isdialogue" size="large" />
+          </div>
           <br />
-        </span>
-        <input
-          type="checkbox"
-          v-model="isCompletionModeOnline"
-          class="completion-mode-online-option-checkbox"
-        />
+          <div>
+            AI模型：&emsp;<el-select
+              placeholder="AI模型"
+              v-model="selectedChatModel"
+            >
+              <el-option label="chatGpt-3.5" value="gpt-3.5-turbo" />
+              <el-option label="chatGpt-4.0" value="gpt-4" />
+            </el-select>
+          </div>
+          <br />
+          AI创造力：<el-select
+            placeholder="AI创造力"
+            v-model="selectedChatTemperature"
+          >
+            <el-option label="保守模式" value="0" />
+            <el-option label="均衡模式" value="0.2" />
+            <el-option label="创造模式" value="0.6" />
+          </el-select>
+        </div>
       </div>
-      <div class="imagine-mode-container">
-        <input
-          type="radio"
-          id="imagine-mode"
-          name="mode"
-          class="imagine-mode-radio"
-        />
-        <span class="imagine-mode-titel">图片生成</span>
+      <br />
+      <div class="unify">
+        <div>
+          <el-button type="primary" @click="answer" class="buton"
+            >问答模式</el-button
+          >&emsp;&emsp;
+          <el-switch v-model="isanswer" size="large" />
+        </div>
       </div>
-      <div class="imagine-mode-num-container">
-        <span class="imagine-mode-num-titel">图片数量:</span>
-        <select class="imagine-mode-num-list" v-model="selectedImagineImageNum">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-      </div>
-      <div class="imagine-mode-size-container">
-        <span class="imagine-mode-size-titel">图片尺寸:</span>
-        <select
-          class="imagine-mode-size-list"
-          v-model="selectedImagineImageSize"
-        >
-          <option value="256x256">256x256</option>
-          <option value="512x512">512x512</option>
-          <option value="1024x1024">1024x1024</option>
-        </select>
+      <br />
+      <div class="unify">
+        <div>
+          <el-button type="primary" @click="picture" class="buton"
+            >图片生成</el-button
+          >&emsp;&emsp;
+          <el-switch v-model="ispicture" size="large" />
+        </div>
+        <br />
+        <div>
+          <div>
+            图片数量：<el-select
+              placeholder="图片数量"
+              v-model="selectedImagineImageNum"
+            >
+              <el-option label="1" value="1" />
+              <el-option label="2" value="2" />
+              <el-option label="3" value="3" />
+            </el-select>
+          </div>
+          <br />
+          <div>
+            图片尺寸：<el-select
+              placeholder="图片尺寸"
+              v-model="selectedImagineImageSize"
+            >
+              <el-option label="256x256" value="256x256" />
+              <el-option label="516x516" value="512x512" />
+              <el-option label="1024x1024" value="1024x1024" />
+            </el-select>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -145,6 +227,10 @@ export default {
       senderUser: "1",
       isreset: true,
       isupdate: true,
+      hiddenSetAndClearBtn: true, //是否隐藏设置情景和清除记录button
+      isdialogue: true, //对话
+      isanswer: false, //问答
+      ispicture: false, //图片
     };
   },
   created() {
@@ -169,6 +255,24 @@ export default {
       .addEventListener("change", this.toggleButtonsVisibility);
   },
   methods: {
+    dialogue() {
+      this.isdialogue = true;
+      this.isanswer = false;
+      this.ispicture = false;
+      this.hiddenSetAndClearBtn = true;
+    },
+    answer() {
+      this.isanswer = true;
+      this.isdialogue = false;
+      this.ispicture = false;
+      this.hiddenSetAndClearBtn = false;
+    },
+    picture() {
+      this.ispicture = true;
+      this.isdialogue = false;
+      this.isanswer = false;
+      this.hiddenSetAndClearBtn = false;
+    },
     sendmsg(e) {
       if (!e.shiftKey && e.keyCode == 13) {
         e.cancelBubble = true; //ie阻止冒泡行为
@@ -209,8 +313,6 @@ export default {
         });
       }
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      //sender
-      console.log("我是sender", sender);
       // 用户消息和AI消息的颜色不同
       if (sender == this.senderUser) {
         messageParagraph.style.float = "right";
@@ -301,8 +403,10 @@ export default {
       );
 
       // 根据不同的模式, 调用不同的函数获取AI回复
-      const selectedMode = document.querySelector("input[name=mode]:checked");
-      if (selectedMode.id == "chat-mode") {
+      // const selectedMode = document.querySelector("input[name=mode]:checked");
+      // if (selectedMode.id == "chat-mode") {
+      if (this.isdialogue) {
+        //对话模式
         const chatModeSSEUrl =
           this.baseUrl + "/chat-completion/stream-messages";
         const model = this.selectedChatModel;
@@ -312,21 +416,25 @@ export default {
           chatModeSSEUrl,
           botParagraph
         );
-      } else if (selectedMode.id == "completion-mode") {
-        if (this.isCompletionModeOnline) {
-          await this.agentSearch(userMessage, botParagraph);
-        } else {
-          const completionModeSSEUrl =
-            this.baseUrl + "/completion/stream-message";
-          const model = "text-davinci-003";
-          await this.completionWithStream(
-            userMessage,
-            model,
-            completionModeSSEUrl,
-            botParagraph
-          );
-        }
-      } else if (selectedMode.id == "imagine-mode") {
+        // } else if (selectedMode.id == "completion-mode") {
+      } else if (this.isanswer) {
+        //问答模式
+        // if (this.isCompletionModeOnline) {
+        await this.agentSearch(userMessage, botParagraph);
+        // } else {
+        //   const completionModeSSEUrl =
+        //     this.baseUrl + "/completion/stream-message";
+        //   const model = "text-davinci-003";
+        //   await this.completionWithStream(
+        //     userMessage,
+        //     model,
+        //     completionModeSSEUrl,
+        //     botParagraph
+        //   );
+        // }
+        // } else if (selectedMode.id == "imagine-mode") {
+      } else if (this.ispicture) {
+        //图片模式
         await this.imagine(userMessage, botParagraph);
       }
     },
@@ -468,8 +576,35 @@ export default {
 </script>
   
 <style scoped>
+.tall {
+  margin: 52px 25px 25px;
+  text-align: center;
+}
+.unify {
+  text-align: center;
+  margin: 25px;
+}
+.oldRightSel {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.syan {
+  width: 100%;
+}
+.syan :deep(.el-select .el-input__wrapper) {
+  border-radius: 31px;
+  width: 100px;
+  height: 37px;
+  background-color: #e8eaed;
+  color: #656668;
+  box-shadow: 2px 2px 8px 0px;
+}
 select {
   outline: 0;
+}
+.buton:hover {
+  background: white;
 }
 .loading {
   width: 100vw;
@@ -478,6 +613,7 @@ select {
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.2);
+  z-index: 100;
 }
 .loading img {
   width: 100px;
@@ -531,7 +667,6 @@ button {
   height: 36px;
   /* Align items to the right */
 }
-
 .update-button {
   align-self: flex-end;
   background-color: #519bff;
@@ -545,10 +680,10 @@ button {
 }
 
 .input-textarea {
-  height: 66px;
+  height: 100px;
   width: 100%;
   resize: none;
-  font-size: 21px;
+  font-size: 19px;
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
@@ -575,6 +710,14 @@ button {
   background-color: f7f7f7;
 }
 
+.buton {
+  border-radius: 41px;
+  width: 57%;
+  height: 40px;
+  background-color: #eff0f2;
+  color: #656668;
+  box-shadow: 2px 2px 8px 0px;
+}
 .chat-mode-container {
   flex: 0 0 auto;
   width: 100%;

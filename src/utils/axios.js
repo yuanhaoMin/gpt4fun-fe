@@ -1,23 +1,41 @@
 import axios from 'axios';
+import { ElMessage } from "element-plus";
 
-axios.defaults.baseURL = '/chamber';
-axios.defaults.timeout = 5000;
-//请求拦截器
-axios.interceptors.request.use((config) => {
-    // config.headers.Authorization='';       //设置token；
-    return config;
-});
-//响应拦截器
-axios.interceptors.response.use(res => {
-    return res;
-});
+const instance = axios.create({
+    baseURL: '/chamber',
+    timeout: 5000
+})
+
+// 添加请求拦截器
+instance.interceptors.request.use(config => {
+    return config
+}, error => {
+    return Promise.reject(error)
+})
+
+// 添加响应拦截器
+instance.interceptors.response.use(response => {
+    return response
+}, error => {
+    if (error.response.status == 401) {
+        ElMessage({
+            showClose: true,
+            message: '账户或密码错误！',
+            type: 'error',
+        })
+    }
+    return Promise.reject(error)
+})
+
+
+
 //post
 export let post = (url, data = {}) => {
     return new Promise((resolve, reject) => {
-        axios.post(url, data).then((res) => {
+        instance.post(url, data).then((res) => {
             resolve(res);
         }).catch(err => {
-            reject(err);
+            // reject(err);
         })
     })
 };
@@ -25,10 +43,10 @@ export let post = (url, data = {}) => {
 //get
 export let get = (url, data) => {
     return new Promise((resolve, reject) => {
-        axios.get(url, data = {}).then((res) => {
+        instance.get(url, data = {}).then((res) => {
             resolve(res);
         }).catch(err => {
-            reject(err);
+            // reject(err);
         })
     })
 };

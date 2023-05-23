@@ -40,19 +40,36 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "../api/login";
-const router = useRouter();
+import { ElMessage } from "element-plus";
 
+import { useStore } from "vuex";
+const router = useRouter();
+const store = useStore();
 const username = ref("demo@bizcamp.com");
 const password = ref("999");
 
 let jump = async () => {
-  let time = +new Date();
-  let res = await login({ username: username.value, password: password.value });
-  let aftertime = +new Date();
-  console.log("login delay time:", aftertime - time);
-  // console.log("loginRes", res);
-  if (res.status === 200) {
-    router.replace("/chat");
+  if (username.value == "" || password.value == "") {
+    ElMessage.error("账户或密码不能为空！");
+    return;
+  } else {
+    let res = await login({
+      username: username.value,
+      password: password.value,
+    });
+    if (res.status == 200) {
+      const credentials = `${username}:${password}`;
+      const encodedCredentials = btoa(credentials);
+      store.commit("token", encodedCredentials);
+      ElMessage({
+        showClose: true,
+        message: "登录成功！",
+        type: "success",
+      });
+      router.replace("/chat");
+    } else {
+      return;
+    }
   }
 };
 </script>>
@@ -96,7 +113,7 @@ body {
   border-radius: 0 15px 15px 0;
 }
 .logo {
-  width: 100px;
+  width: 150px;
 }
 .bizi {
   position: fixed;
@@ -108,6 +125,9 @@ body {
 
 .user {
   display: flex;
+  height: 50px;
+  margin: 10px;
+  align-items: center;
 }
 .el-input {
   width: 250px;
@@ -116,14 +136,19 @@ body {
   box-shadow: 0px 0px 0px;
 }
 .logonImg {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-  margin-top: 4px;
+  width: 30px;
+  height: 30px;
   opacity: 0.2;
 }
 .user,
 .password {
   border-bottom: 2px solid lightgray;
+  display: flex;
+  height: 50px;
+  margin: 10px;
+  align-items: center;
+}
+.el-button > span {
+  width: 100px;
 }
 </style>

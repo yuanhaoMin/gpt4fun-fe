@@ -18,9 +18,9 @@
 <script setup>
 import { ref } from "vue";
 import menuList from "../components/menu.vue";
-// import { Expand, Fold } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-
+import { useStore } from "vuex";
+import store from "../store";
 let spend = ref(false);
 let isShowExpand = ref(false);
 let isShowFold = ref(true);
@@ -34,6 +34,7 @@ let menuIsSpend = () => {
 //未登录，跳转登录页
 let router = useRouter();
 let loginout = () => {
+  store.commit("deltoken");
   router.replace("/login");
 };
 </script>

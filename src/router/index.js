@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getToken } from '../utils/store'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -35,4 +36,22 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach(async (to, from, next) => {
+  const token = getToken('token');
+  if (to.path === '/login' || to.path === '/') {
+    next();
+  }
+  else {
+    if (token) {
+      next();
+    } else {
+      next('/login');
+    }
+  }
+})
+
 export default router
+
+
+
+

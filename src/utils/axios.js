@@ -9,10 +9,6 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
-    let token = store.state.token
-    if (token) {
-        config.headers.Authorization = token;
-    }
     return config
 }, error => {
     return Promise.reject(error)

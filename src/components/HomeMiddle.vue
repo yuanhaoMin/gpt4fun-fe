@@ -25,8 +25,12 @@
           </span>
         </button>
       </div>
-      <textarea placeholder="来说点什么吧…………" class="input-textarea textarea" ref="inputBox"
-        @keydown.enter="sendmsg"></textarea>
+      <textarea
+        placeholder="来说点什么吧…………"
+        class="input-textarea textarea"
+        ref="inputBox"
+        @keydown.enter="sendmsg"
+      ></textarea>
       <button class="send-button button" ref="sendButton" type="button">
         消息发送
       </button>
@@ -36,7 +40,13 @@
     <div class="oldRightSel">
       <div class="home-right-container">
         <div class="chat-mode-container">
-          <input type="radio" id="chat-mode" name="mode" class="chat-mode-radio" checked />
+          <input
+            type="radio"
+            id="chat-mode"
+            name="mode"
+            class="chat-mode-radio"
+            checked
+          />
 
           <span class="chat-mode-titel">对话模式</span>
         </div>
@@ -50,7 +60,10 @@
         </div>
         <div class="chat-mode-temperature-container">
           <span class="chat-mode-temperature-titel">AI创造力:</span>
-          <select class="chat-mode-num-list" v-model="selectedChatModeTemperature">
+          <select
+            class="chat-mode-num-list"
+            v-model="selectedChatModeTemperature"
+          >
             <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
             <option value="0">保守模式</option>
             <option value="0.2" selected>均衡模式</option>
@@ -58,7 +71,12 @@
           </select>
         </div>
         <div class="completion-mode-container">
-          <input type="radio" id="completion-mode" name="mode" class="completion-mode-radio" />
+          <input
+            type="radio"
+            id="completion-mode"
+            name="mode"
+            class="completion-mode-radio"
+          />
           <span class="completion-mode-titel">问答模式</span>
         </div>
         <div class="completion-mode-online-option-container">
@@ -66,15 +84,27 @@
             <span>联网</span>
             <br />
           </span>
-          <input type="checkbox" v-model="isCompletionModeOnline" class="completion-mode-online-option-checkbox" />
+          <input
+            type="checkbox"
+            v-model="isCompletionModeOnline"
+            class="completion-mode-online-option-checkbox"
+          />
         </div>
         <div class="imagine-mode-container">
-          <input type="radio" id="imagine-mode" name="mode" class="imagine-mode-radio" />
+          <input
+            type="radio"
+            id="imagine-mode"
+            name="mode"
+            class="imagine-mode-radio"
+          />
           <span class="imagine-mode-titel">图片生成</span>
         </div>
         <div class="imagine-mode-num-container">
           <span class="imagine-mode-num-titel">图片数量:</span>
-          <select class="imagine-mode-num-list" v-model="selectedImagineModeImageNum">
+          <select
+            class="imagine-mode-num-list"
+            v-model="selectedImagineModeImageNum"
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -82,7 +112,10 @@
         </div>
         <div class="imagine-mode-size-container">
           <span class="imagine-mode-size-titel">图片尺寸:</span>
-          <select class="imagine-mode-size-list" v-model="selectedImagineModeImageSize">
+          <select
+            class="imagine-mode-size-list"
+            v-model="selectedImagineModeImageSize"
+          >
             <option value="256x256">256x256</option>
             <option value="512x512">512x512</option>
             <option value="1024x1024">1024x1024</option>
@@ -96,19 +129,30 @@
       <div class="tall">
         <div>
           <div>
-            <el-button type="primary" @click="dialogue" class="finger-hover-button">对话模式</el-button>&emsp;&emsp;
+            <el-button
+              type="primary"
+              @click="dialogue"
+              class="finger-hover-button"
+              >对话模式</el-button
+            >&emsp;&emsp;
             <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
           <div>
-            AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
+            AI模型: &emsp;<el-select
+              placeholder="AI模型"
+              v-model="selectedChatModeModel"
+            >
               <el-option label="ChatGpt3.5" value="gpt-3.5-turbo" />
               <el-option label="ChatGpt4" value="gpt-4" />
             </el-select>
           </div>
           <br />
           AI创造力:
-          <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
+          <el-select
+            placeholder="AI创造力"
+            v-model="selectedChatModeTemperature"
+          >
             <el-option label="保守模式" value="0" />
             <el-option label="均衡模式" value="0.2" />
             <el-option label="创造模式" value="0.6" />
@@ -118,20 +162,27 @@
       <br />
       <div class="unify">
         <div>
-          <el-button type="primary" @click="answer" class="finger-hover-button">问答模式</el-button>&emsp;&emsp;
+          <el-button type="primary" @click="answer" class="finger-hover-button"
+            >问答模式</el-button
+          >&emsp;&emsp;
           <el-switch v-model="isCompletionModeSelected" size="large" />
         </div>
       </div>
       <br />
       <div class="unify">
         <div>
-          <el-button type="primary" @click="picture" class="finger-hover-button">图片生成</el-button>&emsp;&emsp;
+          <el-button type="primary" @click="picture" class="finger-hover-button"
+            >图片生成</el-button
+          >&emsp;&emsp;
           <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
         <div>
           <div>
-            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
+            图片数量：<el-select
+              placeholder="图片数量"
+              v-model="selectedImagineModeImageNum"
+            >
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -139,7 +190,10 @@
           </div>
           <br />
           <div>
-            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
+            图片尺寸：<el-select
+              placeholder="图片尺寸"
+              v-model="selectedImagineModeImageSize"
+            >
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
               <el-option label="1024x1024" value="1024x1024" />
@@ -170,6 +224,8 @@ export default {
       botName: "AI: ",
       // 聊天模式下的情景文本
       chatModeSystemMessage: "",
+      // 测试模式
+      testMode: true,
       // Html元素的值, 都设有默认值
       isCompletionModeOnline: false,
       selectedChatModeModel: "gpt-3.5-turbo",
@@ -332,7 +388,6 @@ export default {
 
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.isChatModeSelected) {
-        //对话模式
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -354,26 +409,39 @@ export default {
           body: JSON.stringify(requestBody),
         });
         const responseJsonObject = await response.json();
-        // 建立后端sse传输, 对话模式和问答模式的sseUrl不同
         const apiEndpoint =
-          chatModeSSEUrl + "?chat_completion_id=" + responseJsonObject.id + "&test_mode=false";
+          chatModeSSEUrl +
+          "?chat_completion_id=" +
+          responseJsonObject.id +
+          "&test_mode=" +
+          this.testMode;
         await this.completionWithStream(apiEndpoint, botParagraph);
       } else if (this.isCompletionModeSelected) {
-        //问答模式
-        // if (this.isCompletionModeOnline) {
-        await this.agentSearch(userMessage, botParagraph);
-        // } else {
-        //   const completionModeSSEUrl =
-        //     this.baseUrl + "/completion/stream-message";
-        //   const model = "text-davinci-003";
-        //   await this.completionWithStream(
-        //     userMessage,
-        //     model,
-        //     completionModeSSEUrl,
-        //     botParagraph
-        //   );
-        // }
-        // } else if (selectedMode.id == "imagine-mode") {
+        const completionModeUpdateInfoUrl =
+          this.baseLLMOpenAIUrl + "/completion";
+        const completionModeSSEUrl =
+          this.baseLLMOpenAIUrl + "/completion-stream";
+        const requestBody = {
+          model: "text-davinci-003",
+          temperature: 0,
+          username: this.authUsername,
+          prompt: userMessage,
+        };
+        const response = await fetch(completionModeUpdateInfoUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `Basic ${this.encodedCredentials}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const apiEndpoint =
+          completionModeSSEUrl +
+          "?username=" +
+          this.authUsername +
+          "&test_mode=" +
+          this.testMode;
+        await this.completionWithStream(apiEndpoint, botParagraph);
       } else if (this.isImagineModeSelected) {
         //图片模式
         await this.imagine(userMessage, botParagraph);
@@ -387,36 +455,36 @@ export default {
       };
       eventSource.onerror = (error) => {
         console.log("EventSource error: ", error);
-        if (error.type == "error") {
-          location.reload();
-        }
+        // if (error.type == "error") {
+        //   location.reload();
+        // }
         eventSource.close();
       };
       eventSource.onmessage = (event) => {
-        console.log("111");
-        // const response = JSON.parse(event.data);
-        // if (response.hasEnd) {
-        //   eventSource.close();
-        // } else {
-        //   const formattedChunkResponse = this.achieveLineBreak(
-        //     response.content
-        //   );
-        //   // 代码渲染效果视觉不理想, 需要借助一些外部库
-        //   // completeResponse += formattedChunkResponse;
-        //   // const indexOfTripleBackticks = completeResponse.indexOf("```");
-        //   // if (indexOfTripleBackticks > 0) {
-        //   //     if (codeStart == false) {
-        //   //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
-        //   //         codeStart = true;
-        //   //     }
-        //   //     else {
-        //   //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
-        //   //         codeStart = false;
-        //   //     }
-        //   // }
-        //   // botParagraph.innerHTML = this.botName + completeResponse;
-        //   botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
-        // }
+        console.log(event.data);
+        const response = JSON.parse(event.data);
+        if (response.hasEnd) {
+          eventSource.close();
+        } else {
+          const formattedChunkResponse = this.achieveLineBreak(
+            response.content
+          );
+          // 代码渲染效果视觉不理想, 需要借助一些外部库
+          // completeResponse += formattedChunkResponse;
+          // const indexOfTripleBackticks = completeResponse.indexOf("```");
+          // if (indexOfTripleBackticks > 0) {
+          //     if (codeStart == false) {
+          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
+          //         codeStart = true;
+          //     }
+          //     else {
+          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
+          //         codeStart = false;
+          //     }
+          // }
+          // botParagraph.innerHTML = this.botName + completeResponse;
+          botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
+        }
       };
     },
     replaceSubstringAtIndex(str, index, replacement) {
@@ -472,16 +540,13 @@ export default {
         n: this.selectedImagineModeImageNum,
         size: this.selectedImagineModeImageSize,
       };
-      const response = await fetch(
-        "https://albatross21.azurewebsites.net/imagine-gpt",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
+      const response = await fetch(this.baseUrl + "/image/openai/generation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
       const { data } = await response.json();
       botParagraph.innerHTML +=
         "<br/><span>" + this.handleImage(data) + "</span>";
@@ -624,7 +689,8 @@ button {
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset;
 }
 
 .input-textarea:focus {

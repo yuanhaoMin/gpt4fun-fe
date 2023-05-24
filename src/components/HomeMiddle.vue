@@ -11,18 +11,14 @@
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
       </div>
-      <div class="button-container" v-show="hiddenSetAndClearBtn">
-        <button
-          class="update-button button"
-          ref="updateButton"
-          v-show="isupdate"
-        >
+      <div class="button-container" v-show="isShowChatModeButtons">
+        <button class="update-button button" ref="updateButton">
           <span>
             <span>设置情景</span>
             <br />
           </span>
         </button>
-        <button class="delete-button button" ref="resetButton" v-show="isreset">
+        <button class="delete-button button" ref="resetButton">
           <span>
             <span>清除记录</span>
             <br />
@@ -39,7 +35,8 @@
         消息发送
       </button>
     </div>
-    <!-- 旧的 右边 -->
+
+    <!-- 旧的 右边 TODO: 删除 -->
     <div class="oldRightSel">
       <div class="home-right-container">
         <div class="chat-mode-container">
@@ -55,7 +52,7 @@
         </div>
         <div class="chat-mode-model-container">
           <span class="chat-mode-model-titel">AI模型:</span>
-          <select class="chat-mode-model-list" v-model="selectedChatModel">
+          <select class="chat-mode-model-list" v-model="selectedChatModeModel">
             <!-- 这里的gpt-3.5-turbo和gpt-4用于传入后端api, 不要更改value -->
             <option value="gpt-3.5-turbo" selected>GPT-3.5</option>
             <option value="gpt-4">GPT-4</option>
@@ -63,7 +60,10 @@
         </div>
         <div class="chat-mode-temperature-container">
           <span class="chat-mode-temperature-titel">AI创造力:</span>
-          <select class="chat-mode-num-list" v-model="selectedChatTemperature">
+          <select
+            class="chat-mode-num-list"
+            v-model="selectedChatModeTemperature"
+          >
             <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
             <option value="0">保守模式</option>
             <option value="0.2" selected>均衡模式</option>
@@ -103,7 +103,7 @@
           <span class="imagine-mode-num-titel">图片数量:</span>
           <select
             class="imagine-mode-num-list"
-            v-model="selectedImagineImageNum"
+            v-model="selectedImagineModeImageNum"
           >
             <option value="1">1</option>
             <option value="2">2</option>
@@ -114,7 +114,7 @@
           <span class="imagine-mode-size-titel">图片尺寸:</span>
           <select
             class="imagine-mode-size-list"
-            v-model="selectedImagineImageSize"
+            v-model="selectedImagineModeImageSize"
           >
             <option value="256x256">256x256</option>
             <option value="512x512">512x512</option>
@@ -129,25 +129,29 @@
       <div class="tall">
         <div>
           <div>
-            <el-button type="primary" @click="dialogue" class="buton"
+            <el-button
+              type="primary"
+              @click="dialogue"
+              class="finger-hover-button"
               >对话模式</el-button
             >&emsp;&emsp;
-            <el-switch v-model="isdialogue" size="large" />
+            <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
           <div>
-            AI模型：&emsp;<el-select
+            AI模型: &emsp;<el-select
               placeholder="AI模型"
-              v-model="selectedChatModel"
+              v-model="selectedChatModeModel"
             >
-              <el-option label="chatGpt-3.5" value="gpt-3.5-turbo" />
-              <el-option label="chatGpt-4.0" value="gpt-4" />
+              <el-option label="ChatGpt3.5" value="gpt-3.5-turbo" />
+              <el-option label="ChatGpt4" value="gpt-4" />
             </el-select>
           </div>
           <br />
-          AI创造力：<el-select
+          AI创造力:
+          <el-select
             placeholder="AI创造力"
-            v-model="selectedChatTemperature"
+            v-model="selectedChatModeTemperature"
           >
             <el-option label="保守模式" value="0" />
             <el-option label="均衡模式" value="0.2" />
@@ -158,26 +162,26 @@
       <br />
       <div class="unify">
         <div>
-          <el-button type="primary" @click="answer" class="buton"
+          <el-button type="primary" @click="answer" class="finger-hover-button"
             >问答模式</el-button
           >&emsp;&emsp;
-          <el-switch v-model="isanswer" size="large" />
+          <el-switch v-model="isCompletionModeSelected" size="large" />
         </div>
       </div>
       <br />
       <div class="unify">
         <div>
-          <el-button type="primary" @click="picture" class="buton"
+          <el-button type="primary" @click="picture" class="finger-hover-button"
             >图片生成</el-button
           >&emsp;&emsp;
-          <el-switch v-model="ispicture" size="large" />
+          <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
         <div>
           <div>
             图片数量：<el-select
               placeholder="图片数量"
-              v-model="selectedImagineImageNum"
+              v-model="selectedImagineModeImageNum"
             >
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
@@ -188,7 +192,7 @@
           <div>
             图片尺寸：<el-select
               placeholder="图片尺寸"
-              v-model="selectedImagineImageSize"
+              v-model="selectedImagineModeImageSize"
             >
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
@@ -208,29 +212,31 @@ export default {
   name: "HomeMiddle",
   data() {
     return {
-      // baseUrl: "http://localhost:8080/chamber"
-      baseUrl: "https://gpt4fun.azurewebsites.net/chamber",
-      // 调用gpt4fun后端API时的认证信息
+      baseUrl: "https://albatross21python.azurewebsites.net",
+      baseLLMOpenAIUrl:
+        "https://albatross21python.azurewebsites.net/llm/openai",
+      // 调用后端API时的认证信息
+      // TODO
       authUsername: "demo@bizcamp.com",
       authPassword: "999",
       // 聊天框中展示的名称
-      username: " : 用户 ",
+      // TODO
       botName: "AI: ",
+      // 聊天模式下的情景文本
+      chatModeSystemMessage: "",
       // Html元素的值, 都设有默认值
       isCompletionModeOnline: false,
-      selectedChatModel: "gpt-3.5-turbo",
-      selectedChatTemperature: "0.2",
-      selectedImagineImageNum: "1",
-      selectedImagineImageSize: "512x512",
+      selectedChatModeModel: "gpt-3.5-turbo",
+      selectedChatModeTemperature: "0.2",
+      selectedImagineModeImageNum: "1",
+      selectedImagineModeImageSize: "512x512",
       isShowLoading: false,
       senderAssistant: "0",
       senderUser: "1",
-      isreset: true,
-      isupdate: true,
-      hiddenSetAndClearBtn: true, //是否隐藏设置情景和清除记录button
-      isdialogue: true, //对话
-      isanswer: false, //问答
-      ispicture: false, //图片
+      isShowChatModeButtons: true, //是否隐藏设置情景和清除记录button
+      isChatModeSelected: true, //对话
+      isCompletionModeSelected: false, //问答
+      isImagineModeSelected: false, //图片
     };
   },
   created() {
@@ -256,22 +262,22 @@ export default {
   },
   methods: {
     dialogue() {
-      this.isdialogue = true;
-      this.isanswer = false;
-      this.ispicture = false;
-      this.hiddenSetAndClearBtn = true;
+      this.isChatModeSelected = true;
+      this.isCompletionModeSelected = false;
+      this.isImagineModeSelected = false;
+      this.isShowChatModeButtons = true;
     },
     answer() {
-      this.isanswer = true;
-      this.isdialogue = false;
-      this.ispicture = false;
-      this.hiddenSetAndClearBtn = false;
+      this.isCompletionModeSelected = true;
+      this.isChatModeSelected = false;
+      this.isImagineModeSelected = false;
+      this.isShowChatModeButtons = false;
     },
     picture() {
-      this.ispicture = true;
-      this.isdialogue = false;
-      this.isanswer = false;
-      this.hiddenSetAndClearBtn = false;
+      this.isImagineModeSelected = true;
+      this.isChatModeSelected = false;
+      this.isCompletionModeSelected = false;
+      this.isShowChatModeButtons = false;
     },
     sendmsg(e) {
       if (!e.shiftKey && e.keyCode == 13) {
@@ -291,7 +297,6 @@ export default {
       const messageElement = document.createElement("div");
       const messageParagraph = document.createElement("p");
       messageParagraph.style.display = "inline-block";
-      // messageParagraph.style.width = "100%"; // Achieve word wrap
       messageParagraph.style.wordWrap = "break-word"; // Achieve word wrap
       const processedText = this.achieveLineBreak(text); // Required anyway
       messageParagraph.innerHTML = processedText; // Set text in paragraph
@@ -325,30 +330,20 @@ export default {
       messageElement.style.fontFamily = "Microsoft YaHei";
       return messageParagraph;
     },
-    toggleButtonsVisibility() {
-      const selectedMode = document.querySelector("input[name=mode]:checked");
-      // 只在对话模式下显示这两个按钮
-      if (selectedMode.id == "chat-mode") {
-        this.isreset = true;
-        this.isupdate = true;
-      } else {
-        this.isreset = false;
-        this.isupdate = false;
-      }
-    },
     // 对话模式下, 重置聊天记录
     async resetChatHistory() {
-      const apiEndpoint = this.baseUrl + "/chat-completion/history";
-      const response = await fetch(apiEndpoint, {
+      const apiEndpoint =
+        this.baseLLMOpenAIUrl +
+        "/chat-completion?username=" +
+        this.authUsername;
+      await fetch(apiEndpoint, {
         method: "DELETE",
         headers: {
           Authorization: `Basic ${this.encodedCredentials}`,
         },
       });
-      const { responseMessage } = await response.json();
-      // this.createAndAppendMessage(responseMessage, this.senderAssistant);
       ElMessage({
-        message: responseMessage,
+        message: "已重置聊天",
         type: "info",
         duration: 1100,
         grouping: true,
@@ -360,24 +355,14 @@ export default {
 
     // 对话模式下, 设置情景
     async updateSystemMessage() {
-      const systemMessage = this.$refs.inputBox.value.trim();
-      // Updating an empty system message is not allowed
-      if (!systemMessage) return;
+      this.chatModeSystemMessage = this.$refs.inputBox.value;
       this.$refs.inputBox.value = "";
-      const apiEndpoint = this.baseUrl + "/chat-completion/system-message";
-      const requestBody = {
-        systemMessage: systemMessage,
-      };
-      const response = await fetch(apiEndpoint, {
-        method: "PUT",
-        headers: {
-          Authorization: `Basic ${this.encodedCredentials}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      ElMessage({
+        message: "成功设置系统消息",
+        type: "success",
+        duration: 1100,
+        grouping: true,
       });
-      const { responseMessage } = await response.json();
-      this.createAndAppendMessage(responseMessage, this.senderAssistant);
     },
 
     // 发送用户消息, 基于不同模式获取AI回复
@@ -392,10 +377,7 @@ export default {
           grouping: true,
         });
       }
-
-      // 首先显示用户信息
-      const displayedUserMessage = userMessage + " "; //显示textarea中用户：输入内容
-      this.createAndAppendMessage(displayedUserMessage, this.senderUser);
+      this.createAndAppendMessage(userMessage, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
       const botParagraph = this.createAndAppendMessage(
         this.botName,
@@ -403,21 +385,34 @@ export default {
       );
 
       // 根据不同的模式, 调用不同的函数获取AI回复
-      // const selectedMode = document.querySelector("input[name=mode]:checked");
-      // if (selectedMode.id == "chat-mode") {
-      if (this.isdialogue) {
+      if (this.isChatModeSelected) {
         //对话模式
+        const chatModeUpdateInfoUrl =
+          this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
-          this.baseUrl + "/chat-completion/stream-messages";
-        const model = this.selectedChatModel;
-        await this.completionWithStream(
-          userMessage,
-          model,
-          chatModeSSEUrl,
-          botParagraph
-        );
-        // } else if (selectedMode.id == "completion-mode") {
-      } else if (this.isanswer) {
+          this.baseLLMOpenAIUrl + "/chat-completion-stream";
+        // 首先将用户消息和模型名称等发送到后端
+        const requestBody = {
+          model: this.selectedChatModeModel,
+          temperature: this.selectedChatModeTemperature,
+          username: this.authUsername,
+          system_message: this.chatModeSystemMessage,
+          user_message: userMessage,
+        };
+        const response = await fetch(chatModeUpdateInfoUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `Basic ${this.encodedCredentials}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const responseJsonObject = await response.json();
+        // 建立后端sse传输, 对话模式和问答模式的sseUrl不同
+        const apiEndpoint =
+          chatModeSSEUrl + "?chat_completion_id" + `${responseJsonObject.id}`;
+        await this.completionWithStream(apiEndpoint, botParagraph);
+      } else if (this.isCompletionModeSelected) {
         //问答模式
         // if (this.isCompletionModeOnline) {
         await this.agentSearch(userMessage, botParagraph);
@@ -433,30 +428,13 @@ export default {
         //   );
         // }
         // } else if (selectedMode.id == "imagine-mode") {
-      } else if (this.ispicture) {
+      } else if (this.isImagineModeSelected) {
         //图片模式
         await this.imagine(userMessage, botParagraph);
       }
     },
 
-    async completionWithStream(userMessage, model, sseUrl, botParagraph) {
-      // 首先将用户消息和模型名称等发送到后端
-      const updateCompletionEndPoint = this.baseUrl + "/completion/message";
-      const requestBody = {
-        model: model,
-        message: userMessage,
-        temperature: this.selectedChatTemperature,
-      };
-      await fetch(updateCompletionEndPoint, {
-        method: "PUT",
-        headers: {
-          Authorization: `Basic ${this.encodedCredentials}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-      // 建立后端sse传输, 对话模式和问答模式的sseUrl不同
-      const apiEndpoint = sseUrl + "?username=" + `${this.authUsername}`;
+    async completionWithStream(apiEndpoint, botParagraph) {
       const eventSource = new EventSource(apiEndpoint);
       eventSource.onopen = () => {
         console.log("EventSource connection established.");
@@ -469,29 +447,30 @@ export default {
         eventSource.close();
       };
       eventSource.onmessage = (event) => {
-        const response = JSON.parse(event.data);
-        if (response.hasEnd) {
-          eventSource.close();
-        } else {
-          const formattedChunkResponse = this.achieveLineBreak(
-            response.content
-          );
-          // 代码渲染效果视觉不理想, 需要借助一些外部库
-          // completeResponse += formattedChunkResponse;
-          // const indexOfTripleBackticks = completeResponse.indexOf("```");
-          // if (indexOfTripleBackticks > 0) {
-          //     if (codeStart == false) {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
-          //         codeStart = true;
-          //     }
-          //     else {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
-          //         codeStart = false;
-          //     }
-          // }
-          // botParagraph.innerHTML = this.botName + completeResponse;
-          botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
-        }
+        console.log(event);
+        // const response = JSON.parse(event.data);
+        // if (response.hasEnd) {
+        //   eventSource.close();
+        // } else {
+        //   const formattedChunkResponse = this.achieveLineBreak(
+        //     response.content
+        //   );
+        //   // 代码渲染效果视觉不理想, 需要借助一些外部库
+        //   // completeResponse += formattedChunkResponse;
+        //   // const indexOfTripleBackticks = completeResponse.indexOf("```");
+        //   // if (indexOfTripleBackticks > 0) {
+        //   //     if (codeStart == false) {
+        //   //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
+        //   //         codeStart = true;
+        //   //     }
+        //   //     else {
+        //   //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
+        //   //         codeStart = false;
+        //   //     }
+        //   // }
+        //   // botParagraph.innerHTML = this.botName + completeResponse;
+        //   botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
+        // }
       };
     },
     replaceSubstringAtIndex(str, index, replacement) {
@@ -544,8 +523,8 @@ export default {
     async imagine(userMessage, botParagraph) {
       const requestBody = {
         prompt: userMessage,
-        n: this.selectedImagineImageNum,
-        size: this.selectedImagineImageSize,
+        n: this.selectedImagineModeImageNum,
+        size: this.selectedImagineModeImageSize,
       };
       const response = await fetch(
         "https://albatross21.azurewebsites.net/imagine-gpt",
@@ -603,7 +582,7 @@ export default {
 select {
   outline: 0;
 }
-.buton:hover {
+.finger-hover-button:hover {
   background: white;
 }
 .loading {
@@ -710,7 +689,7 @@ button {
   background-color: f7f7f7;
 }
 
-.buton {
+.finger-hover-button {
   border-radius: 41px;
   width: 57%;
   height: 40px;

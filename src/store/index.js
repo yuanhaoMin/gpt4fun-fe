@@ -1,9 +1,9 @@
 import { createStore } from "vuex"
-import { setToken, removeToken } from "../utils/store"
+import { setToken, removeToken, getToken } from "../utils/store"
 const store = createStore({
     state() {
         return {
-            token: {}
+            token: getToken('token') ? getToken('token') : {}
         }
     },
     mutations: {
@@ -11,8 +11,8 @@ const store = createStore({
             state.token = val
             setToken("token", val)
         },
-        deltoken() {
-            store.token = {}
+        deltoken(state) {
+            state.token = {}
             removeToken('token')
         }
     }

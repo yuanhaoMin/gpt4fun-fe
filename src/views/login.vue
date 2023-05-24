@@ -29,7 +29,7 @@
           />
         </div>
       </div>
-      <div>
+      <div class="logon">
         <el-button type="primary" plain @click="jump">登录</el-button>
       </div>
     </div>
@@ -75,6 +75,9 @@ let jump = async () => {
 </script>>
 
 <style  scoped>
+.logon {
+  width: 50%;
+}
 html,
 body {
   height: 100%;
@@ -150,5 +153,8 @@ body {
 }
 .el-button > span {
   width: 100px;
+}
+.el-button {
+  width: 100%;
 }
 </style>

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ElMessage } from "element-plus";
+import store from "../store/index";
 
 const instance = axios.create({
     baseURL: '/chamber',
@@ -8,6 +9,10 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
+    let token = store.state.token
+    if (token) {
+        config.headers.Authorization = token;
+    }
     return config
 }, error => {
     return Promise.reject(error)

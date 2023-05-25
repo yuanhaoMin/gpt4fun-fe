@@ -672,7 +672,7 @@ button {
 .content {
   display: flex;
   width: 100%;
-  height: ;
+  height: 100%;
   padding: 0 20px 0 75px;
   box-sizing: border-box;
 }

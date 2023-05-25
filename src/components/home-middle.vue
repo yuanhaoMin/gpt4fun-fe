@@ -606,15 +606,13 @@ export default {
   
 <style scoped>
 .tall {
-  margin: 52px 25px 25px;
   text-align: center;
-  height: 120px;
+  margin: 52px 5px 25px;
 }
 
 .unify {
   text-align: center;
-  margin: 25px;
-  height: 120px;
+  margin: 5px;
 }
 
 .oldRightSel {

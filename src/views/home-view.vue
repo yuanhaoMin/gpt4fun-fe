@@ -51,6 +51,7 @@ let loginout = () => {
 }
 .home-container {
   display: flex;
+  height: 100%;
 }
 .right {
   width: 100%;

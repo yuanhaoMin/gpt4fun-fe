@@ -672,6 +672,7 @@ button {
 .content {
   display: flex;
   width: 100%;
+  height: ;
   padding: 0 20px 0 75px;
   box-sizing: border-box;
 }
@@ -680,7 +681,7 @@ button {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  height: 90vh;
+  height: 90%;
   width: 80%;
 }
 :deep(.el-input__inner) {

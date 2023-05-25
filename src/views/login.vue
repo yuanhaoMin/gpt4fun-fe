@@ -3,10 +3,6 @@
     <div style="height: 100vh"></div>
   </div>
   <div class="login">
-    <div class="left">
-      <img src="/img/beijin.jpg" alt="" class="imgs" />
-      <span class="bizi">毕至咨询</span>
-    </div>
     <div class="right">
       <p><img src="/img/logo.png" alt="" class="logo" /></p>
       <div>
@@ -106,12 +102,6 @@ body {
   align-items: center;
 }
 
-.imgs {
-  width: 450px;
-  height: 500px;
-  border-radius: 15px;
-}
-
 .right {
   width: 400px;
   height: 470px;
@@ -120,19 +110,11 @@ body {
   align-items: center;
   justify-content: space-evenly;
   background: white;
-  border-radius: 0 15px 15px 0;
+  border-radius: 15px 15px 15px 15px;
 }
 
 .logo {
   width: 150px;
-}
-
-.bizi {
-  position: fixed;
-  font-family: 华文楷体;
-  left: 60px;
-  top: 36px;
-  font-size: 50px;
 }
 
 .user {

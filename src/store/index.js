@@ -3,7 +3,8 @@ import { setToken, removeToken, getToken } from "../utils/store"
 const store = createStore({
     state() {
         return {
-            token: getToken('token') ? getToken('token') : {}
+            token: getToken('token') ? getToken('token') : {},
+            username: getToken('username') ? getToken('username') : {}
         }
     },
     mutations: {
@@ -14,6 +15,11 @@ const store = createStore({
         deltoken(state) {
             state.token = {}
             removeToken('token')
+            removeToken("username")
+        },
+        username(state, val) {
+            state.username = val
+            setToken("username", val)
         }
     }
 })

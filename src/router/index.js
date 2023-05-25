@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getToken } from '../utils/store'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/home-view.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,17 +13,17 @@ const router = createRouter({
       children: [{
         path: 'chat',                                               //AI聊天界面
         name: 'chat',
-        component: () => import('../components/homeMiddle.vue')
+        component: () => import('../components/home-middle.vue')
       },
       {
         path: 'intru',                                              //公司简介
         name: 'intru',
-        component: () => import('../views/companyIntruduce.vue')
+        component: () => import('../views/company-intruduce.vue')
       },
       {
         path: 'linkus',                                              //联系我们
         name: 'linkus',
-        component: () => import('../views/linkus.vue')
+        component: () => import('../views/contact.vue')
       }
       ]
     },

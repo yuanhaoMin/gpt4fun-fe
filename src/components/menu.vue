@@ -97,8 +97,7 @@ let isCollapse = defineProps(["isSpend"]);
 .left {
   background: #354455;
   padding: 20px;
-  height: calc(100vh - 40px);
-  overflow: hidden;
+  height: 100vh;
 }
 .el-menu {
   border-right: 0;

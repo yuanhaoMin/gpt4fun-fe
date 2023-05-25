@@ -12,11 +12,21 @@
       <div>
         <div class="user">
           <img src="/img/acount.png" alt="" class="logonImg" />
-          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable class="aaa" />
+          <el-input
+            v-model="username"
+            placeholder="请输入用户名/手机号"
+            clearable
+            class="aaa"
+          />
         </div>
         <div class="password">
           <img src="/img/password.png" alt="" class="logonImg" />
-          <el-input v-model="password" type="password" placeholder="请输入密码" show-password />
+          <el-input
+            v-model="password"
+            type="password"
+            placeholder="请输入密码"
+            show-password
+          />
         </div>
       </div>
       <div class="logon">
@@ -51,6 +61,8 @@ let jump = async () => {
       const credentials = `${username}:${password}`;
       const encodedCredentials = btoa(credentials);
       store.commit("token", encodedCredentials);
+      store.commit("username", username.value);
+
       ElMessage({
         showClose: true,
         message: "登录成功！",
@@ -153,10 +165,11 @@ body {
   align-items: center;
 }
 
-.el-button>span {
+.el-button > span {
   width: 100px;
 }
 
 .el-button {
   width: 100%;
-}</style>
+}
+</style>

@@ -25,8 +25,12 @@
           </span>
         </button>
       </div>
-      <textarea placeholder="来说点什么吧…………" class="input-textarea textarea" ref="inputBox"
-        @keydown.enter="sendmsg"></textarea>
+      <textarea
+        placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
+        class="input-textarea textarea"
+        ref="inputBox"
+        @keydown.enter="sendmsg"
+      ></textarea>
       <button class="send-button button" ref="sendButton" type="button">
         消息发送
       </button>
@@ -36,7 +40,13 @@
     <div class="oldRightSel">
       <div class="home-right-container">
         <div class="chat-mode-container">
-          <input type="radio" id="chat-mode" name="mode" class="chat-mode-radio" checked />
+          <input
+            type="radio"
+            id="chat-mode"
+            name="mode"
+            class="chat-mode-radio"
+            checked
+          />
 
           <span class="chat-mode-titel">对话模式</span>
         </div>
@@ -50,7 +60,10 @@
         </div>
         <div class="chat-mode-temperature-container">
           <span class="chat-mode-temperature-titel">AI创造力:</span>
-          <select class="chat-mode-num-list" v-model="selectedChatModeTemperature">
+          <select
+            class="chat-mode-num-list"
+            v-model="selectedChatModeTemperature"
+          >
             <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
             <option value="0">保守模式</option>
             <option value="0.2" selected>均衡模式</option>
@@ -58,7 +71,12 @@
           </select>
         </div>
         <div class="completion-mode-container">
-          <input type="radio" id="completion-mode" name="mode" class="completion-mode-radio" />
+          <input
+            type="radio"
+            id="completion-mode"
+            name="mode"
+            class="completion-mode-radio"
+          />
           <span class="completion-mode-titel">问答模式</span>
         </div>
         <div class="completion-mode-online-option-container">
@@ -66,15 +84,27 @@
             <span>联网</span>
             <br />
           </span>
-          <input type="checkbox" v-model="isCompletionModeOnline" class="completion-mode-online-option-checkbox" />
+          <input
+            type="checkbox"
+            v-model="isCompletionModeOnline"
+            class="completion-mode-online-option-checkbox"
+          />
         </div>
         <div class="imagine-mode-container">
-          <input type="radio" id="imagine-mode" name="mode" class="imagine-mode-radio" />
+          <input
+            type="radio"
+            id="imagine-mode"
+            name="mode"
+            class="imagine-mode-radio"
+          />
           <span class="imagine-mode-titel">图片生成</span>
         </div>
         <div class="imagine-mode-num-container">
           <span class="imagine-mode-num-titel">图片数量:</span>
-          <select class="imagine-mode-num-list" v-model="selectedImagineModeImageNum">
+          <select
+            class="imagine-mode-num-list"
+            v-model="selectedImagineModeImageNum"
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -82,7 +112,10 @@
         </div>
         <div class="imagine-mode-size-container">
           <span class="imagine-mode-size-titel">图片尺寸:</span>
-          <select class="imagine-mode-size-list" v-model="selectedImagineModeImageSize">
+          <select
+            class="imagine-mode-size-list"
+            v-model="selectedImagineModeImageSize"
+          >
             <option value="256x256">256x256</option>
             <option value="512x512">512x512</option>
             <option value="1024x1024">1024x1024</option>
@@ -95,43 +128,69 @@
     <div class="syan">
       <div class="tall">
         <div>
-          <div>
-            <el-button type="primary" @click="dialogue" class="finger-hover-button">对话模式</el-button>&emsp;&emsp;
+          <div @click="dialogue">
+            <el-button type="primary" class="finger-hover-button"
+              >对话模式</el-button
+            >&emsp;&emsp;
             <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
-          <div>
-            AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
-              <el-option label="ChatGpt3.5" value="gpt-3.5-turbo" />
-              <el-option label="ChatGpt4" value="gpt-4" />
-            </el-select>
+          <div v-show="isShowChatMode">
+            <div>
+              AI模型: &emsp;<el-select
+                placeholder="AI模型"
+                v-model="selectedChatModeModel"
+              >
+                <el-option label="ChatGpt3.5" value="gpt-3.5-turbo" />
+                <el-option label="ChatGpt4" value="gpt-4" />
+              </el-select>
+            </div>
+            <br />
+            <div>
+              AI创造力:
+              <el-select
+                placeholder="AI创造力"
+                v-model="selectedChatModeTemperature"
+              >
+                <el-option label="保守模式" value="0" />
+                <el-option label="均衡模式" value="0.2" />
+                <el-option label="创造模式" value="0.6" />
+              </el-select>
+            </div>
           </div>
-          <br />
-          AI创造力:
-          <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
-            <el-option label="保守模式" value="0" />
-            <el-option label="均衡模式" value="0.2" />
-            <el-option label="创造模式" value="0.6" />
+        </div>
+      </div>
+      <br />
+      <div class="unify">
+        <div @click="answer">
+          <el-button type="primary" class="finger-hover-button"
+            >问答模式</el-button
+          >&emsp;&emsp;
+          <el-switch v-model="isCompletionModeSelected" size="large" />
+        </div>
+        <br />
+        <div v-show="isShowCompletionMode">
+          是否联网：<el-select placeholder="是否联网" v-model="isOnline">
+            <el-option label="联网" value="online" />
+            <el-option label="离线" value="offline" />
           </el-select>
         </div>
       </div>
       <br />
       <div class="unify">
-        <div>
-          <el-button type="primary" @click="answer" class="finger-hover-button">问答模式</el-button>&emsp;&emsp;
-          <el-switch v-model="isCompletionModeSelected" size="large" />
-        </div>
-      </div>
-      <br />
-      <div class="unify">
-        <div>
-          <el-button type="primary" @click="picture" class="finger-hover-button">图片生成</el-button>&emsp;&emsp;
+        <div @click="picture">
+          <el-button type="primary" class="finger-hover-button"
+            >图片生成</el-button
+          >&emsp;&emsp;
           <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
-        <div>
+        <div v-show="isShowImagineMode">
           <div>
-            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
+            图片数量：<el-select
+              placeholder="图片数量"
+              v-model="selectedImagineModeImageNum"
+            >
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -139,7 +198,10 @@
           </div>
           <br />
           <div>
-            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
+            图片尺寸：<el-select
+              placeholder="图片尺寸"
+              v-model="selectedImagineModeImageSize"
+            >
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
               <el-option label="1024x1024" value="1024x1024" />
@@ -153,6 +215,7 @@
   
 <script>
 import { ElMessage } from "element-plus";
+import { getToken } from "../utils/store";
 
 export default {
   name: "HomeMiddle",
@@ -163,8 +226,7 @@ export default {
         "https://albatross21python.azurewebsites.net/llm/openai",
       // 调用后端API时的认证信息
       // TODO
-      authUsername: "demo@bizcamp.com",
-      authPassword: "999",
+      authUsername: "",
       // 聊天框中展示的名称
       // TODO
       botName: "AI: ",
@@ -172,6 +234,8 @@ export default {
       chatModeSystemMessage: "",
       // 测试模式
       testMode: false,
+      //默认显示
+      isshowshow: true,
       // Html元素的值, 都设有默认值
       isCompletionModeOnline: false,
       selectedChatModeModel: "gpt-3.5-turbo",
@@ -181,15 +245,19 @@ export default {
       isShowLoading: false,
       senderAssistant: "0",
       senderUser: "1",
+      isOnline: "offline", //默认不联网
       isShowChatModeButtons: true, //是否隐藏设置情景和清除记录button
       isChatModeSelected: true, //对话
       isCompletionModeSelected: false, //问答
       isImagineModeSelected: false, //图片
+      isShowChatMode: true,
+      isShowCompletionMode: false,
+      isShowImagineMode: false,
     };
   },
   created() {
-    this.credentials = `${this.authUsername}:${this.authPassword}`;
-    this.encodedCredentials = btoa(this.credentials);
+    this.encodedCredentials = getToken("token");
+    this.authUsername = getToken("username");
   },
   mounted() {
     this.$refs.sendButton.addEventListener(
@@ -214,18 +282,27 @@ export default {
       this.isCompletionModeSelected = false;
       this.isImagineModeSelected = false;
       this.isShowChatModeButtons = true;
+      this.isShowChatMode = true;
+      this.isShowCompletionMode = false;
+      this.isShowImagineMode = false;
     },
     answer() {
       this.isCompletionModeSelected = true;
       this.isChatModeSelected = false;
       this.isImagineModeSelected = false;
       this.isShowChatModeButtons = false;
+      this.isShowChatMode = false;
+      this.isShowCompletionMode = true;
+      this.isShowImagineMode = false;
     },
     picture() {
       this.isImagineModeSelected = true;
       this.isChatModeSelected = false;
       this.isCompletionModeSelected = false;
       this.isShowChatModeButtons = false;
+      this.isShowChatMode = false;
+      this.isShowCompletionMode = false;
+      this.isShowImagineMode = true;
     },
     sendmsg(e) {
       if (!e.shiftKey && e.keyCode == 13) {
@@ -303,14 +380,23 @@ export default {
 
     // 对话模式下, 设置情景
     async updateSystemMessage() {
-      this.chatModeSystemMessage = this.$refs.inputBox.value;
-      this.$refs.inputBox.value = "";
-      ElMessage({
-        message: "成功设置系统消息",
-        type: "success",
-        duration: 1100,
-        grouping: true,
-      });
+      if (this.$refs.inputBox.value == "") {
+        ElMessage({
+          message: "设置情景不能为空！",
+          type: "error",
+          duration: 1100,
+          grouping: true,
+        });
+      } else {
+        this.chatModeSystemMessage = this.$refs.inputBox.value;
+        this.$refs.inputBox.value = "";
+        ElMessage({
+          message: "成功设置系统消息",
+          type: "success",
+          duration: 1100,
+          grouping: true,
+        });
+      }
     },
 
     // 发送用户消息, 基于不同模式获取AI回复
@@ -363,32 +449,36 @@ export default {
           this.testMode;
         await this.completionWithStream(apiEndpoint, botParagraph);
       } else if (this.isCompletionModeSelected) {
-        const completionModeUpdateInfoUrl =
-          this.baseLLMOpenAIUrl + "/completion";
-        const completionModeSSEUrl =
-          this.baseLLMOpenAIUrl + "/completion-stream";
-        const requestBody = {
-          model: "text-davinci-003",
-          temperature: 0,
-          username: this.authUsername,
-          prompt: userMessage,
-        };
-        const response = await fetch(completionModeUpdateInfoUrl, {
-          method: "PUT",
-          headers: {
-            Authorization: `Basic ${this.encodedCredentials}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        });
-        const responseJsonObject = await response.json();
-        const apiEndpoint =
-          completionModeSSEUrl +
-          "?completion_id=" +
-          responseJsonObject.id +
-          "&test_mode=" +
-          this.testMode;
-        await this.completionWithStream(apiEndpoint, botParagraph);
+        if (this.isOnline == "offline") {
+          const completionModeUpdateInfoUrl =
+            this.baseLLMOpenAIUrl + "/completion";
+          const completionModeSSEUrl =
+            this.baseLLMOpenAIUrl + "/completion-stream";
+          const requestBody = {
+            model: "text-davinci-003",
+            temperature: 0,
+            username: this.authUsername,
+            prompt: userMessage,
+          };
+          const response = await fetch(completionModeUpdateInfoUrl, {
+            method: "PUT",
+            headers: {
+              Authorization: `Basic ${this.encodedCredentials}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          });
+          const responseJsonObject = await response.json();
+          const apiEndpoint =
+            completionModeSSEUrl +
+            "?completion_id=" +
+            responseJsonObject.id +
+            "&test_mode=" +
+            this.testMode;
+          await this.completionWithStream(apiEndpoint, botParagraph);
+        } else if (this.isOnline == "online") {
+          await this.agentSearch(userMessage, botParagraph);
+        }
       } else if (this.isImagineModeSelected) {
         //图片模式
         await this.imagine(userMessage, botParagraph);
@@ -402,13 +492,15 @@ export default {
       };
       eventSource.onerror = (error) => {
         console.log("EventSource error: ", error);
-        // if (error.type == "error") {
-        //   location.reload();
-        // }
         eventSource.close();
+        ElMessage({
+          message: "请刷新页面！",
+          type: "error",
+          duration: 3000,
+          grouping: true,
+        });
       };
       eventSource.onmessage = (event) => {
-        console.log(event.data);
         const response = JSON.parse(event.data);
         if (response.hasEnd) {
           eventSource.close();
@@ -442,7 +534,7 @@ export default {
     async agentSearch(userMessage, botParagraph) {
       this.isShowLoading = true;
       const response = await fetch(
-        "https://albatross21.azurewebsites.net/agent-search",
+        this.baseUrl + "/agent/openai/online-search",
         {
           method: "POST",
           headers: {
@@ -516,11 +608,13 @@ export default {
 .tall {
   margin: 52px 25px 25px;
   text-align: center;
+  height: 120px;
 }
 
 .unify {
   text-align: center;
   margin: 25px;
+  height: 120px;
 }
 
 .oldRightSel {
@@ -580,7 +674,7 @@ button {
 .content {
   display: flex;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 20px 0 75px;
   box-sizing: border-box;
 }
 
@@ -589,9 +683,11 @@ button {
   flex: 0 0 auto;
   flex-direction: column;
   height: 90vh;
-  width: 77%;
+  width: 80%;
 }
-
+:deep(.el-input__inner) {
+  text-align: center;
+}
 .messages-container {
   align-self: flex-start;
   height: 88%;
@@ -636,7 +732,8 @@ button {
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset;
 }
 
 .input-textarea:focus {

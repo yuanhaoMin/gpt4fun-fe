@@ -58,8 +58,21 @@ let loginout = () => {
 .top {
   display: flex;
   justify-content: space-between;
-  height: 40px;
+  height: 50px;
   align-items: center;
   border-bottom: 1px solid gray;
+}
+.el-icon {
+  --color: inherit;
+  height: 2em;
+  width: 1em;
+  line-height: 1em;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  fill: currentColor;
+  color: var(--color);
+  font-size: xx-large;
 }
 </style>

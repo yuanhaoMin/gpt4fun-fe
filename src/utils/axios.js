@@ -3,7 +3,7 @@ import { ElMessage } from "element-plus";
 import store from "../store/index";
 
 const instance = axios.create({
-    baseURL: '/chamber',
+    baseURL: 'https://albatross21python.azurewebsites.net',
     timeout: 5000
 })
 

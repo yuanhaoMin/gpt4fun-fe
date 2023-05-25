@@ -45,8 +45,8 @@ import { ElMessage } from "element-plus";
 import { useStore } from "vuex";
 const router = useRouter();
 const store = useStore();
-const username = ref("demo@bizcamp.com");
-const password = ref("999");
+const username = ref("");
+const password = ref("");
 
 let jump = async () => {
   if (username.value == "" || password.value == "") {

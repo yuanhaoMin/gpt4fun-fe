@@ -85,7 +85,7 @@ body {
 .box {
   height: 100%;
   opacity: 0.4;
-  background-image: url("../../public/img/beijin.jpg");
+  background-image: url("/img/beijin.jpg");
   background-size: cover;
   background-attachment: fixed;
 }

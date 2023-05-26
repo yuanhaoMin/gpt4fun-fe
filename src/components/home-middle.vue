@@ -10,6 +10,14 @@
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
+        <el-button
+          type="info"
+          class="cease"
+          v-show="isShowcease"
+          @click="stopSending"
+          v-model="cease"
+          ><el-icon><SwitchButton /></el-icon
+        ></el-button>
       </div>
       <div class="button-container" v-show="isShowChatModeButtons">
         <button class="update-button button" ref="updateButton">
@@ -25,15 +33,17 @@
           </span>
         </button>
       </div>
-      <textarea
-        placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
-        class="input-textarea textarea"
-        ref="inputBox"
-        @keydown.enter="sendmsg"
-      ></textarea>
-      <button class="send-button button" ref="sendButton" type="button">
-        消息发送
-      </button>
+      <div class="messagebox">
+        <textarea
+          placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
+          class="input-textarea textarea"
+          ref="inputBox"
+          @keydown.enter="sendmsg"
+        ></textarea>
+        <button class="send-button button" ref="sendButton" type="button">
+          <img src="img/sendingImg.png" alt="" class="SendIcon" />
+        </button>
+      </div>
     </div>
 
     <!-- 旧的 右边 TODO: 删除 -->
@@ -233,7 +243,7 @@ export default {
       // 聊天模式下的情景文本
       chatModeSystemMessage: "",
       // 测试模式
-      testMode: false,
+      testMode: true,
       //默认显示
       isshowshow: true,
       // Html元素的值, 都设有默认值
@@ -253,6 +263,8 @@ export default {
       isShowChatMode: true,
       isShowCompletionMode: false,
       isShowImagineMode: false,
+      isShowcease: false,
+      cease: true,
     };
   },
   created() {
@@ -277,6 +289,11 @@ export default {
       .addEventListener("change", this.toggleButtonsVisibility);
   },
   methods: {
+    stopSending() {
+      this.isShowcease = false;
+      this.cease = false;
+      this.sendUserMessageAndDisplayResponse();
+    },
     dialogue() {
       this.isChatModeSelected = true;
       this.isCompletionModeSelected = false;
@@ -311,6 +328,7 @@ export default {
         e.preventDefault(); //取消事件的默认动作*换行
         if (this.$refs.inputBox.value == "") return;
         //以下处理发送消息代码
+        this.isShowcease = true;
         this.sendUserMessageAndDisplayResponse();
       }
     },
@@ -401,8 +419,11 @@ export default {
 
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
+      let clss = document.getElementsByClassName("send-button")[0];
+      clss.classList.add("prohibit");
       const userMessage = this.$refs.inputBox.value.trim();
       this.$refs.inputBox.value = "";
+      if (this.cease == false) return;
       if (!userMessage) {
         return ElMessage({
           message: "请输入内容!",
@@ -502,27 +523,35 @@ export default {
       };
       eventSource.onmessage = (event) => {
         const response = JSON.parse(event.data);
-        if (response.hasEnd) {
+        if (this.cease == false) {
           eventSource.close();
+          this.cease = true;
         } else {
-          const formattedChunkResponse = this.achieveLineBreak(
-            response.content
-          );
-          // 代码渲染效果视觉不理想, 需要借助一些外部库
-          // completeResponse += formattedChunkResponse;
-          // const indexOfTripleBackticks = completeResponse.indexOf("```");
-          // if (indexOfTripleBackticks > 0) {
-          //     if (codeStart == false) {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
-          //         codeStart = true;
-          //     }
-          //     else {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
-          //         codeStart = false;
-          //     }
-          // }
-          // botParagraph.innerHTML = this.botName + completeResponse;
-          botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
+          if (response.hasEnd) {
+            eventSource.close();
+            this.isShowcease = false;
+            let clss = document.getElementsByClassName("send-button")[0];
+            clss.classList.remove("prohibit");
+          } else {
+            const formattedChunkResponse = this.achieveLineBreak(
+              response.content
+            );
+            // 代码渲染效果视觉不理想, 需要借助一些外部库
+            // completeResponse += formattedChunkResponse;
+            // const indexOfTripleBackticks = completeResponse.indexOf("```");
+            // if (indexOfTripleBackticks > 0) {
+            //     if (codeStart == false) {
+            //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
+            //         codeStart = true;
+            //     }
+            //     else {
+            //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
+            //         codeStart = false;
+            //     }
+            // }
+            // botParagraph.innerHTML = this.botName + completeResponse;
+            botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
+          }
         }
       };
     },
@@ -532,6 +561,7 @@ export default {
 
     //AI联网  搜索
     async agentSearch(userMessage, botParagraph) {
+      this.isShowcease = false;
       this.isShowLoading = true;
       const response = await fetch(
         this.baseUrl + "/agent/openai/online-search",
@@ -605,6 +635,24 @@ export default {
 </script>
   
 <style scoped>
+.cease {
+  width: 120px;
+  height: 40px;
+  position: fixed;
+  bottom: 17%;
+  right: 47%;
+}
+.prohibit {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.SendIcon {
+  width: 22px;
+}
+.messagebox {
+  display: flex;
+  justify-content: space-between;
+}
 .tall {
   text-align: center;
   margin: 52px 5px 25px;
@@ -705,7 +753,7 @@ button {
   flex: 0 0 auto;
   height: fit-content;
   justify-content: flex-end;
-  margin-bottom: var(--dl-space-space-halfunit);
+  margin-bottom: 20px;
   width: 100%;
   height: 36px;
   /* Align items to the right */
@@ -724,8 +772,8 @@ button {
 }
 
 .input-textarea {
-  height: 100px;
-  width: 100%;
+  height: 40px;
+  width: 95%;
   resize: none;
   font-size: 19px;
   box-sizing: border-box;
@@ -743,9 +791,6 @@ button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
-  margin-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-halfunit);
-  margin-bottom: var(--dl-space-space-halfunit);
 }
 
 .home-right-container {

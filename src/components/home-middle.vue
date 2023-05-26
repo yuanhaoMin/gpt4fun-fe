@@ -243,7 +243,7 @@ export default {
       // 聊天模式下的情景文本
       chatModeSystemMessage: "",
       // 测试模式
-      testMode: true,
+      testMode: false,
       //默认显示
       isshowshow: true,
       // Html元素的值, 都设有默认值
@@ -327,9 +327,9 @@ export default {
         e.stopPropagation(); //Firefox阻止冒泡行为
         e.preventDefault(); //取消事件的默认动作*换行
         if (this.$refs.inputBox.value == "") return;
-        //以下处理发送消息代码
         this.isShowcease = true;
         this.sendUserMessageAndDisplayResponse();
+        //以下处理发送消息代码
       }
     },
     achieveLineBreak(str) {
@@ -526,6 +526,8 @@ export default {
         if (this.cease == false) {
           eventSource.close();
           this.cease = true;
+          let clss = document.getElementsByClassName("send-button")[0];
+          clss.classList.remove("prohibit");
         } else {
           if (response.hasEnd) {
             eventSource.close();
@@ -604,6 +606,7 @@ export default {
 
     //图片生成
     async imagine(userMessage, botParagraph) {
+      this.isShowcease = false;
       const requestBody = {
         prompt: userMessage,
         n: this.selectedImagineModeImageNum,
@@ -619,6 +622,8 @@ export default {
       const { data } = await response.json();
       botParagraph.innerHTML +=
         "<br/><span>" + this.handleImage(data) + "</span>";
+      let clss = document.getElementsByClassName("send-button")[0];
+      clss.classList.remove("prohibit");
     },
     //将图片链接渲染到页面
     handleImage(data) {

@@ -35,7 +35,7 @@
         <template #title>AI聊天互动</template>
       </el-menu-item>
 
-      <el-sub-menu index="2">
+      <!-- <el-sub-menu index="2">
         <template #title>
           <el-icon><location /></el-icon>
           <span>联系我们</span>
@@ -50,7 +50,7 @@
             合作单位
           </el-menu-item>
         </el-menu-item-group>
-      </el-sub-menu>
+      </el-sub-menu> -->
     </el-menu>
   </div>
 </template>

@@ -10,14 +10,9 @@
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
-        <el-button
-          type="info"
-          class="cease"
-          v-show="isShowcease"
-          @click="stopSending"
-          v-model="cease"
-          ><el-icon><SwitchButton /></el-icon
-        ></el-button>
+        <el-button type="info" class="cease" v-show="isShowcease" @click="stopSending" v-model="cease"><el-icon>
+            <SwitchButton />
+          </el-icon></el-button>
       </div>
       <div class="button-container" v-show="isShowChatModeButtons">
         <button class="update-button button" ref="updateButton">
@@ -34,14 +29,10 @@
         </button>
       </div>
       <div class="messagebox">
-        <textarea
-          placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
-          class="input-textarea textarea"
-          ref="inputBox"
-          @keydown.enter="sendmsg"
-        ></textarea>
+        <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
+          @keydown.enter="sendmsg"></textarea>
         <button class="send-button button" ref="sendButton" type="button">
-          <img src="img/sendingImg.png" alt="" class="SendIcon" />
+          <img src="/img/sendingImg.png" alt="" class="SendIcon" />
         </button>
       </div>
     </div>
@@ -50,13 +41,7 @@
     <div class="oldRightSel">
       <div class="home-right-container">
         <div class="chat-mode-container">
-          <input
-            type="radio"
-            id="chat-mode"
-            name="mode"
-            class="chat-mode-radio"
-            checked
-          />
+          <input type="radio" id="chat-mode" name="mode" class="chat-mode-radio" checked />
 
           <span class="chat-mode-titel">对话模式</span>
         </div>
@@ -70,10 +55,7 @@
         </div>
         <div class="chat-mode-temperature-container">
           <span class="chat-mode-temperature-titel">AI创造力:</span>
-          <select
-            class="chat-mode-num-list"
-            v-model="selectedChatModeTemperature"
-          >
+          <select class="chat-mode-num-list" v-model="selectedChatModeTemperature">
             <!-- 这里的value用于传入后端api, 经过测试0, 0.2和0.6这三个值比较合理 -->
             <option value="0">保守模式</option>
             <option value="0.2" selected>均衡模式</option>
@@ -81,12 +63,7 @@
           </select>
         </div>
         <div class="completion-mode-container">
-          <input
-            type="radio"
-            id="completion-mode"
-            name="mode"
-            class="completion-mode-radio"
-          />
+          <input type="radio" id="completion-mode" name="mode" class="completion-mode-radio" />
           <span class="completion-mode-titel">问答模式</span>
         </div>
         <div class="completion-mode-online-option-container">
@@ -94,27 +71,15 @@
             <span>联网</span>
             <br />
           </span>
-          <input
-            type="checkbox"
-            v-model="isCompletionModeOnline"
-            class="completion-mode-online-option-checkbox"
-          />
+          <input type="checkbox" v-model="isCompletionModeOnline" class="completion-mode-online-option-checkbox" />
         </div>
         <div class="imagine-mode-container">
-          <input
-            type="radio"
-            id="imagine-mode"
-            name="mode"
-            class="imagine-mode-radio"
-          />
+          <input type="radio" id="imagine-mode" name="mode" class="imagine-mode-radio" />
           <span class="imagine-mode-titel">图片生成</span>
         </div>
         <div class="imagine-mode-num-container">
           <span class="imagine-mode-num-titel">图片数量:</span>
-          <select
-            class="imagine-mode-num-list"
-            v-model="selectedImagineModeImageNum"
-          >
+          <select class="imagine-mode-num-list" v-model="selectedImagineModeImageNum">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -122,10 +87,7 @@
         </div>
         <div class="imagine-mode-size-container">
           <span class="imagine-mode-size-titel">图片尺寸:</span>
-          <select
-            class="imagine-mode-size-list"
-            v-model="selectedImagineModeImageSize"
-          >
+          <select class="imagine-mode-size-list" v-model="selectedImagineModeImageSize">
             <option value="256x256">256x256</option>
             <option value="512x512">512x512</option>
             <option value="1024x1024">1024x1024</option>
@@ -139,18 +101,13 @@
       <div class="tall">
         <div>
           <div @click="dialogue">
-            <el-button type="primary" class="finger-hover-button"
-              >对话模式</el-button
-            >&emsp;&emsp;
+            <el-button type="primary" class="finger-hover-button">对话模式</el-button>&emsp;&emsp;
             <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
           <div v-show="isShowChatMode">
             <div>
-              AI模型: &emsp;<el-select
-                placeholder="AI模型"
-                v-model="selectedChatModeModel"
-              >
+              AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
                 <el-option label="ChatGpt3.5" value="gpt-3.5-turbo" />
                 <el-option label="ChatGpt4" value="gpt-4" />
               </el-select>
@@ -158,10 +115,7 @@
             <br />
             <div>
               AI创造力:
-              <el-select
-                placeholder="AI创造力"
-                v-model="selectedChatModeTemperature"
-              >
+              <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
                 <el-option label="保守模式" value="0" />
                 <el-option label="均衡模式" value="0.2" />
                 <el-option label="创造模式" value="0.6" />
@@ -173,9 +127,7 @@
       <br />
       <div class="unify">
         <div @click="answer">
-          <el-button type="primary" class="finger-hover-button"
-            >问答模式</el-button
-          >&emsp;&emsp;
+          <el-button type="primary" class="finger-hover-button">问答模式</el-button>&emsp;&emsp;
           <el-switch v-model="isCompletionModeSelected" size="large" />
         </div>
         <br />
@@ -189,18 +141,13 @@
       <br />
       <div class="unify">
         <div @click="picture">
-          <el-button type="primary" class="finger-hover-button"
-            >图片生成</el-button
-          >&emsp;&emsp;
+          <el-button type="primary" class="finger-hover-button">图片生成</el-button>&emsp;&emsp;
           <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
         <div v-show="isShowImagineMode">
           <div>
-            图片数量：<el-select
-              placeholder="图片数量"
-              v-model="selectedImagineModeImageNum"
-            >
+            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -208,10 +155,7 @@
           </div>
           <br />
           <div>
-            图片尺寸：<el-select
-              placeholder="图片尺寸"
-              v-model="selectedImagineModeImageSize"
-            >
+            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
               <el-option label="1024x1024" value="1024x1024" />
@@ -647,17 +591,21 @@ export default {
   bottom: 17%;
   right: 47%;
 }
+
 .prohibit {
   opacity: 0.5;
   pointer-events: none;
 }
+
 .SendIcon {
   width: 22px;
 }
+
 .messagebox {
   display: flex;
   justify-content: space-between;
 }
+
 .tall {
   text-align: center;
   margin: 52px 5px 25px;
@@ -737,9 +685,11 @@ button {
   height: 90%;
   width: 80%;
 }
+
 :deep(.el-input__inner) {
   text-align: center;
 }
+
 .messages-container {
   align-self: flex-start;
   height: 88%;
@@ -784,8 +734,7 @@ button {
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
-    inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
 }
 
 .input-textarea:focus {

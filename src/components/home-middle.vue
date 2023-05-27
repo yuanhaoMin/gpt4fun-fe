@@ -212,7 +212,6 @@ export default {
       messageParagraph.style.display = "inline-block";
       messageParagraph.style.wordWrap = "break-word"; // Achieve word wrap
       messageParagraph.innerHTML = text; // Set text in paragraph
-      console.log(messageParagraph.innerHTML);
       messageElement.appendChild(messageParagraph);
       messagesContainer.appendChild(messageElement);
       //调节对话位置
@@ -305,7 +304,7 @@ export default {
       this.createAndAppendMessage(processedText, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
       const botParagraph = this.createAndAppendMessage(
-        "",
+        "AI: ",
         this.senderAssistant
       );
 
@@ -578,7 +577,7 @@ select {
   width: 120px;
   height: 40px;
   position: fixed;
-  bottom: 11%;
+  bottom: 16%;
   right: 47%;
 }
 
@@ -644,7 +643,7 @@ button {
 }
 
 .input-textarea {
-  height: 40px;
+  height: 100px;
   width: 95%;
   resize: none;
   font-size: 19px;

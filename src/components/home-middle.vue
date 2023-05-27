@@ -32,7 +32,7 @@
         <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
           @keydown.enter="sendmsg"></textarea>
         <button class="send-button button" ref="sendButton" type="button">
-          <img src="/img/sendingImg.png" alt="" class="SendIcon" />
+          <img src="/img/send-button.png" alt="" class="send-icon" />
         </button>
       </div>
     </div>
@@ -597,7 +597,7 @@ export default {
   pointer-events: none;
 }
 
-.SendIcon {
+.send-icon {
   width: 22px;
 }
 

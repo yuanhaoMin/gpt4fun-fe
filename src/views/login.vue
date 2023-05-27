@@ -7,22 +7,12 @@
       <p><img src="/img/logo.png" alt="" class="logo" /></p>
       <div>
         <div class="user">
-          <img src="/img/acount.png" alt="" class="logonImg" />
-          <el-input
-            v-model="username"
-            placeholder="请输入用户名/手机号"
-            clearable
-            class="aaa"
-          />
+          <img src="/img/username.png" alt="" class="logonImg" />
+          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable class="aaa" />
         </div>
         <div class="password">
           <img src="/img/password.png" alt="" class="logonImg" />
-          <el-input
-            v-model="password"
-            type="password"
-            placeholder="请输入密码"
-            show-password
-          />
+          <el-input v-model="password" type="password" placeholder="请输入密码" show-password />
         </div>
       </div>
       <div class="logon">
@@ -85,7 +75,7 @@ body {
 .box {
   height: 100%;
   opacity: 0.4;
-  background-image: url("../../public/img/beijin.jpg");
+  background-image: url("/img/background.jpg");
   background-size: cover;
   background-attachment: fixed;
 }
@@ -147,7 +137,7 @@ body {
   align-items: center;
 }
 
-.el-button > span {
+.el-button>span {
   width: 100px;
 }
 

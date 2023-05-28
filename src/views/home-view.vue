@@ -4,10 +4,14 @@
     <div class="right">
       <div class="top">
         <div @click="menuIsSpend" class="ispenddiv">
-          &emsp;<el-icon v-show="isShowExpand"><Expand /></el-icon>
-          <el-icon v-show="isShowFold"><Fold /></el-icon>
+          &emsp;<el-icon v-show="isShowExpand">
+            <Expand />
+          </el-icon>
+          <el-icon v-show="isShowFold">
+            <Fold />
+          </el-icon>
         </div>
-        <span class="login" @click="loginout">退出&emsp;</span>
+        <span class="login" @click="logout">退出&emsp;</span>
       </div>
       <!-- 输出内容 -->
       <router-view />
@@ -19,7 +23,6 @@
 import { ref } from "vue";
 import menuList from "../components/menu.vue";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import store from "../store";
 let spend = ref(false);
 let isShowExpand = ref(false);
@@ -33,29 +36,34 @@ let menuIsSpend = () => {
 
 //未登录，跳转登录页
 let router = useRouter();
-let loginout = () => {
+let logout = () => {
   store.commit("deltoken");
   router.replace("/login");
 };
 </script>
 
- <style scoped>
+<style scoped>
 .login {
   cursor: pointer;
 }
+
 .login:hover {
   color: pink;
 }
+
 .ispenddiv {
   cursor: pointer;
 }
+
 .home-container {
   display: flex;
   height: 100%;
 }
+
 .right {
   width: 100%;
 }
+
 .top {
   display: flex;
   justify-content: space-between;
@@ -63,6 +71,7 @@ let loginout = () => {
   align-items: center;
   border-bottom: 1px solid gray;
 }
+
 .el-icon {
   --color: inherit;
   height: 2em;

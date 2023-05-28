@@ -1,32 +1,31 @@
 import axios from 'axios';
 import { ElMessage } from "element-plus";
-import store from "../store/index";
 
 const instance = axios.create({
-    baseURL: 'https://albatross21python.azurewebsites.net',
+    baseURL: 'https://albatross21.azurewebsites.net',
     timeout: 5000
-})
+});
 
 // 添加请求拦截器
 instance.interceptors.request.use(config => {
-    return config
+    return config;
 }, error => {
-    return Promise.reject(error)
-})
+    return Promise.reject(error);
+});
 
 // 添加响应拦截器
 instance.interceptors.response.use(response => {
-    return response
+    return response;
 }, error => {
     if (error.response.status == 401) {
         ElMessage({
             showClose: true,
             message: '账户或密码错误！',
             type: 'error',
-        })
+        });
     }
-    return Promise.reject(error)
-})
+    return Promise.reject(error);
+});
 
 
 
@@ -37,8 +36,8 @@ export let post = (url, data = {}) => {
             resolve(res);
         }).catch(err => {
             // reject(err);
-        })
-    })
+        });
+    });
 };
 
 //get
@@ -48,8 +47,8 @@ export let get = (url, data) => {
             resolve(res);
         }).catch(err => {
             // reject(err);
-        })
-    })
+        });
+    });
 };
 
 

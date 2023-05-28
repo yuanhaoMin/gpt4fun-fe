@@ -115,9 +115,9 @@ export default {
   name: "HomeMiddle",
   data() {
     return {
-      baseUrl: "https://albatross21python.azurewebsites.net",
+      baseUrl: "https://albatross21.azurewebsites.net",
       baseLLMOpenAIUrl:
-        "https://albatross21python.azurewebsites.net/llm/openai",
+        "https://albatross21.azurewebsites.net/llm/openai",
       // 调用后端API时的认证信息
       // TODO
       authUsername: "",
@@ -150,6 +150,8 @@ export default {
   created() {
     this.encodedCredentials = getToken("token");
     this.authUsername = getToken("username");
+    // 用户刷新页面时清除历史记录
+    this.resetChatHistory();
   },
   mounted() {
     this.$refs.sendButton.addEventListener(

@@ -54,7 +54,7 @@ let jump = async () => {
         message: "登录成功！",
         type: "success",
       });
-      router.replace("/chat");
+      router.replace("/");
     } else {
       return;
     }

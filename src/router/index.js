@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { getToken } from '../utils/store'
-import HomeView from '../views/home-view.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import { getToken } from '../utils/store';
+import HomeView from '../views/home-view.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,20 +9,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      redirect: "/login",
       children: [{
-        path: 'chat',                                               //AI聊天界面
+        path: '',                                               //AI聊天界面
         name: 'chat',
         component: () => import('../components/home-middle.vue')
       },
       {
-        path: 'intru',                                              //公司简介
-        name: 'intru',
-        component: () => import('../views/company-intruduce.vue')
+        path: 'intro',                                              //公司简介
+        name: 'intro',
+        component: () => import('../views/company-intro.vue')
       },
       {
-        path: 'linkus',                                              //联系我们
-        name: 'linkus',
+        path: 'contact',                                              //联系我们
+        name: 'contact',
         component: () => import('../views/contact.vue')
       }
       ]
@@ -34,21 +33,16 @@ const router = createRouter({
       component: () => import('../views/login.vue')
     }
   ]
-})
+});
 
 router.beforeEach(async (to, from, next) => {
   const token = getToken('token');
-  if (to.path === '/login' || to.path === '/') {
+  if (token || to.path === '/login') {
     next();
+  } else {
+    next('/login');
   }
-  else {
-    if (token) {
-      next();
-    } else {
-      next('/login');
-    }
-  }
-})
+});
 
 export default router
 

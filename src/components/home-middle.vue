@@ -150,6 +150,8 @@ export default {
   created() {
     this.encodedCredentials = getToken("token");
     this.authUsername = getToken("username");
+    // 用户刷新页面时清除历史记录
+    this.resetChatHistory();
   },
   mounted() {
     this.$refs.sendButton.addEventListener(
@@ -253,12 +255,6 @@ export default {
         headers: {
           Authorization: `Basic ${this.encodedCredentials}`,
         },
-      });
-      ElMessage({
-        message: "已重置聊天",
-        type: "info",
-        duration: 1100,
-        grouping: true,
       });
       this.$refs.inputBox.value = "";
       // 清空已显示的消息

@@ -115,9 +115,9 @@ export default {
   name: "HomeMiddle",
   data() {
     return {
-      baseUrl: "https://albatross21.azurewebsites.net",
+      baseUrl: "https://albatross21python.azurewebsites.net",
       baseLLMOpenAIUrl:
-        "https://albatross21.azurewebsites.net/llm/openai",
+        "https://albatross21python.azurewebsites.net/llm/openai",
       // 调用后端API时的认证信息
       // TODO
       authUsername: "",
@@ -255,12 +255,6 @@ export default {
         headers: {
           Authorization: `Basic ${this.encodedCredentials}`,
         },
-      });
-      ElMessage({
-        message: "已重置聊天",
-        type: "info",
-        duration: 1100,
-        grouping: true,
       });
       this.$refs.inputBox.value = "";
       // 清空已显示的消息

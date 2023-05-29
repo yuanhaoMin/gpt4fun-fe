@@ -23,7 +23,7 @@
 import { ref } from "vue";
 import menuList from "../components/menu.vue";
 import { useRouter } from "vue-router";
-import store from "../store";
+import store from "../store/common-data";
 let spend = ref(false);
 let isShowExpand = ref(false);
 let isShowFold = ref(true);
@@ -43,33 +43,30 @@ let logout = () => {
 </script>
 
 <style scoped>
-.login {
-  cursor: pointer;
-}
-
-.login:hover {
-  color: pink;
-}
-
-.ispenddiv {
-  cursor: pointer;
-}
-
 .home-container {
   display: flex;
   height: 100%;
 }
-
 .right {
   width: 100%;
 }
-
 .top {
   display: flex;
   justify-content: space-between;
   height: 50px;
   align-items: center;
   border-bottom: 1px solid gray;
+}
+.ispenddiv {
+  cursor: pointer;
+}
+
+.login {
+  cursor: pointer;
+}
+
+.login:hover {
+  color: pink;
 }
 
 .el-icon {

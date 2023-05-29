@@ -1,12 +1,32 @@
 <template>
   <div class="left">
-    <el-menu active-text-color="#ffd04b" background-color="#354455" text-color="#fff" default-active="chat"
-      class="el-menu-vertical-demo" :collapse="isCollapse.isSpend" @open="handleOpen" @close="handleClose" router>
+    <el-menu
+      active-text-color="#ffd04b"
+      background-color="#354455"
+      text-color="#fff"
+      default-active="chat"
+      class="el-menu-vertical-demo"
+      :collapse="isCollapse.isSpend"
+      @open="handleOpen"
+      @close="handleClose"
+      router
+    >
       <el-menu-item>
-        <img src="/img/logo-without-text.png" alt="" class="logo-without-text" v-show="isShowLogo" />
+        <img
+          src="/img/logo-without-text.png"
+          alt=""
+          class="logo-without-text"
+          v-show="isShowLogo"
+        />
         <div class="logo" v-show="isShowLogoAndWords">
-          <img src="/img/logo.png" alt="" style="width: 80px; object-fit: cotain; vertical-align: middle" />
-          <span style="font-size: 20px; font-weight: bold; color: white">&emsp;毕至咨询</span>
+          <img
+            src="/img/logo.png"
+            alt=""
+            style="width: 80px; object-fit: cotain; vertical-align: middle"
+          />
+          <span style="font-size: 20px; font-weight: bold; color: white"
+            >&emsp;毕至咨询</span
+          >
         </div>
       </el-menu-item>
 
@@ -63,6 +83,14 @@ let isCollapse = defineProps(["isSpend"]);
 </script>
   
 <style scoped>
+.left {
+  background: #354455;
+  padding: 20px;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
 .logo-without-text {
   width: 40px;
   object-fit: contain;
@@ -72,16 +100,6 @@ let isCollapse = defineProps(["isSpend"]);
 .logo {
   width: 296px;
   margin-left: -20px;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
-
-.left {
-  background: #354455;
-  padding: 20px;
 }
 
 .el-menu {

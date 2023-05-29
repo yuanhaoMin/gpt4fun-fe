@@ -1,25 +1,25 @@
 import { createStore } from "vuex"
-import { setToken, removeToken, getToken } from "../utils/store"
+import { setData, removeData, getData } from "../utils/store-crud"
 const store = createStore({
     state() {
         return {
-            token: getToken('token') ? getToken('token') : {},
-            username: getToken('username') ? getToken('username') : {}
+            token: getData('token') ? getData('token') : {},
+            username: getData('username') ? getData('username') : {}
         }
     },
     mutations: {
         token(state, val) {
             state.token = val
-            setToken("token", val)
+            setData("token", val)
         },
         deltoken(state) {
             state.token = {}
-            removeToken('token')
-            removeToken("username")
+            removeData('token')
+            removeData("username")
         },
         username(state, val) {
             state.username = val
-            setToken("username", val)
+            setData("username", val)
         }
     }
 })

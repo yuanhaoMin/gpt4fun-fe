@@ -8,11 +8,20 @@
       <div>
         <div class="user">
           <img src="/img/username.png" alt="" class="logonImg" />
-          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable class="aaa" />
+          <el-input
+            v-model="username"
+            placeholder="请输入用户名/手机号"
+            clearable
+          />
         </div>
         <div class="password">
           <img src="/img/password.png" alt="" class="logonImg" />
-          <el-input v-model="password" type="password" placeholder="请输入密码" show-password />
+          <el-input
+            v-model="password"
+            type="password"
+            placeholder="请输入密码"
+            show-password
+          />
         </div>
       </div>
       <div class="logon">
@@ -31,8 +40,8 @@ import { ElMessage } from "element-plus";
 import { useStore } from "vuex";
 const router = useRouter();
 const store = useStore();
-const username = ref("");
-const password = ref("");
+const username = ref("hhf@bizcamp.com");
+const password = ref("999");
 
 let jump = async () => {
   if (username.value == "" || password.value == "") {
@@ -63,10 +72,6 @@ let jump = async () => {
 </script>
 
 <style  scoped>
-.logon {
-  width: 50%;
-}
-
 html,
 body {
   height: 100%;
@@ -79,7 +84,6 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
-
 .login {
   width: 900px;
   height: 500px;
@@ -102,24 +106,8 @@ body {
   background: white;
   border-radius: 15px 15px 15px 15px;
 }
-
-.logo {
-  width: 150px;
-}
-
-.user {
-  display: flex;
-  height: 50px;
-  margin: 10px;
-  align-items: center;
-}
-
-.el-input {
-  width: 250px;
-}
-
-.el-input :deep(div) {
-  box-shadow: 0px 0px 0px;
+.logon {
+  width: 50%;
 }
 
 .logonImg {
@@ -127,7 +115,6 @@ body {
   height: 30px;
   opacity: 0.2;
 }
-
 .user,
 .password {
   border-bottom: 2px solid lightgray;
@@ -137,11 +124,20 @@ body {
   align-items: center;
 }
 
-.el-button>span {
-  width: 100px;
+.logo {
+  width: 150px;
+}
+.el-input {
+  width: 250px;
 }
 
+.el-input :deep(div) {
+  box-shadow: 0px 0px 0px;
+}
 .el-button {
   width: 100%;
+}
+.el-button > span {
+  width: 100px;
 }
 </style>

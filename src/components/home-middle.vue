@@ -4,15 +4,20 @@
     <div class="loading" v-show="isShowLoading">
       <img src="/img/loading.gif" alt="" />
     </div>
-
+    <!-- 中间 -->
     <div class="home-middle-container">
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
       </div>
       <div class="button-container" v-show="isShowChatModeButtons">
-        <el-button type="info" class="stop-generation" v-show="isShowStopGeneration" @click="stopGenerate"
-          v-model="isStopGeneration">
+        <el-button
+          type="info"
+          class="stop-generation"
+          v-show="isShowStopGeneration"
+          @click="stopGenerate"
+          v-model="isStopGeneration"
+        >
           停止生成
         </el-button>
         <button class="update-button button" ref="updateButton">
@@ -29,8 +34,12 @@
         </button>
       </div>
       <div class="input-box">
-        <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
-          @keydown.enter="sendMessage"></textarea>
+        <textarea
+          placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
+          class="input-textarea textarea"
+          ref="inputBox"
+          @keydown.enter="sendMessage"
+        ></textarea>
         <button class="send-button button" ref="sendButton" type="button">
           <img src="/img/send-button.png" alt="" class="send-icon" />
         </button>
@@ -41,13 +50,18 @@
       <div class="tall">
         <div>
           <div @click="selectChatMode">
-            <el-button type="primary" class="button-finger-hover">对话模式</el-button>&emsp;&emsp;
+            <el-button type="primary" class="button-finger-hover"
+              >对话模式</el-button
+            >&emsp;&emsp;
             <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
           <div v-show="isShowChatMode">
             <div>
-              AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
+              AI模型: &emsp;<el-select
+                placeholder="AI模型"
+                v-model="selectedChatModeModel"
+              >
                 <el-option label="GPT3.5" value="gpt-3.5-turbo" />
                 <el-option label="GPT4" value="gpt-4" />
               </el-select>
@@ -55,7 +69,10 @@
             <br />
             <div>
               AI创造力:
-              <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
+              <el-select
+                placeholder="AI创造力"
+                v-model="selectedChatModeTemperature"
+              >
                 <el-option label="保守模式" value="0" />
                 <el-option label="均衡模式" value="0.2" />
                 <el-option label="创造模式" value="0.6" />
@@ -67,12 +84,17 @@
       <br />
       <div class="unify">
         <div @click="selectCompletionMode">
-          <el-button type="primary" class="button-finger-hover">问答模式</el-button>&emsp;&emsp;
+          <el-button type="primary" class="button-finger-hover"
+            >问答模式</el-button
+          >&emsp;&emsp;
           <el-switch v-model="isCompletionModeSelected" size="large" />
         </div>
         <br />
         <div v-show="isShowCompletionMode">
-          是否联网：<el-select placeholder="是否联网" v-model="selectedCompletionModeOnlineOption">
+          是否联网：<el-select
+            placeholder="是否联网"
+            v-model="selectedCompletionModeOnlineOption"
+          >
             <el-option label="联网" value="online" />
             <el-option label="离线" value="offline" />
           </el-select>
@@ -81,13 +103,18 @@
       <br />
       <div class="unify">
         <div @click="selectImagineMode">
-          <el-button type="primary" class="button-finger-hover">图片生成</el-button>&emsp;&emsp;
+          <el-button type="primary" class="button-finger-hover"
+            >图片生成</el-button
+          >&emsp;&emsp;
           <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
         <div v-show="isShowImagineMode">
           <div>
-            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
+            图片数量：<el-select
+              placeholder="图片数量"
+              v-model="selectedImagineModeImageNum"
+            >
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -95,7 +122,10 @@
           </div>
           <br />
           <div>
-            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
+            图片尺寸：<el-select
+              placeholder="图片尺寸"
+              v-model="selectedImagineModeImageSize"
+            >
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
               <el-option label="1024x1024" value="1024x1024" />
@@ -109,7 +139,7 @@
   
 <script>
 import { ElMessage } from "element-plus";
-import { getToken } from "../utils/store";
+import { getData } from "../utils/store-crud";
 
 export default {
   name: "HomeMiddle",
@@ -124,7 +154,7 @@ export default {
       // 聊天模式下的情景文本
       chatModeSystemMessage: "",
       // 测试模式
-      testMode: false,
+      testMode: true,
       //默认显示
       isshowshow: true,
       // Html元素的值, 都设有默认值
@@ -143,13 +173,13 @@ export default {
       isShowChatMode: true,
       isShowCompletionMode: false,
       isShowImagineMode: false,
-      isShowStopGeneration: true,
+      isShowStopGeneration: false,
       isStopGeneration: false,
     };
   },
   created() {
-    this.encodedCredentials = getToken("token");
-    this.authUsername = getToken("username");
+    this.encodedCredentials = getData("token");
+    this.authUsername = getData("username");
     // 用户刷新页面时清除历史记录
     this.resetChatHistory();
   },
@@ -164,12 +194,12 @@ export default {
   methods: {
     stopGenerate() {
       this.isStopGeneration = true;
+      this.isShowStopGeneration = false;
     },
     selectChatMode() {
       this.isChatModeSelected = true;
       this.isShowChatMode = true;
       this.isShowChatModeButtons = true;
-      this.isShowStopGeneration = true;
       this.isCompletionModeSelected = false;
       this.isShowCompletionMode = false;
       this.isImagineModeSelected = false;
@@ -179,7 +209,6 @@ export default {
       this.isChatModeSelected = false;
       this.isShowChatMode = false;
       this.isShowChatModeButtons = false;
-      this.isShowStopGeneration = false;
       this.isCompletionModeSelected = true;
       this.isShowCompletionMode = true;
       this.isImagineModeSelected = false;
@@ -189,7 +218,6 @@ export default {
       this.isChatModeSelected = false;
       this.isShowChatMode = false;
       this.isShowChatModeButtons = false;
-      this.isShowStopGeneration = false;
       this.isCompletionModeSelected = false;
       this.isShowCompletionMode = false;
       this.isImagineModeSelected = true;
@@ -284,8 +312,6 @@ export default {
 
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
-      // 发送按钮失效直到发送完成
-      this.$refs.sendButton.classList.add("prohibit");
       const userMessage = this.$refs.inputBox.value;
       this.$refs.inputBox.value = "";
       if (!userMessage) {
@@ -296,6 +322,8 @@ export default {
           grouping: true,
         });
       }
+      // 发送按钮失效直到发送完成
+      this.$refs.sendButton.classList.add("prohibit");
       const processedText = this.achieveLineBreak(userMessage);
       this.createAndAppendMessage(processedText, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
@@ -303,7 +331,7 @@ export default {
         "AI: ",
         this.senderAssistant
       );
-
+      this.isShowStopGeneration = true;
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.isChatModeSelected) {
         const chatModeUpdateInfoUrl =
@@ -496,57 +524,13 @@ export default {
 </script>
   
 <style scoped>
-.prohibit {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.send-icon {
-  width: 22px;
-}
-
-.input-box {
+.content {
   display: flex;
-  justify-content: space-between;
-}
-
-.tall {
-  text-align: center;
-  margin: 52px 5px 25px;
-}
-
-.unify {
-  text-align: center;
-  margin: 5px;
-}
-
-.oldRightSel {
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.syan {
   width: 100%;
+  height: 100%;
+  padding: 0 20px 0 75px;
+  box-sizing: border-box;
 }
-
-.syan :deep(.el-select .el-input__wrapper) {
-  border-radius: 31px;
-  width: 100px;
-  height: 37px;
-  background-color: #e8eaed;
-  color: #656668;
-  box-shadow: 2px 2px 8px 0px;
-}
-
-select {
-  outline: 0;
-}
-
-.button-finger-hover:hover {
-  background: white;
-}
-
 .loading {
   width: 100%;
   height: 100%;
@@ -568,28 +552,6 @@ select {
   left: 0;
   margin: auto;
 }
-
-.stop-generation {
-  width: 120px;
-  height: 40px;
-  position: fixed;
-  bottom: 16%;
-  right: 47%;
-}
-
-button {
-  cursor: pointer;
-  border: 0px;
-}
-
-.content {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px 0 75px;
-  box-sizing: border-box;
-}
-
 .home-middle-container {
   display: flex;
   flex: 0 0 auto;
@@ -597,11 +559,6 @@ button {
   height: 90%;
   width: 80%;
 }
-
-:deep(.el-input__inner) {
-  text-align: center;
-}
-
 .messages-container {
   align-self: flex-start;
   height: 88%;
@@ -623,21 +580,29 @@ button {
   margin-bottom: 20px;
   width: 100%;
   height: 36px;
-  /* Align items to the right */
 }
-
+.stop-generation {
+  width: 120px;
+  height: 40px;
+  position: fixed;
+  bottom: 16%;
+  right: 47%;
+}
 .update-button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
   margin-right: var(--dl-space-space-halfunit);
 }
+button {
+  cursor: pointer;
+  border: 0px;
+}
 
 .delete-button {
   align-self: flex-end;
   background-color: rgb(217, 217, 217);
 }
-
 .input-textarea {
   height: 100px;
   width: 95%;
@@ -646,17 +611,74 @@ button {
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset;
 }
 
 .input-textarea:focus {
   outline: 2px #519bff solid;
 }
-
+.input-box {
+  display: flex;
+  justify-content: space-between;
+}
 .send-button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
+}
+.send-icon {
+  width: 22px;
+}
+.syan {
+  width: 100%;
+}
+
+.syan :deep(.el-select .el-input__wrapper) {
+  border-radius: 31px;
+  width: 100px;
+  height: 37px;
+  background-color: #e8eaed;
+  color: #656668;
+  box-shadow: 2px 2px 8px 0px;
+}
+.tall {
+  text-align: center;
+  margin: 52px 5px 0px;
+}
+.unify {
+  text-align: center;
+  margin: 5px;
+}
+.button-finger-hover {
+  border-radius: 41px;
+  width: 57%;
+  height: 40px;
+  background-color: #eff0f2;
+  color: #656668;
+  box-shadow: 2px 2px 8px 0px;
+}
+
+.button-finger-hover:hover {
+  background: white;
+}
+.prohibit {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.oldRightSel {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+select {
+  outline: 0;
+}
+
+:deep(.el-input__inner) {
+  text-align: center;
 }
 
 .home-right-container {
@@ -665,15 +687,6 @@ button {
   display: flex;
   flex-direction: column;
   background-color: f7f7f7;
-}
-
-.button-finger-hover {
-  border-radius: 41px;
-  width: 57%;
-  height: 40px;
-  background-color: #eff0f2;
-  color: #656668;
-  box-shadow: 2px 2px 8px 0px;
 }
 
 .chat-mode-container {

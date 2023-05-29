@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { getToken } from '../utils/store';
+import { getData } from '../utils/store-crud';
 import HomeView from '../views/home-view.vue';
 
 const router = createRouter({
@@ -36,7 +36,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const token = getToken('token');
+  const token = getData('token');
   if (token || to.path === '/login') {
     next();
   } else {

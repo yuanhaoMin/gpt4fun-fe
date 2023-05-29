@@ -11,13 +11,8 @@
         <!-- Messages will appear here -->
       </div>
       <div class="button-container" v-show="isShowChatModeButtons">
-        <el-button
-          type="info"
-          class="stop-generation"
-          v-show="isShowStopGeneration"
-          @click="stopGenerate"
-          v-model="isStopGeneration"
-        >
+        <el-button type="info" class="stop-generation" v-show="isShowStopGeneration" @click="stopGenerate"
+          v-model="isStopGeneration">
           停止生成
         </el-button>
         <button class="update-button button" ref="updateButton">
@@ -34,12 +29,8 @@
         </button>
       </div>
       <div class="input-box">
-        <textarea
-          placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)"
-          class="input-textarea textarea"
-          ref="inputBox"
-          @keydown.enter="sendMessage"
-        ></textarea>
+        <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
+          @keydown.enter="sendMessage"></textarea>
         <button class="send-button button" ref="sendButton" type="button">
           <img src="/img/send-button.png" alt="" class="send-icon" />
         </button>
@@ -50,18 +41,13 @@
       <div class="tall">
         <div>
           <div @click="selectChatMode">
-            <el-button type="primary" class="button-finger-hover"
-              >对话模式</el-button
-            >&emsp;&emsp;
+            <el-button type="primary" class="button-finger-hover">对话模式</el-button>&emsp;&emsp;
             <el-switch v-model="isChatModeSelected" size="large" />
           </div>
           <br />
           <div v-show="isShowChatMode">
             <div>
-              AI模型: &emsp;<el-select
-                placeholder="AI模型"
-                v-model="selectedChatModeModel"
-              >
+              AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
                 <el-option label="GPT3.5" value="gpt-3.5-turbo" />
                 <el-option label="GPT4" value="gpt-4" />
               </el-select>
@@ -69,10 +55,7 @@
             <br />
             <div>
               AI创造力:
-              <el-select
-                placeholder="AI创造力"
-                v-model="selectedChatModeTemperature"
-              >
+              <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
                 <el-option label="保守模式" value="0" />
                 <el-option label="均衡模式" value="0.2" />
                 <el-option label="创造模式" value="0.6" />
@@ -84,17 +67,12 @@
       <br />
       <div class="unify">
         <div @click="selectCompletionMode">
-          <el-button type="primary" class="button-finger-hover"
-            >问答模式</el-button
-          >&emsp;&emsp;
+          <el-button type="primary" class="button-finger-hover">问答模式</el-button>&emsp;&emsp;
           <el-switch v-model="isCompletionModeSelected" size="large" />
         </div>
         <br />
         <div v-show="isShowCompletionMode">
-          是否联网：<el-select
-            placeholder="是否联网"
-            v-model="selectedCompletionModeOnlineOption"
-          >
+          是否联网：<el-select placeholder="是否联网" v-model="selectedCompletionModeOnlineOption">
             <el-option label="联网" value="online" />
             <el-option label="离线" value="offline" />
           </el-select>
@@ -103,18 +81,13 @@
       <br />
       <div class="unify">
         <div @click="selectImagineMode">
-          <el-button type="primary" class="button-finger-hover"
-            >图片生成</el-button
-          >&emsp;&emsp;
+          <el-button type="primary" class="button-finger-hover">图片生成</el-button>&emsp;&emsp;
           <el-switch v-model="isImagineModeSelected" size="large" />
         </div>
         <br />
         <div v-show="isShowImagineMode">
           <div>
-            图片数量：<el-select
-              placeholder="图片数量"
-              v-model="selectedImagineModeImageNum"
-            >
+            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
               <el-option label="1" value="1" />
               <el-option label="2" value="2" />
               <el-option label="3" value="3" />
@@ -122,10 +95,7 @@
           </div>
           <br />
           <div>
-            图片尺寸：<el-select
-              placeholder="图片尺寸"
-              v-model="selectedImagineModeImageSize"
-            >
+            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
               <el-option label="256x256" value="256x256" />
               <el-option label="516x516" value="512x512" />
               <el-option label="1024x1024" value="1024x1024" />
@@ -531,6 +501,7 @@ export default {
   padding: 0 20px 0 75px;
   box-sizing: border-box;
 }
+
 .loading {
   width: 100%;
   height: 100%;
@@ -552,6 +523,7 @@ export default {
   left: 0;
   margin: auto;
 }
+
 .home-middle-container {
   display: flex;
   flex: 0 0 auto;
@@ -559,6 +531,7 @@ export default {
   height: 90%;
   width: 80%;
 }
+
 .messages-container {
   align-self: flex-start;
   height: 88%;
@@ -581,6 +554,7 @@ export default {
   width: 100%;
   height: 36px;
 }
+
 .stop-generation {
   width: 120px;
   height: 40px;
@@ -588,12 +562,14 @@ export default {
   bottom: 16%;
   right: 47%;
 }
+
 .update-button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
   margin-right: var(--dl-space-space-halfunit);
 }
+
 button {
   cursor: pointer;
   border: 0px;
@@ -603,6 +579,7 @@ button {
   align-self: flex-end;
   background-color: rgb(217, 217, 217);
 }
+
 .input-textarea {
   height: 100px;
   width: 95%;
@@ -611,25 +588,28 @@ button {
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
-    inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
 }
 
 .input-textarea:focus {
   outline: 2px #519bff solid;
 }
+
 .input-box {
   display: flex;
   justify-content: space-between;
 }
+
 .send-button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
 }
+
 .send-icon {
   width: 22px;
 }
+
 .syan {
   width: 100%;
 }
@@ -642,14 +622,17 @@ button {
   color: #656668;
   box-shadow: 2px 2px 8px 0px;
 }
+
 .tall {
   text-align: center;
   margin: 52px 5px 0px;
 }
+
 .unify {
   text-align: center;
   margin: 5px;
 }
+
 .button-finger-hover {
   border-radius: 41px;
   width: 57%;
@@ -662,6 +645,7 @@ button {
 .button-finger-hover:hover {
   background: white;
 }
+
 .prohibit {
   opacity: 0.5;
   pointer-events: none;

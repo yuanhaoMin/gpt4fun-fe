@@ -3,14 +3,11 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div
-    id="screen"
-    :style="{
-      width: `${style.width}px`,
-      height: `${style.height}px`,
-      transform: `${style.transform}`,
-    }"
-  >
+  <div id="screen" :style="{
+    width: `${style.width}px`,
+    height: `${style.height}px`,
+    transform: `${style.transform}`,
+  }">
     <RouterView />
   </div>
 </template>

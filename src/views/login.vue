@@ -8,20 +8,11 @@
       <div>
         <div class="user">
           <img src="/img/username.png" alt="" class="logonImg" />
-          <el-input
-            v-model="username"
-            placeholder="请输入用户名/手机号"
-            clearable
-          />
+          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable />
         </div>
         <div class="password">
           <img src="/img/password.png" alt="" class="logonImg" />
-          <el-input
-            v-model="password"
-            type="password"
-            placeholder="请输入密码"
-            show-password
-          />
+          <el-input v-model="password" type="password" placeholder="请输入密码" show-password />
         </div>
       </div>
       <div class="logon">
@@ -84,6 +75,7 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
+
 .login {
   width: 900px;
   height: 500px;
@@ -106,6 +98,7 @@ body {
   background: white;
   border-radius: 15px 15px 15px 15px;
 }
+
 .logon {
   width: 50%;
 }
@@ -115,6 +108,7 @@ body {
   height: 30px;
   opacity: 0.2;
 }
+
 .user,
 .password {
   border-bottom: 2px solid lightgray;
@@ -127,6 +121,7 @@ body {
 .logo {
   width: 150px;
 }
+
 .el-input {
   width: 250px;
 }
@@ -134,10 +129,12 @@ body {
 .el-input :deep(div) {
   box-shadow: 0px 0px 0px;
 }
+
 .el-button {
   width: 100%;
 }
-.el-button > span {
+
+.el-button>span {
   width: 100px;
 }
 </style>

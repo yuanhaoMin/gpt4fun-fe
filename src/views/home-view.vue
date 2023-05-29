@@ -47,9 +47,11 @@ let logout = () => {
   display: flex;
   height: 100%;
 }
+
 .right {
   width: 100%;
 }
+
 .top {
   display: flex;
   justify-content: space-between;
@@ -57,6 +59,7 @@ let logout = () => {
   align-items: center;
   border-bottom: 1px solid gray;
 }
+
 .ispenddiv {
   cursor: pointer;
 }

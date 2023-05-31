@@ -2,7 +2,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import store from './store/common-data';
 import './style.css';
 //引入element-ui
 import ElementPlus from 'element-plus';

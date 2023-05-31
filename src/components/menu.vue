@@ -16,23 +16,6 @@
         </el-icon>
         <template #title>AI聊天互动</template>
       </el-menu-item>
-
-      <!-- <el-sub-menu index="2">
-        <template #title>
-          <el-icon><location /></el-icon>
-          <span>联系我们</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="intru">
-            <el-icon><Memo /></el-icon>
-            公司简介
-          </el-menu-item>
-          <el-menu-item index="linkus">
-            <el-icon><Plus /></el-icon>
-            合作单位
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-sub-menu> -->
     </el-menu>
   </div>
 </template>
@@ -63,6 +46,16 @@ let isCollapse = defineProps(["isSpend"]);
 </script>
   
 <style scoped>
+.left {
+  background: #354455;
+  padding: 20px;
+}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+
 .logo-without-text {
   width: 40px;
   object-fit: contain;
@@ -72,16 +65,6 @@ let isCollapse = defineProps(["isSpend"]);
 .logo {
   width: 296px;
   margin-left: -20px;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
-
-.left {
-  background: #354455;
-  padding: 20px;
 }
 
 .el-menu {

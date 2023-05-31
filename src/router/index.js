@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { getToken } from '../utils/store';
+import { getData } from '../utils/store-crud';
 import HomeView from '../views/home-view.vue';
 
 const router = createRouter({
@@ -9,34 +9,25 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      children: [{
-        path: '',                                               //AI聊天界面
-        name: 'chat',
-        component: () => import('../components/home-middle.vue')
-      },
-      {
-        path: 'intro',                                              //公司简介
-        name: 'intro',
-        component: () => import('../views/company-intro.vue')
-      },
-      {
-        path: 'contact',                                              //联系我们
-        name: 'contact',
-        component: () => import('../views/contact.vue')
-      }
+      redirect: "chat",
+      children: [
+        {
+          path: 'chat',                                               //AI聊天界面
+          name: 'chat',
+          component: () => import('../components/home-middle.vue')
+        },
       ]
     },
     {
-      path: '/login',                                              //联系我们
+      path: '/login',
       name: 'login',
-
       component: () => import('../views/login.vue')
     }
   ]
 });
 
 router.beforeEach(async (to, from, next) => {
-  const token = getToken('token');
+  const token = getData('token');
   if (token || to.path === '/login') {
     next();
   } else {

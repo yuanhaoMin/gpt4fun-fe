@@ -8,7 +8,7 @@
       <div>
         <div class="user">
           <img src="/img/username.png" alt="" class="logonImg" />
-          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable class="aaa" />
+          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable />
         </div>
         <div class="password">
           <img src="/img/password.png" alt="" class="logonImg" />
@@ -54,7 +54,7 @@ let jump = async () => {
         message: "登录成功！",
         type: "success",
       });
-      router.replace("/");
+      router.replace("/chat");
     } else {
       return;
     }
@@ -63,10 +63,6 @@ let jump = async () => {
 </script>
 
 <style  scoped>
-.logon {
-  width: 50%;
-}
-
 html,
 body {
   height: 100%;
@@ -103,23 +99,8 @@ body {
   border-radius: 15px 15px 15px 15px;
 }
 
-.logo {
-  width: 150px;
-}
-
-.user {
-  display: flex;
-  height: 50px;
-  margin: 10px;
-  align-items: center;
-}
-
-.el-input {
-  width: 250px;
-}
-
-.el-input :deep(div) {
-  box-shadow: 0px 0px 0px;
+.logon {
+  width: 50%;
 }
 
 .logonImg {
@@ -137,11 +118,23 @@ body {
   align-items: center;
 }
 
-.el-button>span {
-  width: 100px;
+.logo {
+  width: 150px;
+}
+
+.el-input {
+  width: 250px;
+}
+
+.el-input :deep(div) {
+  box-shadow: 0px 0px 0px;
 }
 
 .el-button {
   width: 100%;
+}
+
+.el-button>span {
+  width: 100px;
 }
 </style>

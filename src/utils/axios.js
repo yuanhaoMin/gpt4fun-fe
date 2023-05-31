@@ -23,6 +23,12 @@ instance.interceptors.response.use(response => {
             message: '账户或密码错误！',
             type: 'error',
         });
+    } else if (error.response.status == 422) {
+        ElMessage({
+            showClose: true,
+            message: '账户或密码错误！',
+            type: 'error',
+        });
     }
     return Promise.reject(error);
 });

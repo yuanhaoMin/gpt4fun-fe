@@ -4,7 +4,7 @@
     <div class="loading" v-show="isShowLoading">
       <img src="/img/loading.gif" alt="" />
     </div>
-
+    <!-- 中间 -->
     <div class="home-middle-container">
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
@@ -103,13 +103,14 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
   
 <script>
 import { ElMessage } from "element-plus";
-import { getToken } from "../utils/store";
+import { getData } from "../utils/store-crud";
 
 export default {
   name: "HomeMiddle",
@@ -143,13 +144,13 @@ export default {
       isShowChatMode: true,
       isShowCompletionMode: false,
       isShowImagineMode: false,
-      isShowStopGeneration: true,
+      isShowStopGeneration: false,
       isStopGeneration: false,
     };
   },
   created() {
-    this.encodedCredentials = getToken("token");
-    this.authUsername = getToken("username");
+    this.encodedCredentials = getData("token");
+    this.authUsername = getData("username");
     // 用户刷新页面时清除历史记录
     this.resetChatHistory();
   },
@@ -164,12 +165,12 @@ export default {
   methods: {
     stopGenerate() {
       this.isStopGeneration = true;
+      this.isShowStopGeneration = false;
     },
     selectChatMode() {
       this.isChatModeSelected = true;
       this.isShowChatMode = true;
       this.isShowChatModeButtons = true;
-      this.isShowStopGeneration = true;
       this.isCompletionModeSelected = false;
       this.isShowCompletionMode = false;
       this.isImagineModeSelected = false;
@@ -179,7 +180,6 @@ export default {
       this.isChatModeSelected = false;
       this.isShowChatMode = false;
       this.isShowChatModeButtons = false;
-      this.isShowStopGeneration = false;
       this.isCompletionModeSelected = true;
       this.isShowCompletionMode = true;
       this.isImagineModeSelected = false;
@@ -189,7 +189,6 @@ export default {
       this.isChatModeSelected = false;
       this.isShowChatMode = false;
       this.isShowChatModeButtons = false;
-      this.isShowStopGeneration = false;
       this.isCompletionModeSelected = false;
       this.isShowCompletionMode = false;
       this.isImagineModeSelected = true;
@@ -284,8 +283,6 @@ export default {
 
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
-      // 发送按钮失效直到发送完成
-      this.$refs.sendButton.classList.add("prohibit");
       const userMessage = this.$refs.inputBox.value;
       this.$refs.inputBox.value = "";
       if (!userMessage) {
@@ -296,6 +293,8 @@ export default {
           grouping: true,
         });
       }
+      // 发送按钮失效直到发送完成
+      this.$refs.sendButton.classList.add("prohibit");
       const processedText = this.achieveLineBreak(userMessage);
       this.createAndAppendMessage(processedText, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
@@ -306,6 +305,7 @@ export default {
 
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.isChatModeSelected) {
+        this.isShowStopGeneration = true;
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -374,6 +374,7 @@ export default {
     },
 
     async completionWithStream(apiEndpoint, botParagraph) {
+
       const eventSource = new EventSource(apiEndpoint);
       eventSource.onopen = () => {
         console.log("EventSource connection established.");
@@ -394,6 +395,7 @@ export default {
         if (response.hasEnd || this.isStopGeneration) {
           eventSource.close();
           this.isStopGeneration = false;
+          this.isShowStopGeneration = false;
           this.$refs.sendButton.classList.remove("prohibit");
         } else {
           const formattedChunkResponse = this.achieveLineBreak(
@@ -496,55 +498,12 @@ export default {
 </script>
   
 <style scoped>
-.prohibit {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.send-icon {
-  width: 22px;
-}
-
-.input-box {
+.content {
   display: flex;
-  justify-content: space-between;
-}
-
-.tall {
-  text-align: center;
-  margin: 52px 5px 25px;
-}
-
-.unify {
-  text-align: center;
-  margin: 5px;
-}
-
-.oldRightSel {
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.syan {
   width: 100%;
-}
-
-.syan :deep(.el-select .el-input__wrapper) {
-  border-radius: 31px;
-  width: 100px;
-  height: 37px;
-  background-color: #e8eaed;
-  color: #656668;
-  box-shadow: 2px 2px 8px 0px;
-}
-
-select {
-  outline: 0;
-}
-
-.button-finger-hover:hover {
-  background: white;
+  height: 100%;
+  padding: 0 20px 0 75px;
+  box-sizing: border-box;
 }
 
 .loading {
@@ -569,37 +528,12 @@ select {
   margin: auto;
 }
 
-.stop-generation {
-  width: 120px;
-  height: 40px;
-  position: fixed;
-  bottom: 16%;
-  right: 47%;
-}
-
-button {
-  cursor: pointer;
-  border: 0px;
-}
-
-.content {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px 0 75px;
-  box-sizing: border-box;
-}
-
 .home-middle-container {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   height: 90%;
   width: 80%;
-}
-
-:deep(.el-input__inner) {
-  text-align: center;
 }
 
 .messages-container {
@@ -623,7 +557,14 @@ button {
   margin-bottom: 20px;
   width: 100%;
   height: 36px;
-  /* Align items to the right */
+}
+
+.stop-generation {
+  width: 120px;
+  height: 40px;
+  position: fixed;
+  bottom: 16%;
+  right: 47%;
 }
 
 .update-button {
@@ -631,6 +572,11 @@ button {
   background-color: #519bff;
   color: #ffffff;
   margin-right: var(--dl-space-space-halfunit);
+}
+
+button {
+  cursor: pointer;
+  border: 0px;
 }
 
 .delete-button {
@@ -653,18 +599,42 @@ button {
   outline: 2px #519bff solid;
 }
 
+.input-box {
+  display: flex;
+  justify-content: space-between;
+}
+
 .send-button {
   align-self: flex-end;
   background-color: #519bff;
   color: #ffffff;
 }
 
-.home-right-container {
-  width: 23%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: f7f7f7;
+.send-icon {
+  width: 22px;
+}
+
+.syan {
+  width: 100%;
+}
+
+.syan :deep(.el-select .el-input__wrapper) {
+  border-radius: 31px;
+  width: 100px;
+  height: 37px;
+  background-color: #e8eaed;
+  color: #656668;
+  box-shadow: 2px 2px 8px 0px;
+}
+
+.tall {
+  text-align: center;
+  margin: 52px 5px 0px;
+}
+
+.unify {
+  text-align: center;
+  margin: 5px;
 }
 
 .button-finger-hover {
@@ -674,6 +644,41 @@ button {
   background-color: #eff0f2;
   color: #656668;
   box-shadow: 2px 2px 8px 0px;
+}
+
+.button-finger-hover:hover {
+  background: white;
+}
+
+.el-button--primary {
+  border: 0px;
+}
+
+.prohibit {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.oldRightSel {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+select {
+  outline: 0;
+}
+
+:deep(.el-input__inner) {
+  text-align: center;
+}
+
+.home-right-container {
+  width: 23%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: f7f7f7;
 }
 
 .chat-mode-container {

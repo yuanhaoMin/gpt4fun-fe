@@ -103,6 +103,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -124,7 +125,7 @@ export default {
       // 聊天模式下的情景文本
       chatModeSystemMessage: "",
       // 测试模式
-      testMode: true,
+      testMode: false,
       //默认显示
       isshowshow: true,
       // Html元素的值, 都设有默认值
@@ -301,9 +302,10 @@ export default {
         "AI: ",
         this.senderAssistant
       );
-      this.isShowStopGeneration = true;
+
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.isChatModeSelected) {
+        this.isShowStopGeneration = true;
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -372,6 +374,7 @@ export default {
     },
 
     async completionWithStream(apiEndpoint, botParagraph) {
+
       const eventSource = new EventSource(apiEndpoint);
       eventSource.onopen = () => {
         console.log("EventSource connection established.");
@@ -392,6 +395,7 @@ export default {
         if (response.hasEnd || this.isStopGeneration) {
           eventSource.close();
           this.isStopGeneration = false;
+          this.isShowStopGeneration = false;
           this.$refs.sendButton.classList.remove("prohibit");
         } else {
           const formattedChunkResponse = this.achieveLineBreak(
@@ -644,6 +648,10 @@ button {
 
 .button-finger-hover:hover {
   background: white;
+}
+
+.el-button--primary {
+  border: 0px;
 }
 
 .prohibit {

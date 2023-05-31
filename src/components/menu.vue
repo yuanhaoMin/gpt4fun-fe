@@ -16,23 +16,6 @@
         </el-icon>
         <template #title>AI聊天互动</template>
       </el-menu-item>
-
-      <!-- <el-sub-menu index="2">
-        <template #title>
-          <el-icon><location /></el-icon>
-          <span>联系我们</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="intru">
-            <el-icon><Memo /></el-icon>
-            公司简介
-          </el-menu-item>
-          <el-menu-item index="linkus">
-            <el-icon><Plus /></el-icon>
-            合作单位
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-sub-menu> -->
     </el-menu>
   </div>
 </template>

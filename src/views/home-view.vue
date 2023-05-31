@@ -23,6 +23,7 @@
 import { ref } from "vue";
 import menuList from "../components/menu.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import store from "../store/common-data";
 let spend = ref(false);
 let isShowExpand = ref(false);
@@ -37,7 +38,7 @@ let menuIsSpend = () => {
 //未登录，跳转登录页
 let router = useRouter();
 let logout = () => {
-  store.commit("deltoken");
+  store.commit("delData");
   router.replace("/login");
 };
 </script>
@@ -69,7 +70,7 @@ let logout = () => {
 }
 
 .login:hover {
-  color: pink;
+  color: blue;
 }
 
 .el-icon {

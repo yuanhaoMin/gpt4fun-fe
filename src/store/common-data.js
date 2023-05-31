@@ -12,10 +12,9 @@ const store = createStore({
             state.token = val
             setData("token", val)
         },
-        deltoken(state) {
+        delData(state) {
             state.token = {}
-            removeData('token')
-            removeData("username")
+            state.username = {}
         },
         username(state, val) {
             state.username = val

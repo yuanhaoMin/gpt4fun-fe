@@ -9,27 +9,18 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      children: [{
-        path: '',                                               //AI聊天界面
-        name: 'chat',
-        component: () => import('../components/home-middle.vue')
-      },
-      {
-        path: 'intro',                                              //公司简介
-        name: 'intro',
-        component: () => import('../views/company-intro.vue')
-      },
-      {
-        path: 'contact',                                              //联系我们
-        name: 'contact',
-        component: () => import('../views/contact.vue')
-      }
+      redirect: "chat",
+      children: [
+        {
+          path: 'chat',                                               //AI聊天界面
+          name: 'chat',
+          component: () => import('../components/home-middle.vue')
+        },
       ]
     },
     {
-      path: '/login',                                              //联系我们
+      path: '/login',
       name: 'login',
-
       component: () => import('../views/login.vue')
     }
   ]

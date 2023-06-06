@@ -1,46 +1,15 @@
 <template>
   <div class="home-container">
-    <menu-list v-model:isSpend="spend" />
+    <menu-list />
     <div class="right">
-      <div class="top">
-        <div @click="menuIsSpend" class="ispenddiv">
-          &emsp;<el-icon v-show="isShowExpand">
-            <Expand />
-          </el-icon>
-          <el-icon v-show="isShowFold">
-            <Fold />
-          </el-icon>
-        </div>
-        <span class="login" @click="logout">退出&emsp;</span>
-      </div>
       <!-- 输出内容 -->
-      <router-view />
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import menuList from "../components/menu.vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import store from "../store/common-data";
-let spend = ref(false);
-let isShowExpand = ref(false);
-let isShowFold = ref(true);
-
-let menuIsSpend = () => {
-  spend.value = !spend.value;
-  isShowExpand.value = !isShowExpand.value;
-  isShowFold.value = !isShowFold.value;
-};
-
-//未登录，跳转登录页
-let router = useRouter();
-let logout = () => {
-  store.commit("delData");
-  router.replace("/login");
-};
 </script>
 
 <style scoped>
@@ -56,7 +25,7 @@ let logout = () => {
 .top {
   display: flex;
   justify-content: space-between;
-  height: 50px;
+  height: 5%;
   align-items: center;
   border-bottom: 1px solid gray;
 }

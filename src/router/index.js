@@ -12,9 +12,29 @@ const router = createRouter({
       redirect: "chat",
       children: [
         {
-          path: 'chat',                                               //AI聊天界面
+          path: 'chat',                                               //毕至AI助手
           name: 'chat',
           component: () => import('../components/home-middle.vue')
+        },
+        {
+          path: 'recruit',                                               //招聘AI助手
+          name: 'recruit',
+          component: () => import('../views/home-recruit.vue')
+        },
+        {
+          path: 'analysis',                                               //分析AI助手
+          name: 'analysis',
+          component: () => import('../views/home-analysis.vue')
+        },
+        {
+          path: 'about',                                               //关于我们
+          name: 'about',
+          component: () => import('../views/home-about.vue')
+        },
+        {
+          path: 'contact',                                               //联系我们
+          name: 'contact',
+          component: () => import('../views/home-contact.vue')
         },
       ]
     },

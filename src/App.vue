@@ -11,6 +11,7 @@ import { RouterView } from "vue-router";
     <RouterView />
   </div>
 </template>
+
 <script>
 export default {
   name: "ScaleBox",
@@ -48,7 +49,7 @@ export default {
 };
 </script>
  
-<style >
+<style scoped>
 #screen {
   z-index: 100;
   transform-origin: 0 0;
@@ -57,4 +58,9 @@ export default {
   top: 50%;
   transition: 0.3s;
 }
+
+/* * {
+  margin: 0;
+  padding: 0;
+} */
 </style>

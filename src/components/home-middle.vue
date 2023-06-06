@@ -6,104 +6,47 @@
     </div>
     <!-- 中间 -->
     <div class="home-middle-container">
+      <exitButton />
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
       </div>
-      <div class="button-container" v-show="isShowChatModeButtons">
-        <el-button type="info" class="stop-generation" v-show="isShowStopGeneration" @click="stopGenerate"
-          v-model="isStopGeneration">
-          停止生成
-        </el-button>
-        <button class="update-button button" ref="updateButton">
-          <span>
-            <span>设置情景</span>
-            <br />
-          </span>
-        </button>
-        <button class="delete-button button" ref="resetButton">
-          <span>
-            <span>清除记录</span>
-            <br />
-          </span>
-        </button>
-      </div>
-      <div class="input-box">
-        <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
-          @keydown.enter="sendMessage"></textarea>
-        <button class="send-button button" ref="sendButton" type="button">
-          <img src="/img/send-button.png" alt="" class="send-icon" />
-        </button>
+      <div class="bottom-border">
+        <div class="bottom-button">
+
+          <el-button type="info" class="stop-generation" @click="stopGenerate" v-model="isStopGeneration">
+            停止生成
+          </el-button>
+          <button class="delete-button button" ref="resetButton">
+            <span>
+              <span>清除记录</span>
+              <br />
+            </span>
+          </button>
+          <button class="update-button button" ref="updateButton"
+            v-show="this.$store.state.selected.isChatModeSelected ? true : false">
+            <span>
+              <span>设置情景</span>
+              <br />
+            </span>
+          </button>
+
+        </div>
+        <!-- </div> -->
+        <div class="input-box">
+          <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
+            @keydown.enter="sendMessage"></textarea>
+          <button class="send-button button" ref="sendButton" type="button">
+            发送
+            <img src="/img/send-Icon.png" alt="" class="send-icon" />
+          </button>
+        </div>
       </div>
     </div>
     <!-- 右边 -->
     <div class="syan">
-      <div class="tall">
-        <div>
-          <div @click="selectChatMode">
-            <el-button type="primary" class="button-finger-hover">对话模式</el-button>&emsp;&emsp;
-            <el-switch v-model="isChatModeSelected" size="large" />
-          </div>
-          <br />
-          <div v-show="isShowChatMode">
-            <div>
-              AI模型: &emsp;<el-select placeholder="AI模型" v-model="selectedChatModeModel">
-                <el-option label="GPT3.5" value="gpt-3.5-turbo" />
-                <el-option label="GPT4" value="gpt-4" />
-              </el-select>
-            </div>
-            <br />
-            <div>
-              AI创造力:
-              <el-select placeholder="AI创造力" v-model="selectedChatModeTemperature">
-                <el-option label="保守模式" value="0" />
-                <el-option label="均衡模式" value="0.2" />
-                <el-option label="创造模式" value="0.6" />
-              </el-select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-      <div class="unify">
-        <div @click="selectCompletionMode">
-          <el-button type="primary" class="button-finger-hover">问答模式</el-button>&emsp;&emsp;
-          <el-switch v-model="isCompletionModeSelected" size="large" />
-        </div>
-        <br />
-        <div v-show="isShowCompletionMode">
-          是否联网：<el-select placeholder="是否联网" v-model="selectedCompletionModeOnlineOption">
-            <el-option label="联网" value="online" />
-            <el-option label="离线" value="offline" />
-          </el-select>
-        </div>
-      </div>
-      <br />
-      <div class="unify">
-        <div @click="selectImagineMode">
-          <el-button type="primary" class="button-finger-hover">图片生成</el-button>&emsp;&emsp;
-          <el-switch v-model="isImagineModeSelected" size="large" />
-        </div>
-        <br />
-        <div v-show="isShowImagineMode">
-          <div>
-            图片数量：<el-select placeholder="图片数量" v-model="selectedImagineModeImageNum">
-              <el-option label="1" value="1" />
-              <el-option label="2" value="2" />
-              <el-option label="3" value="3" />
-            </el-select>
-          </div>
-          <br />
-          <div>
-            图片尺寸：<el-select placeholder="图片尺寸" v-model="selectedImagineModeImageSize">
-              <el-option label="256x256" value="256x256" />
-              <el-option label="516x516" value="512x512" />
-              <el-option label="1024x1024" value="1024x1024" />
-            </el-select>
-          </div>
-        </div>
-      </div>
-
+      <homeRight ref="homeRight" v-show="this.$route.fullPath == '/chat'"></homeRight>
+      <jobRecruitment ref="jobRecruitment" v-show="this.$route.fullPath == '/recruit'"></jobRecruitment>
     </div>
   </div>
 </template>
@@ -111,9 +54,16 @@
 <script>
 import { ElMessage } from "element-plus";
 import { getData } from "../utils/store-crud";
-
+import homeRight from "./home-right.vue";
+import jobRecruitment from './job-recruitment.vue';
+import exitButton from "./exit-button.vue";
 export default {
   name: "HomeMiddle",
+  components: {
+    homeRight,
+    exitButton,
+    jobRecruitment
+  },
   data() {
     return {
       baseUrl: "https://albatross21python.azurewebsites.net",
@@ -128,31 +78,20 @@ export default {
       testMode: false,
       //默认显示
       isshowshow: true,
-      // Html元素的值, 都设有默认值
-      selectedChatModeModel: "gpt-3.5-turbo",
-      selectedChatModeTemperature: "0.2",
-      selectedImagineModeImageNum: "1",
-      selectedImagineModeImageSize: "512x512",
       isShowLoading: false,
       senderAssistant: "senderAssistant",
       senderUser: "senderUser",
-      selectedCompletionModeOnlineOption: "offline", //默认不联网
-      isShowChatModeButtons: true, //是否隐藏设置情景和清除记录button
-      isChatModeSelected: true, //对话
-      isCompletionModeSelected: false, //问答
-      isImagineModeSelected: false, //图片
-      isShowChatMode: true,
-      isShowCompletionMode: false,
-      isShowImagineMode: false,
-      isShowStopGeneration: false,
       isStopGeneration: false,
+      template_args: []
     };
   },
   created() {
     this.encodedCredentials = getData("token");
     this.authUsername = getData("username");
     // 用户刷新页面时清除历史记录
-    this.resetChatHistory();
+    // this.resetChatHistory();
+    // 用户刷新页面加载历史记录
+    this.loadChatHistory();
   },
   mounted() {
     this.$refs.sendButton.addEventListener(
@@ -165,36 +104,9 @@ export default {
   methods: {
     stopGenerate() {
       this.isStopGeneration = true;
-      this.isShowStopGeneration = false;
-    },
-    selectChatMode() {
-      this.isChatModeSelected = true;
-      this.isShowChatMode = true;
-      this.isShowChatModeButtons = true;
-      this.isCompletionModeSelected = false;
-      this.isShowCompletionMode = false;
-      this.isImagineModeSelected = false;
-      this.isShowImagineMode = false;
-    },
-    selectCompletionMode() {
-      this.isChatModeSelected = false;
-      this.isShowChatMode = false;
-      this.isShowChatModeButtons = false;
-      this.isCompletionModeSelected = true;
-      this.isShowCompletionMode = true;
-      this.isImagineModeSelected = false;
-      this.isShowImagineMode = false;
-    },
-    selectImagineMode() {
-      this.isChatModeSelected = false;
-      this.isShowChatMode = false;
-      this.isShowChatModeButtons = false;
-      this.isCompletionModeSelected = false;
-      this.isShowCompletionMode = false;
-      this.isImagineModeSelected = true;
-      this.isShowImagineMode = true;
     },
     sendMessage(e) {
+
       if (!e.shiftKey && e.keyCode == 13) {
         e.cancelBubble = true; //ie阻止冒泡行为
         e.stopPropagation(); //Firefox阻止冒泡行为
@@ -228,6 +140,7 @@ export default {
           v.style.borderRadius = "6px";
           v.style.padding = "15px";
           v.style.marginBottom = "15px";
+          v.style.fontSize = "20px";
         });
       }
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -280,7 +193,30 @@ export default {
         });
       }
     },
-
+    //获取历史记录
+    async loadChatHistory() {
+      const requestUrl =
+        this.baseUrl + "/llm/openai/chat-completion?username=" + getData('username');
+      const response = await fetch(requestUrl, {
+        method: "GET",
+        headers: {
+          Authorization: `Basic ${this.encodedCredentials}`,
+        },
+      });
+      const responseJsonObject = await response.json();
+      if (responseJsonObject.messages.slice(-1).role == 'user') {
+        responseJsonObject.messages.pop()
+      }
+      for (let i = 0; i < responseJsonObject.messages.length; i++) {
+        let message = responseJsonObject.messages[i]
+        let content = this.achieveLineBreak(message.content)
+        if (message.role == 'user') {
+          this.createAndAppendMessage(content, this.senderUser)
+        } else if (message.role == 'assistant') {
+          this.createAndAppendMessage("AI: " + content, this.senderAssistant)
+        }
+      }
+    },
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
       const userMessage = this.$refs.inputBox.value;
@@ -302,18 +238,17 @@ export default {
         "AI: ",
         this.senderAssistant
       );
-
+      this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
-      if (this.isChatModeSelected) {
-        this.isShowStopGeneration = true;
+      if (this.$store.state.selected.isChatModeSelected) {
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
           this.baseLLMOpenAIUrl + "/chat-completion-stream";
         // 首先将用户消息和模型名称等发送到后端
         const requestBody = {
-          model: this.selectedChatModeModel,
-          temperature: this.selectedChatModeTemperature,
+          model: this.$store.state.selected.selectedChatModeModel,
+          temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
           user_message: userMessage,
@@ -333,19 +268,26 @@ export default {
           responseJsonObject.id +
           "&test_mode=" +
           this.testMode;
+        // console.log("ID", apiEndpoint);
         await this.completionWithStream(apiEndpoint, botParagraph);
-      } else if (this.isCompletionModeSelected) {
-        if (this.selectedCompletionModeOnlineOption == "offline") {
+      } else if (this.$store.state.selected.isCompletionModeSelected) {
+        if (this.$store.state.selected.selectedCompletionModeOnlineOption == "offline") {
+          this.$refs.jobRecruitment.recruitment_event();
+          this.template_args = [{
+            name: this.$route.path == "/chat" ? 'question' : this.$store.state.recruitment.name, value: userMessage
+          }]
           const completionModeUpdateInfoUrl =
             this.baseLLMOpenAIUrl + "/completion";
           const completionModeSSEUrl =
             this.baseLLMOpenAIUrl + "/completion-stream";
           const requestBody = {
-            model: "text-davinci-003",
+            model: this.$route.path == "/chat" ? "text-davinci-003" : this.$store.state.recruitment.model,
             temperature: 0,
             username: this.authUsername,
-            prompt: userMessage,
+            template_id: this.$route.path == "/chat" ? 0 : this.$store.state.recruitment.template_id,
+            template_args: this.template_args
           };
+          console.log("***", requestBody);
           const response = await fetch(completionModeUpdateInfoUrl, {
             method: "PUT",
             headers: {
@@ -362,11 +304,11 @@ export default {
             "&test_mode=" +
             this.testMode;
           await this.completionWithStream(apiEndpoint, botParagraph);
-        } else if (this.selectedCompletionModeOnlineOption == "online") {
+        } else if (this.$store.state.selected.selectedCompletionModeOnlineOption == "online") {
           await this.agentSearch(userMessage, botParagraph);
           this.$refs.sendButton.classList.remove("prohibit");
         }
-      } else if (this.isImagineModeSelected) {
+      } else if (this.$store.state.selected.isImagineModeSelected) {
         //图片模式
         await this.imagine(userMessage, botParagraph);
         this.$refs.sendButton.classList.remove("prohibit");
@@ -395,7 +337,7 @@ export default {
         if (response.hasEnd || this.isStopGeneration) {
           eventSource.close();
           this.isStopGeneration = false;
-          this.isShowStopGeneration = false;
+
           this.$refs.sendButton.classList.remove("prohibit");
         } else {
           const formattedChunkResponse = this.achieveLineBreak(
@@ -469,8 +411,8 @@ export default {
     async imagine(userMessage, botParagraph) {
       const requestBody = {
         prompt: userMessage,
-        n: this.selectedImagineModeImageNum,
-        size: this.selectedImagineModeImageSize,
+        n: this.$store.state.selected.selectedImagineModeImageNum,
+        size: this.$store.state.selected.selectedImagineModeImageSize,
       };
       const response = await fetch(this.baseUrl + "/image/openai/generation", {
         method: "POST",
@@ -502,7 +444,6 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 0 20px 0 75px;
   box-sizing: border-box;
 }
 
@@ -532,7 +473,6 @@ export default {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  height: 90%;
   width: 80%;
 }
 
@@ -542,11 +482,28 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  box-shadow: 0px 0px 3px 3px rgba(217, 217, 217, 0.46);
   padding: 20px;
   box-sizing: border-box;
-  border-radius: 5px;
-  margin: 50px 0px 20px 0px;
+  border-radius: 30px;
+  border: 3px solid black;
+}
+
+.bottom-border {
+  border-radius: 30px;
+  border: 3px solid;
+  height: 30%;
+}
+
+.bottom-button {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 50px;
+}
+
+.button {
+  padding: 0;
 }
 
 .button-container {
@@ -559,55 +516,62 @@ export default {
   height: 36px;
 }
 
-.stop-generation {
-  width: 120px;
+button {
+  width: 150px;
   height: 40px;
-  position: fixed;
-  bottom: 16%;
-  right: 47%;
+  cursor: pointer;
+  border: 0px;
+  color: #ffffff;
+  border-radius: 30px;
+  margin-left: 10px;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.stop-generation {
+  background: #3416b9;
 }
 
 .update-button {
-  align-self: flex-end;
-  background-color: #519bff;
-  color: #ffffff;
-  margin-right: var(--dl-space-space-halfunit);
-}
-
-button {
-  cursor: pointer;
-  border: 0px;
+  background-image: linear-gradient(to right, #9c00dc, #310bc5);
 }
 
 .delete-button {
-  align-self: flex-end;
-  background-color: rgb(217, 217, 217);
+  background-color: #2722ba;
+
 }
 
 .input-textarea {
-  height: 100px;
-  width: 95%;
+  width: 100%;
   resize: none;
   font-size: 19px;
   box-sizing: border-box;
   border: 0px;
   color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+  box-shadow: 0 0 0 3px var(--el-input-border-color, var(--el-border-color)) inset;
+  border-radius: 30px;
 }
 
 .input-textarea:focus {
-  outline: 2px #519bff solid;
+  outline: 0px solid;
 }
 
 .input-box {
   display: flex;
   justify-content: space-between;
+  height: 80%;
+  position: relative;
 }
 
 .send-button {
-  align-self: flex-end;
-  background-color: #519bff;
-  color: #ffffff;
+  width: 100px;
+  background-color: #2722ba;
+  position: absolute;
+  right: 50px;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .send-icon {
@@ -615,7 +579,9 @@ button {
 }
 
 .syan {
-  width: 100%;
+  width: 20%;
+  border-radius: 30px;
+  background-image: linear-gradient(#0e133e, #24307e, #0e133e);
 }
 
 .syan :deep(.el-select .el-input__wrapper) {
@@ -625,33 +591,6 @@ button {
   background-color: #e8eaed;
   color: #656668;
   box-shadow: 2px 2px 8px 0px;
-}
-
-.tall {
-  text-align: center;
-  margin: 52px 5px 0px;
-}
-
-.unify {
-  text-align: center;
-  margin: 5px;
-}
-
-.button-finger-hover {
-  border-radius: 41px;
-  width: 57%;
-  height: 40px;
-  background-color: #eff0f2;
-  color: #656668;
-  box-shadow: 2px 2px 8px 0px;
-}
-
-.button-finger-hover:hover {
-  background: white;
-}
-
-.el-button--primary {
-  border: 0px;
 }
 
 .prohibit {
@@ -674,8 +613,6 @@ select {
 }
 
 .home-right-container {
-  width: 23%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: f7f7f7;

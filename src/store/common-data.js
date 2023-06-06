@@ -4,7 +4,10 @@ const store = createStore({
     state() {
         return {
             token: getData('token') ? getData('token') : {},
-            username: getData('username') ? getData('username') : {}
+            username: getData('username') ? getData('username') : {},
+            selected: {},
+            isSpend: false,
+            recruitment: {}
         }
     },
     mutations: {
@@ -19,6 +22,15 @@ const store = createStore({
         username(state, val) {
             state.username = val
             setData("username", val)
+        },
+        selected(state, val) {
+            state.selected = val
+        },
+        isContract(state) {
+            state.isSpend = !state.isSpend;
+        },
+        recruitment(state, val) {
+            state.recruitment = val
         }
     }
 })

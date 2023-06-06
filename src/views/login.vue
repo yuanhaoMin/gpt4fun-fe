@@ -27,12 +27,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "../api/login";
 import { ElMessage } from "element-plus";
-
 import { useStore } from "vuex";
 const router = useRouter();
 const store = useStore();
-const username = ref("");
-const password = ref("");
+const username = ref("hhf@bizcamp.com");
+const password = ref("999");
 
 let jump = async () => {
   if (username.value == "" || password.value == "") {

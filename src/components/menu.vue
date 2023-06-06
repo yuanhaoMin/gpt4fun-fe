@@ -76,16 +76,11 @@ let { isSpend } = toRefs(store.state);
   background-image: linear-gradient(#97a3be, #d8d8d8);
   width: 19%;
 } */
-.el-menu-vertical-demo[data-v-eaf08182]:not(.el-menu--collapse) {
+.el-menu-vertical-demo:not(.el-menu--collapse) {
   background-image: linear-gradient(#0e133e, #24307e, #0e133e);
   height: 100%;
   width: 320px;
   border-radius: 30px;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
 }
 
 .logosize {

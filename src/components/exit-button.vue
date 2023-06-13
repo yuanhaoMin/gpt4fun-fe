@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import store from "../store/common-data";
@@ -27,8 +28,22 @@ let menuIsSpend = () => {
 //未登录，跳转登录页
 let router = useRouter();
 let logout = () => {
-    store.commit("delData");
-    router.replace("/login");
+    ElMessageBox.confirm(
+        '亲爱的用户,您确定要退出吗？',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    ).then(() => {
+        store.commit("delData");
+        router.replace("/login");
+        ElMessage({
+            type: 'success',
+            message: '退出成功！',
+        })
+    })
+
 };
 
 //菜单栏 收缩/展开

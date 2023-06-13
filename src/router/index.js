@@ -22,6 +22,11 @@ const router = createRouter({
           component: () => import('../views/home-recruit.vue')
         },
         {
+          path: 'scene',                                               //分类场景AI助手
+          name: 'scene',
+          component: () => import('../views/home-scene.vue')
+        },
+        {
           path: 'analysis',                                               //分析AI助手
           name: 'analysis',
           component: () => import('../views/home-analysis.vue')

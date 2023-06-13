@@ -21,6 +21,12 @@
           </el-icon>
           <template #title>招聘AI助手</template>
         </el-menu-item>
+        <!-- <el-menu-item index="scene">
+          <el-icon>
+            <img src="/img/fenLei.png" alt="">
+          </el-icon>
+          <template #title>分类场景助手</template>
+        </el-menu-item> -->
         <el-menu-item index="analysis">
           <el-icon>
             <img src="/img/areachart-outlined.png" alt="">
@@ -29,7 +35,13 @@
         </el-menu-item>
       </div>
       <div>
-        <el-menu-item index="about">
+        <div class="select-box" v-show="isShowSelectBox">
+          <div @click="jumpToPDFModule('serve')">服务背景</div>
+          <div @click="jumpToPDFModule('intro')">毕至咨询</div>
+          <div @click="jumpToPDFModule('advantage')">产品优势</div>
+          <div @click="jumpToPDFModule('application')">产品应用</div>
+        </div>
+        <el-menu-item index="about" @click="isShow">
           <el-icon>
             <img src="/img/star-icon.png" alt="">
           </el-icon>
@@ -50,15 +62,20 @@
 import { ref, toRefs, watchEffect } from "vue";
 import { useRoute } from 'vue-router';
 import store from "../store/common-data";
+import PDFModule from '../views/home-about.vue';
 
 let isShowLogoAndWords = ref(true);
 let isShowLogo = ref(false);
+let isShowSelectBox = ref(false)
 let indexPath = ref('chat');//默认选中菜单项路由
 let route = useRoute();
 //监听当前路由
 watchEffect(() => {
   if (route.path) {
     indexPath.value = route.path.slice(1);
+  }
+  if (route.path != "/about") {
+    isShowSelectBox.value = false
   }
 });
 
@@ -69,13 +86,17 @@ const handleClose = (key, keyPath) => { };
 
 //控制菜单栏是否展开
 let { isSpend } = toRefs(store.state);
+
+let isShow = () => {
+  isShowSelectBox.value = !isShowSelectBox.value
+}
+//跳转PDF对应模块
+let jumpToPDFModule = (val) => {
+  PDFModule.methods.jumpModule(val);
+}
 </script>
   
 <style scoped>
-/* .left {
-  background-image: linear-gradient(#97a3be, #d8d8d8);
-  width: 19%;
-} */
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   background-image: linear-gradient(#0e133e, #24307e, #0e133e);
   height: 100%;
@@ -129,5 +150,21 @@ let { isSpend } = toRefs(store.state);
 
 .el-menu-item.is-active i {
   filter: invert(1);
+}
+
+.el-icon img {
+  width: 30px;
+}
+
+.select-box div {
+  border-radius: 30px;
+  font-size: 20px;
+  color: white;
+  box-shadow: 0px 0px 1px 0px slategrey;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 5px;
+  cursor: pointer;
 }
 </style>

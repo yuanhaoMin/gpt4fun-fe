@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <div class="Job-recruitment " @click="matching" ref="positionMatching">岗位匹配</div>
+        <div class="Job-recruitment " @click="matching" ref="positionMatching">功能1:岗位匹配</div>
         <div v-show="isShowUploadResume">
             <div class="Job-recruitment upload-resume">上传简历
                 &emsp;<img src="/img/attachment.png" alt="" class="attachment">
@@ -10,7 +10,7 @@
                 <span class="fileNameDom">{{ fileName }}</span>
             </div>
         </div>
-        <div class="Job-recruitment" @click="InterviewQuestion" ref="interviewGeneration">面试题生成</div>
+        <div class="Job-recruitment" @click="InterviewQuestion" ref="interviewGeneration">功能2:面试题生成</div>
 
     </div>
 </template>
@@ -23,7 +23,7 @@ export default {
         return {
             fileName: '',
             baseUrl: "https://albatross21python.azurewebsites.net",
-            isShowUploadResume: true,
+            isShowUploadResume: false,
             Position: {
                 name: "position_description",
                 template_id: 10,
@@ -36,14 +36,6 @@ export default {
             }
         }
     },
-    mounted() {
-        this.$nextTick(() => {
-            if (this.$route.path == '/recruit') {
-                this.matching()
-            }
-        })
-    }
-    ,
     methods: {
         async uploadPDF(e) {
             let file = e.target.files[0];

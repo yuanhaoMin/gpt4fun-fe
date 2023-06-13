@@ -29,6 +29,12 @@ instance.interceptors.response.use(response => {
             message: '账户或密码错误！',
             type: 'error',
         });
+    } else if (error.response.status == 409) {
+        ElMessage({
+            showClose: true,
+            message: "不能重复注册！",
+            type: "error",
+        });
     }
     return Promise.reject(error);
 });

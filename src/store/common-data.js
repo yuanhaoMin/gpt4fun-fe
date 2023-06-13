@@ -18,6 +18,8 @@ const store = createStore({
         delData(state) {
             state.token = {}
             state.username = {}
+            removeData("token")
+            removeData('username')
         },
         username(state, val) {
             state.username = val

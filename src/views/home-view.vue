@@ -15,7 +15,7 @@ import menuList from "../components/menu.vue";
 <style scoped>
 .home-container {
   display: flex;
-  height: 100%;
+  height: 100vh;
 }
 
 .right {

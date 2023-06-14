@@ -99,16 +99,17 @@ export default {
         selectChatMode() {
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = true;
             this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false;
+            this.selectMode();
         },
         selectCompletionMode() {
             this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = true
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false
-
+            this.selectMode();
         },
         selectImagineMode() {
             this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = true
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = false
-
+            this.selectMode();
         },
         selectMode() {
             if (this.isChatMode.isChatModeSelected == true) {

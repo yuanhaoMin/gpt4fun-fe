@@ -7,6 +7,8 @@
     <!-- 中间 -->
     <div class="home-middle-container">
       <exitButton />
+      <!-- 设置情景弹出框 -->
+      <!-- <scenePopover /> -->
       <!-- 消息容器div -->
       <div class="messages-container" ref="messagesContainer">
         <!-- Messages will appear here -->
@@ -37,11 +39,12 @@
           <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
             @keydown.enter="sendMessage"></textarea>
           <button class="send-button button" ref="sendButton" type="button">
-            发送
+            执行
             <img src="/img/send-Icon.png" alt="" class="send-icon" />
           </button>
         </div>
       </div>
+      <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" />
     </div>
     <!-- 右边 -->
     <div class="syan">
@@ -57,12 +60,15 @@ import { getData } from "../utils/store-crud";
 import homeRight from "./home-right.vue";
 import jobRecruitment from './job-recruitment.vue';
 import exitButton from "./exit-button.vue";
+import scenePopover from "./popover/scene-popover.vue";
+import { ITEM_RENDER_EVT } from 'element-plus/es/components/virtual-list/src/defaults';
 export default {
   name: "HomeMiddle",
   components: {
     homeRight,
     exitButton,
-    jobRecruitment
+    jobRecruitment,
+    scenePopover
   },
   data() {
     return {
@@ -82,7 +88,8 @@ export default {
       senderAssistant: "senderAssistant",
       senderUser: "senderUser",
       isStopGeneration: false,
-      template_args: []
+      template_args: [],
+      isShowScenarios: false,
     };
   },
   created() {
@@ -102,6 +109,10 @@ export default {
     this.$refs.updateButton.addEventListener("click", this.updateSystemMessage);
   },
   methods: {
+    addContent(value) {
+      this.$refs.inputBox.value = value
+      this.isShowScenarios = false
+    },
     stopGenerate() {
       this.isStopGeneration = true;
     },
@@ -140,7 +151,6 @@ export default {
           v.style.borderRadius = "6px";
           v.style.padding = "15px";
           v.style.marginBottom = "15px";
-          v.style.fontSize = "20px";
         });
       }
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -169,29 +179,35 @@ export default {
         },
       });
       this.$refs.inputBox.value = "";
+      ElMessage({
+        message: '已成功清空记录！',
+        duration: 1100,
+        type: 'success',
+      })
       // 清空已显示的消息
       this.$refs.messagesContainer.innerHTML = "";
     },
 
     // 对话模式下, 设置情景
     async updateSystemMessage() {
-      if (this.$refs.inputBox.value == "") {
-        ElMessage({
-          message: "设置情景不能为空！",
-          type: "error",
-          duration: 1100,
-          grouping: true,
-        });
-      } else {
-        this.chatModeSystemMessage = this.$refs.inputBox.value;
-        this.$refs.inputBox.value = "";
-        ElMessage({
-          message: "成功设置系统消息",
-          type: "success",
-          duration: 1100,
-          grouping: true,
-        });
-      }
+      this.isShowScenarios = !this.isShowScenarios
+      // if (this.$refs.inputBox.value == "") {
+      //   ElMessage({
+      //     message: "设置情景不能为空！",
+      //     type: "error",
+      //     duration: 1100,
+      //     grouping: true,
+      //   });
+      // } else {
+      //   this.chatModeSystemMessage = this.$refs.inputBox.value;
+      //   this.$refs.inputBox.value = "";
+      //   ElMessage({
+      //     message: "成功设置系统消息",
+      //     type: "success",
+      //     duration: 1100,
+      //     grouping: true,
+      //   });
+      // }
     },
     //获取历史记录
     async loadChatHistory() {
@@ -204,7 +220,8 @@ export default {
         },
       });
       const responseJsonObject = await response.json();
-      if (responseJsonObject.messages.slice(-1).role == 'user') {
+      if (responseJsonObject.messages.slice(-1)[0].role == 'user') {
+        console.log("last message user")
         responseJsonObject.messages.pop()
       }
       for (let i = 0; i < responseJsonObject.messages.length; i++) {
@@ -287,7 +304,7 @@ export default {
             template_id: this.$route.path == "/chat" ? 0 : this.$store.state.recruitment.template_id,
             template_args: this.template_args
           };
-          console.log("***", requestBody);
+
           const response = await fetch(completionModeUpdateInfoUrl, {
             method: "PUT",
             headers: {
@@ -316,8 +333,9 @@ export default {
     },
 
     async completionWithStream(apiEndpoint, botParagraph) {
-
       const eventSource = new EventSource(apiEndpoint);
+      let completeResponse = "";
+      let codeStart = false;
       eventSource.onopen = () => {
         console.log("EventSource connection established.");
       };
@@ -326,9 +344,9 @@ export default {
         eventSource.close();
         this.isStopGeneration = false;
         ElMessage({
-          message: "请刷新页面！",
+          message: "请刷新页面或清除记录!",
           type: "error",
-          duration: 3000,
+          duration: 6000,
           grouping: true,
         });
       };
@@ -343,21 +361,19 @@ export default {
           const formattedChunkResponse = this.achieveLineBreak(
             response.content
           );
-          // 代码渲染效果视觉不理想, 需要借助一些外部库
-          // completeResponse += formattedChunkResponse;
-          // const indexOfTripleBackticks = completeResponse.indexOf("```");
-          // if (indexOfTripleBackticks > 0) {
-          //     if (codeStart == false) {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
-          //         codeStart = true;
-          //     }
-          //     else {
-          //         completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
-          //         codeStart = false;
-          //     }
-          // }
-          // botParagraph.innerHTML = completeResponse;
-          botParagraph.innerHTML += formattedChunkResponse; //AI输出内容
+          completeResponse += formattedChunkResponse;
+          const indexOfTripleBackticks = completeResponse.indexOf("```");
+          if (indexOfTripleBackticks > 0) {
+            if (codeStart == false) {
+              completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
+              codeStart = true;
+            }
+            else {
+              completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
+              codeStart = false;
+            }
+          }
+          botParagraph.innerHTML = completeResponse;
         }
       };
     },
@@ -470,6 +486,7 @@ export default {
 }
 
 .home-middle-container {
+  position: relative;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -709,6 +726,8 @@ select {
   margin-left: 93px;
 }
 
+
+
 .completion-mode-online-option-checkbox {
   align-self: center;
   margin-left: var(--dl-space-space-threeunits);
@@ -770,5 +789,18 @@ select {
 
 .imagine-mode-size-list {
   margin-top: var(--dl-space-space-halfunit);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: silver;
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 30px;
 }
 </style>

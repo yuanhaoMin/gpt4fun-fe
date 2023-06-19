@@ -1,63 +1,74 @@
 <template>
   <div class="box">
-    <div style="height: 100vh"></div>
-  </div>
-  <div class="login">
-    <div class="right" v-show="isShowLogin" @keydown="onKeyDown">
-      <p><img src="/img/logo.png" alt="" class="logo" /></p>
-      <div>
-        <div class="user">
-          <img src="/img/username.png" alt="" class="logonImg" />
-          <el-input v-model="username" placeholder="请输入用户名/手机号" clearable name="username" />
+    <top />
+    <div class="login-box">
+      <div><img src="/imgs/log-on-images/logo-.png" alt="" class="logo"></div>
+      <div class="login-box-log">
+        <div class="account-number">
+          <div @click="login" :class="this.isShowlogin == true ? 'active' : 'not'">账号登录</div>
+          <div @click="register" :class="this.isShowRegister == true ? 'active' : 'not'">注册账号</div>
         </div>
-        <div class="user">
-          <img src="/img/password.png" alt="" class="logonImg" />
-          <el-input v-model="password" type="password" placeholder="请输入密码" name="password" show-password />
+        <div v-show="isShowlogin">
+          <div @keydown="onKeyDown">
+            <div class="user">
+              <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
+              <el-input v-model="username" placeholder="请输入用户名/手机号" clearable name="username" />
+            </div>
+            <div class="user">
+              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
+              <el-input v-model="password" type="password" placeholder="请输入密码" name="password" show-password />
+            </div>
+          </div>
+          <div class="login">
+            <el-button type="primary" plain @click="jump" ref="jumplogin">登录</el-button>
+          </div>
         </div>
-      </div>
-      <div class="logon">
-        <el-button type="primary" plain @click="jump" ref="jumplogin">登录</el-button>
-      </div>
-      <div class="xin" @click="xin">
-        您是新用户？很高兴认识您，注册请点击这里。
-      </div>
-    </div>
-    <div class="right" v-show="isShownewRegister">
-      <p><img src="/img/logo.png" alt="" class="logo" /></p>
-      <div>
-        <div class="user">
-          <el-input v-model="registerUsername" placeholder="请输入手机号注册" clearable name="registerUsername" />
+        <div v-show="isShowRegister">
+          <div>
+            <div class="user">
+              <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
+              <el-input v-model="registerUsername" placeholder="请输入手机号注册" clearable name="registerUsername" />
+            </div>
+            <div class="user">
+              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
+              <el-input v-model="registerpassword" type="password" placeholder="请输入密码" name="registerpassword"
+                show-password />
+            </div>
+            <div class="elasticity">
+              <div class="yzm">
+                <img src="/imgs/log-on-images/yzm.png" alt="" class="logonImg" />
+                <el-input v-model="registerCode" placeholder="请输入验证码" name="registercode" maxlength="6" clearable />
+              </div>
+              <el-button type="info" round @click="send">发送验证码</el-button>
+            </div>
+          </div>
+          <div class="register">
+            <el-button type="primary" plain @click="newRegister">注册</el-button>
+          </div>
         </div>
-        <div class="user">
-          <el-input v-model="registerpassword" type="password" placeholder="设置密码" show-password name="registerpassword" />
-        </div>
-        <div class="user">
-          <el-input v-model="confirmPassword" type="password" placeholder="确认密码" show-password name="confirmPassword" />
-        </div>
-      </div>
-      <div class="logon">
-        <el-button type="primary" plain @click="newRegister">注册</el-button>
-      </div>
-      <div class="xin" @click="lo">
-        已经有账户了?<span class="lo">登录</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { login, register } from "../api/login";
+import { login, register } from "../api/user";
+import { codeApi, verificationApi } from "../api/mobile-phone"
 import { ElMessage } from "element-plus";
+import top from "../components/chat-top/top.vue";
 export default {
+  components: {
+    top
+  },
   data() {
     return {
-      username: "",
-      password: "",
+      username: "hhf@bizcamp.com",
+      password: "999",
       registerUsername: '',
       registerpassword: "",
-      confirmPassword: '',
-      isShownewRegister: false,
-      isShowLogin: true
+      registerCode: '',
+      isShowlogin: true,
+      isShowRegister: false
     }
   },
   mounted() {
@@ -70,44 +81,37 @@ export default {
 
     })
   },
-  beforeUnmount() {
-  },
   methods: {
-    lo() {
-      this.isShownewRegister = false
-      this.isShowLogin = true
-    },
-    xin() {
-      this.isShownewRegister = true
-      this.isShowLogin = false
-    },
     async newRegister() {
       let phone = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (!phone.test(this.registerUsername)) {
         return ElMessage.error("请填写正确的手机号!");
-      } else if (this.registerpassword != this.confirmPassword) {
-        return ElMessage.error("两次输入的密码不相同!");
       }
-      let res = await register({
-        username: this.registerUsername,
-        password: this.confirmPassword,
+      let res = await verificationApi({
+        "phone": this.registerUsername,
+        "captcha": this.registerCode
       })
-      if (res.status == 200) {
-        await login({
-          username: this.registerUsername,
-          password: this.confirmPassword,
-        });
-        const credentials = `${this.registerUsername}:${this.confirmPassword}`;
-        const encodedCredentials = btoa(credentials);
-        this.$store.commit("token", encodedCredentials);
-        this.$store.commit("username", this.registerUsername);
-        ElMessage({
-          showClose: true,
-          message: "登录成功！",
-          type: "success",
-        });
-        this.$router.replace("/chat");
-      }
+      console.log(res);
+      // let res = await register({
+      //   username: this.registerUsername,
+      //   password: this.registerpassword,
+      // })
+      // if (res.status == 200) {
+      //   await login({
+      //     username: this.registerUsername,
+      //     password: this.registerpassword,
+      //   });
+      //   const credentials = `${this.registerUsername}:${this.registerpassword}`;
+      //   const encodedCredentials = btoa(credentials);
+      //   this.$store.commit("token", encodedCredentials);
+      //   this.$store.commit("username", this.registerUsername);
+      //   ElMessage({
+      //     showClose: true,
+      //     message: "登录成功！",
+      //     type: "success",
+      //   });
+      //   this.$router.replace("/chat");
+      // }
     },
     async jump() {
       if (this.username == "" || this.password == "") {
@@ -138,98 +142,150 @@ export default {
       if (e.keyCode == 13) {
         this.jump()
       }
-
+    },
+    register() {
+      this.isShowRegister = true
+      this.isShowlogin = false
+    },
+    login() {
+      this.isShowRegister = false
+      this.isShowlogin = true
+    },
+    async send() {
+      let res = await codeApi({
+        "phone": "17600669600",
+        "token": "bizcampgpt"
+      })
+      console.log(res);
     }
   }
 }
 </script>
 
-<style  scoped>
-html,
-body {
-  height: 100%;
-}
-
+<style  lang="scss" scoped>
 .box {
-  height: 100%;
-  opacity: 0.4;
-  background-image: url("/img/background.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-.login {
-  width: 900px;
-  height: 500px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.right {
-  width: 400px;
-  height: 470px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background: white;
-  border-radius: 15px 15px 15px 15px;
-}
-
-.logon {
-  width: 50%;
-}
-
-.logonImg {
-  width: 30px;
-  height: 30px;
-  opacity: 0.2;
-}
-
-.user {
-  border-bottom: 2px solid lightgray;
-  display: flex;
-  height: 50px;
-  margin: 10px;
-  align-items: center;
-}
-
-.logo {
-  width: 150px;
-}
-
-.el-input {
-  width: 250px;
-}
-
-.el-input :deep(div) {
-  box-shadow: 0px 0px 0px;
-}
-
-.el-button {
   width: 100%;
-}
+  height: 100vh;
+  background: url(/imgs/log-on-images/01.png) no-repeat center;
+  background-size: cover;
 
-.el-button>span {
-  width: 100px;
-}
+  .login-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 225px;
 
-.xin {
-  cursor: pointer;
-  font-size: 12px;
-  color: lightgray;
-}
+    .logo {
+      width: 400px;
+      height: 203px;
+    }
 
-.xin:hover {
-  color: blue;
-}
+    .login-box-log {
+      padding: 30px;
+      box-sizing: border-box;
+      width: 450px;
+      height: 433px;
+      background: #FFFFFF;
+      border-radius: 40px;
 
-.lo {
-  color: aqua;
+      .account-number {
+        display: flex;
+        font-size: 24px;
+        font-weight: 600;
+        justify-content: center;
+        margin-bottom: 40px;
+
+        div {
+          cursor: pointer;
+        }
+
+        .active {
+          color: #311a67;
+        }
+
+        &>div:first-child {
+          margin-right: 30px;
+        }
+
+        .not {
+          color: lightgray;
+        }
+      }
+
+      .yzm {
+        width: 200px;
+        height: 50px;
+        background: #F5F5F5;
+        border-radius: 25px;
+        border: 1px solid #CCCCCC;
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+
+        .logonImg {
+          width: 20px;
+          height: 20px;
+          margin-left: 15px;
+        }
+
+        &:deep(.el-input__wrapper) {
+          box-shadow: none;
+          background-color: transparent;
+        }
+      }
+
+      .user {
+        width: 389px;
+        height: 50px;
+        background: #F5F5F5;
+        border-radius: 25px;
+        border: 1px solid #CCCCCC;
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+
+        .logonImg {
+          width: 20px;
+          height: 20px;
+          margin-left: 15px;
+        }
+
+        &:deep(.el-input__wrapper) {
+          box-shadow: none;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .login>.el-button {
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 30px;
+    margin-top: 140px;
+    background: #311a67;
+    color: white;
+  }
+
+  .register>.el-button {
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 30px;
+    margin-top: 70px;
+    background: #311a67;
+    color: white;
+  }
+
+  .elasticity {
+    display: flex;
+    align-items: center;
+
+    .el-button {
+      margin-left: 25px;
+      width: 120px;
+      height: 36px;
+      margin-top: 20px;
+    }
+  }
 }
 </style>

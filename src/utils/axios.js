@@ -40,6 +40,20 @@ instance.interceptors.response.use(response => {
 });
 
 
+//payment-post
+export let paymenPost = (url, data = {}) => {
+    return new Promise((resolve, reject) => {
+        instance.post(url, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((res) => {
+            resolve(res.data);
+        }).catch(err => {
+            // reject(err);
+        });
+    });
+};
 
 //post
 export let post = (url, data = {}) => {

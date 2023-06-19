@@ -81,7 +81,10 @@ export default {
 
 <style scoped>
 .box {
+    width: 278px;
+    height: 314px;
     padding: 40px 15px;
+    box-sizing: border-box;
 }
 
 

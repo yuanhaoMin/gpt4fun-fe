@@ -6,41 +6,50 @@
     </div>
     <!-- 中间 -->
     <div class="home-middle-container">
-      <exitButton />
+      <!-- <exitButton /> -->
       <!-- 设置情景弹出框 -->
       <!-- <scenePopover /> -->
       <!-- 消息容器div -->
-      <div class="messages-container" ref="messagesContainer">
+      <div class="messages-container" ref="messagesContainer" v-if="$route.fullPath != '/user'">
         <!-- Messages will appear here -->
       </div>
-      <div class="bottom-border">
+      <!-- 用户信息 -->
+      <!-- <div class=" usermsg" v-if="$route.fullPath === '/user'">
+        <div class="userTip">
+          专业版将获得更快的帮助和回复！
+          任何问题请随时联系我们：
+          lby@bizcamp.com
+          sjq@bizcamp.com
+          hhf@bizcamp.com
+        </div>
+      </div> -->
+      <div class="bottom-border" v-if="$route.fullPath != '/user'">
         <div class="bottom-button">
-
           <el-button type="info" class="stop-generation" @click="stopGenerate" v-model="isStopGeneration">
+            <template #icon>
+              <img src="/imgs/bi-zhi-images/tingzhi.png" alt="">
+            </template>
             停止生成
           </el-button>
-          <button class="delete-button button" ref="resetButton">
-            <span>
-              <span>清除记录</span>
-              <br />
-            </span>
-          </button>
-          <button class="update-button button" ref="updateButton"
+          <el-button class="delete-button button" ref="resetButton" @click="resetChatHistory">
+            <template #icon>
+              <img src="/imgs/bi-zhi-images/qingkong.png" alt="">
+            </template>
+            清除记录
+          </el-button>
+          <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
             v-show="this.$store.state.selected.isChatModeSelected ? true : false">
-            <span>
-              <span>设置情景</span>
-              <br />
-            </span>
-          </button>
-
+            <template #icon>
+              <img src="/imgs/bi-zhi-images/shezhi.png" alt="">
+            </template>
+            设置情景
+          </el-button>
         </div>
-        <!-- </div> -->
         <div class="input-box">
-          <textarea placeholder="你想和我聊点什么？(按 Shift+Enter 键可换行)" class="input-textarea textarea" ref="inputBox"
-            @keydown.enter="sendMessage"></textarea>
-          <button class="send-button button" ref="sendButton" type="button">
-            执行
-            <img src="/img/send-Icon.png" alt="" class="send-icon" />
+          <input placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
+          <button class="send-button button" ref="sendButton" type="button" @click="sendUserMessageAndDisplayResponse">
+            <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
+            发送
           </button>
         </div>
       </div>
@@ -48,8 +57,8 @@
     </div>
     <!-- 右边 -->
     <div class="syan">
-      <homeRight ref="homeRight" v-show="this.$route.fullPath == '/chat'"></homeRight>
-      <jobRecruitment ref="jobRecruitment" v-show="this.$route.fullPath == '/recruit'"></jobRecruitment>
+      <homeRight ref="homeRight" v-show="$route.fullPath == '/chat'"></homeRight>
+      <jobRecruitment ref="jobRecruitment" v-show="$route.fullPath == '/recruit'"></jobRecruitment>
     </div>
   </div>
 </template>
@@ -61,14 +70,13 @@ import homeRight from "./home-right.vue";
 import jobRecruitment from './job-recruitment.vue';
 import exitButton from "./exit-button.vue";
 import scenePopover from "./popover/scene-popover.vue";
-import { ITEM_RENDER_EVT } from 'element-plus/es/components/virtual-list/src/defaults';
 export default {
   name: "HomeMiddle",
   components: {
     homeRight,
     exitButton,
     jobRecruitment,
-    scenePopover
+    scenePopover,
   },
   data() {
     return {
@@ -90,6 +98,7 @@ export default {
       isStopGeneration: false,
       template_args: [],
       isShowScenarios: false,
+      dialogTableVisible: true
     };
   },
   created() {
@@ -99,14 +108,7 @@ export default {
     // this.resetChatHistory();
     // 用户刷新页面加载历史记录
     this.loadChatHistory();
-  },
-  mounted() {
-    this.$refs.sendButton.addEventListener(
-      "click",
-      this.sendUserMessageAndDisplayResponse
-    );
-    this.$refs.resetButton.addEventListener("click", this.resetChatHistory);
-    this.$refs.updateButton.addEventListener("click", this.updateSystemMessage);
+
   },
   methods: {
     addContent(value) {
@@ -123,7 +125,6 @@ export default {
         e.stopPropagation(); //Firefox阻止冒泡行为
         e.preventDefault(); //取消事件的默认动作*换行
         this.sendUserMessageAndDisplayResponse();
-        //以下处理发送消息代码
       }
     },
     achieveLineBreak(str) {
@@ -350,7 +351,11 @@ export default {
           grouping: true,
         });
       };
+
+      //AI持续获取答案，会显到消息容器中
+
       eventSource.onmessage = (event) => {
+        this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;  //一直让消息容器右侧滚条触底；
         const response = JSON.parse(event.data);
         if (response.hasEnd || this.isStopGeneration) {
           eventSource.close();
@@ -455,12 +460,18 @@ export default {
 };
 </script>
   
-<style scoped>
+<style scoped lang="scss">
+.prohibit {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
 .content {
   display: flex;
-  width: 100%;
+  width: 1200px;
   height: 100%;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .loading {
@@ -490,33 +501,56 @@ export default {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  width: 80%;
+  width: 1200px;
+  height: 95%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 40px;
 }
 
-.messages-container {
+.messages-container,
+.usermsg {
   align-self: flex-start;
-  height: 88%;
-  overflow-y: auto;
+  height: 740px;
+  overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
-  padding: 20px;
+  padding: 10px 30px;
   box-sizing: border-box;
-  border-radius: 30px;
-  border: 3px solid black;
-}
-
-.bottom-border {
-  border-radius: 30px;
-  border: 3px solid;
-  height: 30%;
+  border-radius: 40px 40px 0 0;
 }
 
 .bottom-button {
-  height: 20%;
+  width: 480px;
+  margin: 20px auto !important;
+  height: 38px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-right: 50px;
+  justify-content: space-between;
+  margin: 20px 0;
+
+  .el-button {
+    width: 118px;
+    border-radius: 18px;
+    height: 36px;
+    background: #FFFFFF;
+    opacity: 0.5;
+    font-size: 14px;
+    color: #2F1E67;
+    font-weight: 570;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 16px;
+      margin-right: 6px;
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+  outline: none;
 }
 
 .button {
@@ -533,40 +567,18 @@ export default {
   height: 36px;
 }
 
-button {
-  width: 150px;
-  height: 40px;
-  cursor: pointer;
-  border: 0px;
-  color: #ffffff;
-  border-radius: 30px;
-  margin-left: 10px;
-  font-size: 20px;
-  line-height: 40px;
-}
-
-.stop-generation {
-  background: #3416b9;
-}
-
-.update-button {
-  background-image: linear-gradient(to right, #9c00dc, #310bc5);
-}
-
-.delete-button {
-  background-color: #2722ba;
-
-}
-
 .input-textarea {
-  width: 100%;
+  width: 976px;
+  height: 50px;
+  background: #02001B;
+  border: 1px solid #2F1E67;
   resize: none;
-  font-size: 19px;
+  font-size: 15px;
   box-sizing: border-box;
-  border: 0px;
-  color: var(--el-input-text-color, var(--el-text-color-regular));
-  box-shadow: 0 0 0 3px var(--el-input-border-color, var(--el-border-color)) inset;
   border-radius: 30px;
+  padding: 15px 30px 15px;
+  color: rgba(255, 255, 255, 0.5);
+  padding-right: 100px;
 }
 
 .input-textarea:focus {
@@ -575,44 +587,46 @@ button {
 
 .input-box {
   display: flex;
-  justify-content: space-between;
-  height: 80%;
+  justify-content: center;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .send-button {
   width: 100px;
-  background-color: #2722ba;
   position: absolute;
-  right: 50px;
-  bottom: 10px;
+  right: 10%;
+  top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(128, 128, 128, 0);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  border: 0px;
 }
 
 .send-icon {
-  width: 22px;
+  width: 14px;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
 .syan {
-  width: 20%;
-  border-radius: 30px;
-  background-image: linear-gradient(#0e133e, #24307e, #0e133e);
+  width: 278px;
+  height: 314px;
+  background: #2F1E67;
+  border-radius: 40px 0px 0px 40px;
+  margin-left: 92px;
 }
 
 .syan :deep(.el-select .el-input__wrapper) {
   border-radius: 31px;
-  width: 100px;
-  height: 37px;
+  width: 104px;
+  height: 30px;
   background-color: #e8eaed;
   color: #656668;
   box-shadow: 2px 2px 8px 0px;
-}
-
-.prohibit {
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 .oldRightSel {
@@ -802,5 +816,19 @@ select {
 
 ::-webkit-scrollbar-track {
   border-radius: 30px;
+}
+
+.userTip {
+  width: 450px;
+  height: 200px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
+  font-weight: 700;
+  font-size: 28px;
 }
 </style>

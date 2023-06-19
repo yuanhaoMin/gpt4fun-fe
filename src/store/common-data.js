@@ -7,7 +7,8 @@ const store = createStore({
             username: getData('username') ? getData('username') : {},
             selected: {},
             isSpend: false,
-            recruitment: {}
+            recruitment: {},
+            isShowUserMsg:false,
         }
     },
     mutations: {
@@ -33,6 +34,9 @@ const store = createStore({
         },
         recruitment(state, val) {
             state.recruitment = val
+        },
+        showUserMsg(state){
+            state.isShowUserMsg=!state.isShowUserMsg;
         }
     }
 })

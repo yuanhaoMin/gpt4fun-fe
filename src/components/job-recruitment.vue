@@ -81,15 +81,16 @@ export default {
 
 <style scoped>
 .box {
-    padding: 40px 15px;
+    width: 278px;
+    height: 314px;
+    padding: 20px 15px;
+    box-sizing: border-box;
 }
-
-
 
 .Job-recruitment {
     margin-top: 10px;
     border: 1px solid lightgray;
-    padding: 15px 0px;
+    padding: 10px 0px;
     color: white;
     font-size: 20px;
     border-radius: 50px;
@@ -112,7 +113,7 @@ export default {
 .upload-resume {
     position: relative;
     width: 150px;
-    margin-left: 25%;
+    margin-left: 20%;
 }
 
 .attachment {

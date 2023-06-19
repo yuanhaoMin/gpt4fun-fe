@@ -118,7 +118,7 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
     width: 300px;
-    height: 120px;
+    height: 20%;
     line-height: 1.5;
     background: #f7f7f8;
     margin: 10px;

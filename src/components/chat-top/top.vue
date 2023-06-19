@@ -1,0 +1,92 @@
+<template>
+    <div class="chat-top">
+        <div>
+            <img src="/imgs/log-on-images/shousuo.png" alt="" class="sousuo" v-show="$route.path == '/login' ? false : true">
+            <img src="/imgs/log-on-images/logo.png" alt="">
+        </div>
+        <div>
+            <img src="\imgs\bi-zhi-images/tuichu.png" alt="" @click="logout"
+                v-if="$route.path != '/login' && $route.path != '/contact'">
+            <img src="\imgs\bi-zhi-images/zhuye.png" alt="" @click="$router.push('/')">
+            <img src="\imgs\bi-zhi-images/touxiang.png" alt="" v-if="$route.path == '/contact'" @click="isShowUserAccount">
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from "vue-router";
+import store from "../../store/common-data";
+let router = useRouter();
+
+let logout = () => {
+    ElMessageBox.confirm(
+        '亲爱的用户,您确定要退出吗？',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    ).then(() => {
+        store.commit("delData");
+        router.replace("/login");
+        ElMessage({
+            type: 'success',
+            message: '退出成功！',
+        })
+    })
+};
+//是否显示用户信息
+let isShowUserAccount = () => {
+    store.commit('showUserMsg')
+}
+</script>
+
+<style  lang="scss" scoped>
+.chat-top {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+
+    .sousuo {
+        width: 24px;
+        height: 18px;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    div:first-child {
+        display: flex;
+        align-items: center;
+
+        margin-left: 40px;
+
+
+        img:first-child {
+            width: 30px;
+            height: 30px;
+            margin-right: 22px;
+        }
+
+        img:not(:first-child) {
+            width: 120px;
+            height: 60px;
+        }
+    }
+
+    div:not(:first-child) {
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+
+        img {
+            margin-right: 30px;
+            width: 30px;
+            height: 30px;
+
+        }
+    }
+}
+</style>

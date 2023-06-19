@@ -10,6 +10,16 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173
   },
+  // 配置别名
+  resolve: {
+    alias: {
+      "@": path.resolve("./src"),
+      "@c": path.resolve("./src/components"),
+      "@v": path.resolve("./src/views"),
+      "@api": path.resolve("./src/api"),
+      "@utils": path.resolve("./src/utils")
+    }
+  },
   build: {
     minify: 'terser',
     chunkSizeWarningLimit: 1500, // 静态资源警告门槛,默认500KB
@@ -34,5 +44,5 @@ export default defineConfig({
         drop_debugger: true,
       },
     }
-  }
+  },
 });

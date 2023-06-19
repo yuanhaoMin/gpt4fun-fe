@@ -1,23 +1,22 @@
 <template>
-    <div>
+    <div class="rightbox">
         <div class="tall">
             <div>
                 <div @click="selectChatMode">
-                    <el-button type="primary" class="button-finger-hover">对话模式</el-button>&emsp;&emsp;
+                    <!-- <el-button type="primary" class="button-finger-hover">对话模式 :</el-button> -->
+                    <span>对话模式 :</span>&emsp;
                     <el-switch v-model="isChatMode.isChatModeSelected" size="large" />
                 </div>
-                <br />
                 <div v-show="isChatMode.isShowChatMode">
                     <div>
-                        AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel">
-                            <el-option label="GPT3.5" value="gpt-3.5-turbo" />
-                            <el-option label="GPT4" value="gpt-4" />
+                        AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
+                            <el-option label="3.5" value="gpt-3.5-turbo" />
+                            <el-option label="4.0" value="gpt-4" v-show="this.bitmap == 1 ? false : true" />
                         </el-select>
                     </div>
-                    <br />
                     <div>
                         AI创造力:
-                        <el-select placeholder="AI创造力" v-model="isChatMode.selectedChatModeTemperature">
+                        <el-select placeholder="AI创造力" v-model="isChatMode.selectedChatModeTemperature" size="small">
                             <el-option label="保守模式" value="0" />
                             <el-option label="均衡模式" value="0.2" />
                             <el-option label="创造模式" value="0.6" />
@@ -26,38 +25,40 @@
                 </div>
             </div>
         </div>
-        <br />
+
         <div class="unify">
             <div @click="selectCompletionMode">
-                <el-button type="primary" class="button-finger-hover">问答模式</el-button>&emsp;&emsp;
+                <!-- <el-button type="primary" class="button-finger-hover">问答模式 :</el-button> -->
+                <span>问答模式 :</span>&emsp;
                 <el-switch v-model="isCompletionMode.isCompletionModeSelected" size="large" />
             </div>
-            <br />
+
             <div v-show="isCompletionMode.isShowCompletionMode">
-                是否联网：<el-select placeholder="是否联网" v-model="isCompletionMode.selectedCompletionModeOnlineOption">
+                是否联网：<el-select placeholder="是否联网" v-model="isCompletionMode.selectedCompletionModeOnlineOption"
+                    size="small">
                     <el-option label="联网" value="online" />
                     <el-option label="离线" value="offline" />
                 </el-select>
             </div>
         </div>
-        <br />
-        <div class="unify">
+
+        <div class="unify" v-show="this.bitmap == 1 ? false : true">
             <div @click="selectImagineMode">
-                <el-button type="primary" class="button-finger-hover">图片生成</el-button>&emsp;&emsp;
+                <!-- <el-button type="primary" class="button-finger-hover">图片生成 :</el-button> -->
+                <span>图片生成 :</span>&emsp;
                 <el-switch v-model="isImagineMode.isImagineModeSelected" size="large" />
             </div>
-            <br />
+
             <div v-show="isImagineMode.isShowImagineMode">
                 <div>
-                    图片数量：<el-select placeholder="图片数量" v-model="isImagineMode.selectedImagineModeImageNum">
+                    图片数量：<el-select placeholder="图片数量" v-model="isImagineMode.selectedImagineModeImageNum" size="small">
                         <el-option label="1" value="1" />
                         <el-option label="2" value="2" />
                         <el-option label="3" value="3" />
                     </el-select>
                 </div>
-                <br />
                 <div>
-                    图片尺寸：<el-select placeholder="图片尺寸" v-model="isImagineMode.selectedImagineModeImageSize">
+                    图片尺寸：<el-select placeholder="图片尺寸" v-model="isImagineMode.selectedImagineModeImageSize" size="small">
                         <el-option label="256x256" value="256x256" />
                         <el-option label="516x516" value="512x512" />
                         <el-option label="1024x1024" value="1024x1024" />
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import { info } from "../api/user";
 export default {
     data() {
         return {
@@ -81,21 +83,28 @@ export default {
             isCompletionMode: {
                 isCompletionModeSelected: true,//问答模式
                 isShowCompletionMode: true,
-                selectedCompletionModeOnlineOption: "offline",
+                selectedCompletionModeOnlineOption: "online",
             },
             isImagineMode: {
                 isImagineModeSelected: false,//图片模式
                 isShowImagineMode: false,
                 selectedImagineModeImageNum: "1",
                 selectedImagineModeImageSize: "512x512",
-            }
+            },
+            bitmap: 1
         }
     },
     created() {
+        this.expirationTime();
         this.selectMode();
         this.selectChat();
     },
     methods: {
+        async expirationTime() {
+            let { data: res } = await info(this.$store.state.username);
+            console.log(res.access_bitmap);
+            this.bitmap = res.access_bitmap
+        },
         selectChatMode() {
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = true;
             this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false;
@@ -125,43 +134,52 @@ export default {
                 this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = true;
                 this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = false;
                 this.$store.commit("selected", this.isChatMode)
+            } else if (this.$route.path == '/recruit') {
+                this.isCompletionMode.selectedCompletionModeOnlineOption = "offline";
             }
+
         }
     }
 }
 </script>
 
-<style scoped>
-.tall {
-    text-align: center;
-    margin: 52px 5px 0px;
-    color: white;
-}
+<style scoped lang="scss">
+.rightbox {
+    width: 278px;
+    height: 314px;
+    padding: 20px 0px 20px 40px;
+    line-height: 3;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
 
-.unify {
-    text-align: center;
-    margin: 5px;
-    color: white;
-}
+    ::v-deep(.el-switch--large .el-switch__core) {
+        border: 0;
+    }
 
-.button-finger-hover {
-    border-radius: 41px;
-    width: 57%;
-    height: 40px;
-    background-color: #eff0f2;
-    color: #656668;
-    box-shadow: 2px 2px 8px 0px;
-}
+    ::v-deep(.el-switch.is-checked .el-switch__core) {
+        background-color: #f9f9f9;
+    }
 
-.button-finger-hover:hover {
-    background: white;
-}
+    ::v-deep(.el-switch.is-checked .el-switch__core .el-switch__action) {
+        background-color: #311a67;
+    }
 
-.el-button--primary {
-    border: 0px;
-}
+    ::v-deep(.el-switch__core) {
+        background: #463176;
+    }
 
-.el-select {
-    --el-select-input-focus-border-color: white;
+    ::v-deep(.el-switch__core .el-switch__action) {
+        background-color: #a298ba;
+    }
+
+    ::v-deep(.el-select .el-input__wrapper) {
+        background-color: #463176 !important;
+        box-shadow: none !important;
+    }
+
+    ::v-deep(.el-input__inner) {
+        color: #FFFFFF;
+    }
 }
 </style>

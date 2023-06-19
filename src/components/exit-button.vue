@@ -6,6 +6,7 @@
         <div>
             <img src="/img/back.png" alt="" @click="logout" class="imgs-size">
             <img src="/img/home.png" alt="" class="imgs-size" @click="chat">
+            <img src="/img/user.png" alt="" class="imgs-size" @click="userDetal">
         </div>
     </div>
 </template>
@@ -27,6 +28,7 @@ let menuIsSpend = () => {
 
 //未登录，跳转登录页
 let router = useRouter();
+
 let logout = () => {
     ElMessageBox.confirm(
         '亲爱的用户,您确定要退出吗？',
@@ -43,7 +45,6 @@ let logout = () => {
             message: '退出成功！',
         })
     })
-
 };
 
 //菜单栏 收缩/展开
@@ -52,6 +53,12 @@ let spendOrContract = () => {
 };
 let chat = () => {
     router.push("/chat");
+}
+//用户详情
+let userDetal = () => {
+    router.push("/user");
+    
+
 }
 </script>
 

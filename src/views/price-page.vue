@@ -353,14 +353,16 @@ export default {
 
 <style lang="scss" scoped>
 .price-page {
-    background-color: #f0f8fe;
-
+    background-color: #03001b;
     box-sizing: border-box;
-    .give-back{
+    color: #bfbfbf;
+
+    .give-back {
         width: 120px;
         height: 40px;
-        margin: 20px 0 0 20px; 
+        margin: 20px 0 0 20px;
     }
+
     h1 {
         text-align: center;
         padding: 50px 0 20px 0;
@@ -374,6 +376,7 @@ export default {
         margin-top: 50px;
         display: flex;
         justify-content: center;
+        color: #03001b;
 
         .tab-bg {
             background-color: #3b93f3;
@@ -416,6 +419,7 @@ export default {
     border-radius: 8px;
     margin-right: 16px;
     background-color: #fff;
+    color: #03001b;
     padding-top: 9px;
     box-sizing: border-box;
     box-shadow: 0px 2px 10px 0px #e6e6e6;

@@ -13,16 +13,6 @@
       <div class="messages-container" ref="messagesContainer" v-if="$route.fullPath != '/user'">
         <!-- Messages will appear here -->
       </div>
-      <!-- 用户信息 -->
-      <!-- <div class=" usermsg" v-if="$route.fullPath === '/user'">
-        <div class="userTip">
-          专业版将获得更快的帮助和回复！
-          任何问题请随时联系我们：
-          lby@bizcamp.com
-          sjq@bizcamp.com
-          hhf@bizcamp.com
-        </div>
-      </div> -->
       <div class="bottom-border" v-if="$route.fullPath != '/user'">
         <div class="bottom-button">
           <el-button type="info" class="stop-generation" @click="stopGenerate" v-model="isStopGeneration">
@@ -70,6 +60,8 @@ import homeRight from "./home-right.vue";
 import jobRecruitment from './job-recruitment.vue';
 import exitButton from "./exit-button.vue";
 import scenePopover from "./popover/scene-popover.vue";
+import { info } from "../api/user";
+import { transformTimestamp } from "../utils/time-format"
 export default {
   name: "HomeMiddle",
   components: {
@@ -108,9 +100,20 @@ export default {
     // this.resetChatHistory();
     // 用户刷新页面加载历史记录
     this.loadChatHistory();
-
+    this.expirationTime()
   },
   methods: {
+    //查询
+    async expirationTime() {
+      let { data: res } = await info(this.$store.state.username);
+      console.log(res);
+      let time = transformTimestamp(res.subscription_end_time)
+      var myDate = transformTimestamp(new Date())
+      if (time == myDate) {
+        this.$refs.sendButton.classList.add("prohibit");
+        this.$refs.inputBox.classList.add("prohibit");
+      }
+    },
     addContent(value) {
       this.$refs.inputBox.value = value
       this.isShowScenarios = false
@@ -119,7 +122,6 @@ export default {
       this.isStopGeneration = true;
     },
     sendMessage(e) {
-
       if (!e.shiftKey && e.keyCode == 13) {
         e.cancelBubble = true; //ie阻止冒泡行为
         e.stopPropagation(); //Firefox阻止冒泡行为
@@ -402,8 +404,7 @@ export default {
         }
       );
       const { final_answer, intermediate_steps } = await response.json();
-
-      botParagraph.innerHTML +=
+      botParagraph.innerHTML += "<br/>" +
         "思考步骤：<br>" +
         this.formatIntermediateSteps(intermediate_steps) +
         "\n" +

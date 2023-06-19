@@ -34,7 +34,7 @@
                                 <li>人岗匹配</li>
                             </ul>
                         </div>
-                        <img src="/imgs/application -cases-images/02.png" alt="" class="rightridusimg">
+                        <img src="/imgs/application-cases-images/02.png" alt="" class="rightridusimg">
                     </div>
                 </div>
                 <div v-if="tab == 2">
@@ -51,7 +51,7 @@
                                 <li>项目式激励</li>
                             </ul>
                         </div>
-                        <img src="/imgs/application -cases-images/03.png" alt="" class="rightridusimg">
+                        <img src="/imgs/application-cases-images/03.png" alt="" class="rightridusimg">
                     </div>
                 </div>
                 <div v-if="tab == 3">
@@ -71,7 +71,7 @@
                                 <li>人才盘点与高潜人才</li>
                             </ul>
                         </div>
-                        <img src="/imgs/application -cases-images/04.png" alt="" class="rightridusimg">
+                        <img src="/imgs/application-cases-images/04.png" alt="" class="rightridusimg">
                     </div>
                 </div>
                 <div v-if="tab == 4">
@@ -96,7 +96,7 @@
                                 <li>人才测评</li>
                             </ul>
                         </div>
-                        <img src="/imgs/application -cases-images/05.png" alt="" class="rightridusimg">
+                        <img src="/imgs/application-cases-images/05.png" alt="" class="rightridusimg">
                     </div>
                 </div>
                 <div v-if="tab == 5">
@@ -121,7 +121,7 @@
                                 <li>EAP…</li>
                             </ul>
                         </div>
-                        <img src="/imgs/application -cases-images/06.png" alt="" class="rightridusimg">
+                        <img src="/imgs/application-cases-images/06.png" alt="" class="rightridusimg">
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
             <div class="boxdiv">
                 <div class="box">
                     <div>
-                        <img src="/imgs/application -cases-images/07.png" alt="">
+                        <img src="/imgs/application-cases-images/07.png" alt="">
                         <span>面向未来</span>
                     </div>
                     <p class="target">人力资源管理目标</p>
@@ -151,7 +151,7 @@
                 </div>
                 <div class="box">
                     <div>
-                        <img src="/imgs/application -cases-images/08.png" alt="">
+                        <img src="/imgs/application-cases-images/08.png" alt="">
                         <span>满足现在</span>
                     </div>
                     <p class="target">人力资源管理基础</p>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="box">
                     <div>
-                        <img src="/imgs/application -cases-images/09.png" alt="">
+                        <img src="/imgs/application-cases-images/09.png" alt="">
                         <span>转变提升</span>
                     </div>
                     <p class="target">人力资源管理核心</p>
@@ -190,10 +190,10 @@
                     <p class="SAP">SAP SuccessFactors 人力资源云，集成的、全面的人才管理与核心HCM应用，帮助企业提高效率、整合HR业务，落实人才管理及人力资本管理战略，实现员工全生命周期管理
                     </p>
                     <div class="imgsSquare">
-                        <img src="/imgs/application -cases-images/11.png" alt="">
-                        <img src="/imgs/application -cases-images/12.png" alt="">
-                        <img src="/imgs/application -cases-images/13.png" alt="">
-                        <img src="/imgs/application -cases-images/14.png" alt="">
+                        <img src="/imgs/application-cases-images/11.png" alt="">
+                        <img src="/imgs/application-cases-images/12.png" alt="">
+                        <img src="/imgs/application-cases-images/13.png" alt="">
+                        <img src="/imgs/application-cases-images/14.png" alt="">
                         <div class="img-word img1-word">
                             <p>1.</p>
                             <p>移动端与企业社交协同</p>
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="/imgs/application -cases-images/15.png" alt="" class="SAPimg">
+                <img src="/imgs/application-cases-images/15.png" alt="" class="SAPimg">
             </div>
         </div>
         <div class="mingDaoYun">
@@ -221,28 +221,28 @@
             <div class="whitePart">
                 <div class="whiteDiv">
                     <div class="blockcontent">
-                        <img src="/imgs/application -cases-images/16.png" alt="">
+                        <img src="/imgs/application-cases-images/16.png" alt="">
                         <div>
                             <p>快速实现</p>
                             <p>比定制开发提高百倍效率</p>
                         </div>
                     </div>
                     <div class="blockcontent">
-                        <img src="/imgs/application -cases-images/17.png" alt="">
+                        <img src="/imgs/application-cases-images/17.png" alt="">
                         <div>
                             <p>简单易用</p>
                             <p>可视化搭建，无需编程</p>
                         </div>
                     </div>
                     <div class="blockcontent">
-                        <img src="/imgs/application -cases-images/18.png" alt="">
+                        <img src="/imgs/application-cases-images/18.png" alt="">
                         <div>
                             <p>灵活调整</p>
                             <p>伴随业务发展不断扩充范畴</p>
                         </div>
                     </div>
                     <div class="blockcontent">
-                        <img src="/imgs/application -cases-images/19.png" alt="">
+                        <img src="/imgs/application-cases-images/19.png" alt="">
                         <div>
                             <p>安全可靠</p>
                             <p>高稳定，高并发，高可用设计</p>
@@ -267,7 +267,7 @@
                     <p>嵌入数据导出分享，使用不受限</p>
                 </div>
                 <div class="center">
-                    <img src="/imgs/application -cases-images/20.png" alt="">
+                    <img src="/imgs/application-cases-images/20.png" alt="">
                 </div>
                 <div class="right">
                     <p>多面手工具</p>
@@ -292,7 +292,7 @@
                     </p>
                 </div>
                 <div class="right">
-                    <img src="/imgs/application -cases-images/21.png" alt="">
+                    <img src="/imgs/application-cases-images/21.png" alt="">
                 </div>
             </div>
         </div>
@@ -305,15 +305,15 @@
                     <p>通过党建工作移动化、数字化、智能化实现特色互联网+党建品牌，具有政府、高校及企事业三个版本。</p>
                     <p>以党建云平台为基础，打通各党组织机构，通过PC端、手机、大数据端 等多终端展现，提供云-管-端一体的综合解决方案。</p>
                 </div>
-                <img src="/imgs/application -cases-images/22.png" alt="">
+                <img src="/imgs/application-cases-images/22.png" alt="">
             </div>
             <div class="valus">
                 <p>功能价值</p>
             </div>
             <p class="focus">聚焦八大主题，全面建设学习型、服务型、创新型、廉洁型、务实型党组织，提升党务工作效率，升级工作方式；活跃党组织生活，树立先锋模范。</p>
             <div class="systems">
-                <img src="/imgs/application -cases-images/23.png" alt="" class="img1">
-                <img src="/imgs/application -cases-images/24.png" alt="" class="img2">
+                <img src="/imgs/application-cases-images/23.png" alt="" class="img1">
+                <img src="/imgs/application-cases-images/24.png" alt="" class="img2">
             </div>
         </div>
         <div class="Signatures">
@@ -321,7 +321,7 @@
             <p class="englishTrans">Signatures</p>
             <p class="partwords">在数字化签章、数字化印控、数字化档案、可信身份四个方面助力组织全面数字化，让数字化的成果真实可信</p>
             <div class="electronicContract">
-                <img src="/imgs/application -cases-images/25.png" alt="">
+                <img src="/imgs/application-cases-images/25.png" alt="">
                 <p class="title">一体化电子签约印章管控平台</p>
                 <p class="words">方便组织对物理印章安全管理、分支机构用印授权管理、电子化签约管理和对所有用印的纸质文件和电子文件统一管理，解决纸质合同及印章管理难题。</p>
             </div>
@@ -330,8 +330,8 @@
                     <p>把印章装入手机</p>
                     <p>随时随地可对印章授权、使用、监控！</p>
                 </div>
-                <img src="/imgs/application -cases-images/26.png" alt="" class="img1">
-                <img src="/imgs/application -cases-images/27.png" alt="" class="img2">
+                <img src="/imgs/application-cases-images/26.png" alt="" class="img1">
+                <img src="/imgs/application-cases-images/27.png" alt="" class="img2">
             </div>
         </div>
         <bottomVue />
@@ -359,7 +359,7 @@ export default {
 .top {
     height: 680px;
     width: 100%;
-    background: url('/imgs/application -cases-images/01.png') no-repeat center;
+    background: url('/imgs/application-cases-images/01.png') no-repeat center;
     background-size: 100%;
 }
 
@@ -562,7 +562,7 @@ export default {
     width: 100%;
     height: 390px;
     padding: 80px 0;
-    background: url("/imgs/application -cases-images/10.png");
+    background: url("/imgs/application-cases-images/10.png");
     background-size: 100%;
 
     &>div:first-child {

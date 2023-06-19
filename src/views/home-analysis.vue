@@ -1,5 +1,5 @@
 <template>
-      <el-empty :image-size="200" />
+    <el-empty :image-size="200" />
 </template>
 
 <script>

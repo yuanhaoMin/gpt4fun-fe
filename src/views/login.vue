@@ -39,7 +39,8 @@
                 <img src="/imgs/log-on-images/yzm.png" alt="" class="logonImg" />
                 <el-input v-model="registerCode" placeholder="请输入验证码" name="registercode" maxlength="6" clearable />
               </div>
-              <el-button type="info" round @click="send">发送验证码</el-button>
+              <el-button type="info" round @click="send" id="btn">{{ codeNum == 60 ? "发送验证码" : `(${codeNum})秒发送`
+              }}</el-button>
             </div>
           </div>
           <div class="register">
@@ -62,13 +63,15 @@ export default {
   },
   data() {
     return {
-      username: "hhf@bizcamp.com",
-      password: "999",
+      username: "",
+      password: "",
       registerUsername: '',
       registerpassword: "",
       registerCode: '',
       isShowlogin: true,
-      isShowRegister: false
+      isShowRegister: false,
+      codeNum: 60,
+      isClickSend: false
     }
   },
   mounted() {
@@ -83,39 +86,39 @@ export default {
   },
   methods: {
     async newRegister() {
-      let phone = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      if (!phone.test(this.registerUsername)) {
-        return ElMessage.error("请填写正确的手机号!");
-      }
-      let res = await verificationApi({
+      let phone = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+      let pasword = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,15}$/;
+      if (!phone.test(this.registerUsername)) return ElMessage.error("请正确的填写手机号格式!");
+      if (!pasword.test(this.registerpassword)) return ElMessage.error("密码必须由数字、字母组成,长度在6-15个字符!");
+      if (this.registerCode == "") return ElMessage.error("请输入验证码!");
+      await verificationApi({
         "phone": this.registerUsername,
         "captcha": this.registerCode
       })
-      console.log(res);
-      // let res = await register({
-      //   username: this.registerUsername,
-      //   password: this.registerpassword,
-      // })
-      // if (res.status == 200) {
-      //   await login({
-      //     username: this.registerUsername,
-      //     password: this.registerpassword,
-      //   });
-      //   const credentials = `${this.registerUsername}:${this.registerpassword}`;
-      //   const encodedCredentials = btoa(credentials);
-      //   this.$store.commit("token", encodedCredentials);
-      //   this.$store.commit("username", this.registerUsername);
-      //   ElMessage({
-      //     showClose: true,
-      //     message: "登录成功！",
-      //     type: "success",
-      //   });
-      //   this.$router.replace("/chat");
-      // }
+      let res = await register({
+        username: this.registerUsername,
+        password: this.registerpassword,
+      })
+      if (res.status == 200) {
+        await login({
+          username: this.registerUsername,
+          password: this.registerpassword,
+        });
+        const credentials = `${this.registerUsername}:${this.registerpassword}`;
+        const encodedCredentials = btoa(credentials);
+        this.$store.commit("token", encodedCredentials);
+        this.$store.commit("username", this.registerUsername);
+        ElMessage({
+          showClose: true,
+          message: "登录成功！",
+          type: "success",
+        });
+        this.$router.replace("/chat");
+      }
     },
     async jump() {
       if (this.username == "" || this.password == "") {
-        ElMessage.error("账户或密码不能为空！");
+        ElMessage.error("账户/密码不能为空！");
         return;
       } else {
         let res = await login({
@@ -151,12 +154,22 @@ export default {
       this.isShowRegister = false
       this.isShowlogin = true
     },
+
     async send() {
+      if (this.isClickSend == true || this.codeNum != 60) return;
+      this.isClickSend = true;
       let res = await codeApi({
-        "phone": "17600669600",
+        "phone": this.registerUsername,
         "token": "bizcampgpt"
       })
-      console.log(res);
+      let clearId = setInterval(() => {
+        this.codeNum--;
+        if (this.codeNum == 0) {
+          clearInterval(clearId);
+          this.codeNum = 60;
+          this.isClickSend = false;
+        }
+      }, 1000);
     }
   }
 }

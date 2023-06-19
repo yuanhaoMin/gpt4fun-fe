@@ -17,6 +17,19 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(response => {
     return response;
 }, error => {
+    if (error.response.status == 400) {
+        ElMessage({
+            showClose: true,
+            message: '验证码过期！',
+            type: 'error',
+        });
+    } else if (error.response.status == 401) {
+        ElMessage({
+            showClose: true,
+            message: '验证码错误！',
+            type: 'error',
+        });
+    }
     return Promise.reject(error);
 });
 

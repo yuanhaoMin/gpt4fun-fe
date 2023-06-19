@@ -1,8 +1,7 @@
 <template>
   <div class="left">
     <el-menu active-text-color="#ffd04b" background-color="#354455" text-color="rgba(255,255,255,0.7)"
-      :default-active="indexPath" class="el-menu-vertical-demo" 
-      router>
+      :default-active="indexPath" class="el-menu-vertical-demo" router>
       <div>
         <el-menu-item index="chat">
           <el-icon>
@@ -22,12 +21,12 @@
           </el-icon>
           <template #title>分类场景助手</template>
         </el-menu-item> -->
-        <!-- <el-menu-item index="analysis">
+        <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
           <el-icon>
             <img src="/imgs/bi-zhi-images/03.png" alt="">
           </el-icon>
           <template #title>分析AI助手</template>
-        </el-menu-item> -->
+        </el-menu-item>
         <el-menu-item index="about">
           <el-icon>
             <img src="/imgs/bi-zhi-images/04.png" alt="">
@@ -49,12 +48,14 @@
 </template>
   
 <script setup>
-import { ref, toRefs, watchEffect } from "vue";
+import { info } from "../api/user";
+import { onMounted, ref, watchEffect } from "vue";
 import { useRoute } from 'vue-router';
-
-let isShowSelectBox = ref(false)
+import store from "../store/common-data";
+let isShowSelectBox = ref(false);
 let indexPath = ref('chat');//默认选中菜单项路由
 let route = useRoute();
+let intwo = ref(1);
 //监听当前路由
 watchEffect(() => {
   if (route.path) {
@@ -64,6 +65,12 @@ watchEffect(() => {
     isShowSelectBox.value = false
   }
 });
+let expirationTime = async () => {
+  let { data: res } = await info(store.state.username);
+  intwo.value = res.access_bitmap;
+}
+expirationTime();
+
 
 // //菜单栏展开
 // const handleOpen = (key, keyPath) => { };
@@ -83,6 +90,11 @@ watchEffect(() => {
 </script>
   
 <style lang="scss" scoped>
+.prohibit {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
 .set-up {
   width: 40px;
   // margin: 0 0 40px 40px;

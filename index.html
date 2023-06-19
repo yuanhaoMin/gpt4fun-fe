@@ -19,6 +19,7 @@
   <script type="module" src="/src/main.js"></script>
 </body>
 <script>
+
   //禁止用户ctrl+ “+”缩放页面
   document.addEventListener('keydown', function (event) {
     if ((event.ctrlKey === true || event.metaKey === true)
@@ -28,6 +29,7 @@
       event.preventDefault();
     }
   }, false);
+
   //禁止用户通过ctrl+滚轮缩放页面
   window.addEventListener('mousewheel', function (event) {
     if (event.ctrlKey === true || event.metaKey) {
@@ -37,8 +39,18 @@
     passive: false
   });
 
+  //禁用F12
+  document.onkeydown = function (e) {
+    var currKey = 0, evt = e || window.event;
+    currKey = evt.keyCode || evt.which || evt.charCode;
+    if (currKey == 123) {
+      window.event.cancelBubble = true;
+      window.event.returnValue = false;
+    }
+  };
 
-
+  //禁用鼠标右击事件
+  document.oncontextmenu = function () { return false; };
 </script>
 
 </html>

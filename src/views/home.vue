@@ -41,7 +41,7 @@
         <div class="recruit bgimgs">
             <div><img src="/imgs/home-page-images/09.png" alt="" class="recruitim"></div>
             <div class="recruitai">
-                <div> <img src="/imgs/home-page-images/00.png" alt="" class="screenshot"></div>
+                <div class="bckg"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot"></div>
                 <div class="Introduction">上传候选人简历并输入岗位JD,AI助手便会为您进行打分和持续对话,甚至还能为您生成面试题,让您的招聘过程更加高效、精准。</div>
             </div>
         </div>
@@ -196,7 +196,7 @@ export default {
 
 .screenshot {
     width: 810px;
-    height: 460px;
+    height: 440px;
 }
 
 .recruit {
@@ -215,6 +215,14 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        .bckg {
+            width: 810px;
+            height: 440px;
+            background: url(/imgs/home-page-images/bbb.png) no-repeat center;
+            background-size: contain;
+            border-radius: 35px;
+        }
 
         .Introduction {
             width: 328px;

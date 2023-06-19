@@ -10,8 +10,8 @@
                 <div v-show="isChatMode.isShowChatMode">
                     <div>
                         AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
-                            <el-option label="GPT3.5" value="gpt-3.5-turbo" />
-                            <el-option label="GPT4" value="gpt-4" />
+                            <el-option label="3.5" value="gpt-3.5-turbo" />
+                            <el-option label="4.0" value="gpt-4" v-show="this.bitmap == 1 ? false : true" />
                         </el-select>
                     </div>
                     <div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="unify">
+        <div class="unify" v-show="this.bitmap == 1 ? false : true">
             <div @click="selectImagineMode">
                 <!-- <el-button type="primary" class="button-finger-hover">图片生成 :</el-button> -->
                 <span>图片生成 :</span>&emsp;
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { info } from "../api/user";
 export default {
     data() {
         return {
@@ -89,14 +90,21 @@ export default {
                 isShowImagineMode: false,
                 selectedImagineModeImageNum: "1",
                 selectedImagineModeImageSize: "512x512",
-            }
+            },
+            bitmap: 1
         }
     },
     created() {
+        this.expirationTime();
         this.selectMode();
         this.selectChat();
     },
     methods: {
+        async expirationTime() {
+            let { data: res } = await info(this.$store.state.username);
+            console.log(res.access_bitmap);
+            this.bitmap = res.access_bitmap
+        },
         selectChatMode() {
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = true;
             this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false;
@@ -139,7 +147,7 @@ export default {
 .rightbox {
     width: 278px;
     height: 314px;
-    padding: 20px 40px;
+    padding: 20px 0px 20px 40px;
     line-height: 3;
     box-sizing: border-box;
     color: rgba(255, 255, 255, 0.8);
@@ -174,44 +182,4 @@ export default {
         color: #FFFFFF;
     }
 }
-
-
-
-// .tall {
-//     text-align: center;
-//     margin: 52px 5px 0px;
-//     color: white;
-// }
-
-// .unify {
-//     text-align: center;
-//     margin: 5px;
-//     color: white;
-// }
-
-// .button-finger-hover {
-//     border-radius: 41px;
-//     width: 57%;
-//     height: 40px;
-//     background-color: #eff0f2;
-//     color: #656668;
-//     box-shadow: 2px 2px 8px 0px;
-// }
-
-// .button-finger-hover:hover {
-//     background: white;
-// }
-
-// .el-button--primary {
-//     border: 0px;
-// }
-
-// .el-select {
-//     --el-select-input-focus-border-color: white;
-// }
-
-// .userMsg {
-//     font-size: 20px;
-//     color: white;
-// }
 </style>

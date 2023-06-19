@@ -2,14 +2,14 @@
     <div class="usermsg" v-show="$store.state.isShowUserMsg">
         <div class="card">
             <div class="top">
-                <img src="/imgs/bi-zhi-images/touxiang.png" alt="" class="photo">
+                <img src="/imgs/bi-zhi-images/touxiang.png" alt="" class="free photo">
                 <div class="usernameAndAccount">
-                    <p>{{ user }}</p>
-                    <p>账号：{{ account }}</p>
+                    <!-- <p>{{ user }}</p> -->
+                    <p>账号：{{ user }}</p>
                 </div>
             </div>
             <div class="center">
-                <div class="purplePart professionalVersion" v-if="role == 'free'">
+                <div class="purplePart professionalVersion" v-if="role == '15'">
                     <div>
                         <p>专业版</p>
                         <p>到期时间：{{ overtime }}</p>
@@ -18,13 +18,22 @@
                         <button @click="$router.push('/price')">续费</button>
                     </div>
                 </div>
-                <div class="purplePart freeVersion" v-if="role == 'prefess'">
+                <div class="purplePart freeVersion" v-if="role == '1'">
                     <div>
                         <p>免费版</p>
                         <p>我要使用专业版！</p>
                     </div>
                     <div>
                         <button @click="$router.push('/price')">立即开通专业版</button>
+                    </div>
+                </div>
+                <div class="purplePart freeVersion" v-if="role == '31'">
+                    <div>
+                        <p>终身版</p>
+                        <p>永久免费使用</p>
+                    </div>
+                    <div>
+                        <button>永久免费使用</button>
                     </div>
                 </div>
             </div>
@@ -43,12 +52,10 @@ export default {
     data() {
         return {
             isShowUserAccount: false,
-            user: "虾米666",
+            user: this.$store.state.username,
             account: '368512335335',
             overtime: '2023年12月24日',
             role: 'free',
-            // role:'prefess',
-
         }
     },
     created() {
@@ -57,8 +64,9 @@ export default {
     methods: {
         async expiration() {
             let { data: res } = await info(this.$store.state.username);
-            console.log(res);
-            this.time = transformTimestamp(res.subscription_end_time)
+            this.role = res.access_bitmap
+            let time = transformTimestamp(res.subscription_end_time)
+            this.overtime = time
         }
     }
 }
@@ -66,7 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 .usermsg {
-    width: 370px;
+    width: 420px;
     height: 309px;
     border-radius: 40px;
     padding: 20px;
@@ -76,7 +84,7 @@ export default {
 
     .card {
         padding: 20px;
-        width: 330px;
+        width: 380px;
         height: 229px;
         box-sizing: border-box;
         background: #181724;

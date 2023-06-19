@@ -34,7 +34,7 @@ export default {
     position: relative;
     .userAccount{
         position: absolute;
-        left: 1130px;
+        left: 1090px;
         top: -5px;
         box-shadow: 0px 3px 12px 0px rgba(0,0,0,0.26);
     }

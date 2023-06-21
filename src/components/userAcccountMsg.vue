@@ -1,5 +1,5 @@
 <template>
-    <div class="usermsg" v-show="$store.state.isShowUserMsg">
+    <div class="usermsg-userAccount" v-show="$store.state.isShowUserMsg">
         <div class="card">
             <div class="top">
                 <img src="/imgs/bi-zhi-images/touxiang.png" alt="" class="free photo">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="purplePart freeVersion" v-if="role == '1'">
                     <div>
-                        <p>免费版</p>
+                        <p>基础版</p>
                         <p>我要使用专业版！</p>
                     </div>
                     <div>
@@ -39,14 +39,15 @@
             </div>
         </div>
         <div class="back">
-            <span @click="$router.push('/login')">退出登录</span>
-            <img src="/imgs/bi-zhi-images/back.png" alt="" @click="$router.push('/login')">
+            <span @click="refund">退出登录</span>
+            <img src="/imgs/bi-zhi-images/back.png" alt="" @click="refund">
         </div>
     </div>
 </template>
 
 <script>
 import { info } from "../api/user";
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { transformTimestamp } from "../utils/time-format"
 export default {
     data() {
@@ -67,13 +68,30 @@ export default {
             this.role = res.access_bitmap
             let time = transformTimestamp(res.subscription_end_time)
             this.overtime = time
+        },
+        refund() {
+            ElMessageBox.confirm(
+                '亲爱的用户,您确定要退出吗？',
+                {
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                }
+            ).then(() => {
+                this.$store.commit("delData");
+                this.$router.replace("/");
+                ElMessage({
+                    type: 'success',
+                    message: '退出成功！',
+                })
+            })
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.usermsg {
+.usermsg-userAccount {
     width: 420px;
     height: 309px;
     border-radius: 40px;
@@ -167,12 +185,16 @@ export default {
         text-align: center;
         height: 60px;
         line-height: 60px;
-        cursor: pointer;
 
         img {
             width: 13px;
             vertical-align: middle;
             margin-left: 5px;
+            cursor: pointer;
+        }
+
+        span {
+            cursor: pointer;
         }
     }
 }

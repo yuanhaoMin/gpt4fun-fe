@@ -34,14 +34,14 @@
                     </div>
                 </div>
                 <div>
-                    <img src="/imgs/home-page-images/00.png" alt="" class="screenshot">
+                    <div class="aaa"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot"></div>
                 </div>
             </div>
         </div>
         <div class="recruit bgimgs">
             <div><img src="/imgs/home-page-images/09.png" alt="" class="recruitim"></div>
             <div class="recruitai">
-                <div class="bckg"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot"></div>
+                <div class="bbb"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot"></div>
                 <div class="Introduction">上传候选人简历并输入岗位JD,AI助手便会为您进行打分和持续对话,甚至还能为您生成面试题,让您的招聘过程更加高效、精准。</div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <div class="scene-scenario">
                     我们深知很多用户在与AI对话时可能会感到困惑,因此我们特意设置了一些常用场景,帮助您更好地利用AI技术。例如,在搜集资料的场景中,您只需按照给出的内容,依次填入领域、主题、重点、要求和其他提示词,AI助手便能为您生成尽可能准确的结果。
                 </div>
-                <div> <img src="/imgs/home-page-images/00.png" alt="" class="screenshot"></div>
+                <div class="ccc"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot"></div>
             </div>
         </div>
         <div class="enterprise bgimgs">
@@ -216,13 +216,7 @@ export default {
         justify-content: center;
         align-items: center;
 
-        .bckg {
-            width: 810px;
-            height: 440px;
-            background: url(/imgs/home-page-images/bbb.png) no-repeat center;
-            background-size: contain;
-            border-radius: 35px;
-        }
+
 
         .Introduction {
             width: 328px;
@@ -297,5 +291,29 @@ export default {
             }
         }
     }
+}
+
+.aaa {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/aaa.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
+}
+
+.bbb {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/bbb.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
+}
+
+.ccc {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/ccc.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
 }
 </style>

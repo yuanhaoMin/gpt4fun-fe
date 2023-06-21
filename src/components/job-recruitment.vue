@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <div class="Job-recruitment " @click="matching" ref="positionMatching">功能1:岗位匹配</div>
+        <div class="Job-recruitment" @click="matching" ref="positionMatching">功能1:简历初筛</div>
         <div v-show="isShowUploadResume">
             <div class="Job-recruitment upload-resume">上传简历
                 &emsp;<img src="/img/attachment.png" alt="" class="attachment">
@@ -10,8 +10,7 @@
                 <span class="fileNameDom">{{ fileName }}</span>
             </div>
         </div>
-        <div class="Job-recruitment" @click="InterviewQuestion" ref="interviewGeneration">功能2:面试题生成</div>
-
+        <div class="Job-recruitment" @click="InterviewQuestion" ref="interviewGeneration">功能2:面试题目</div>
     </div>
 </template>
 
@@ -133,7 +132,7 @@ export default {
 }
 
 .fileNameDom {
-    color: pink;
+    color: darkgray;
 }
 
 .uploadPDFIpt {

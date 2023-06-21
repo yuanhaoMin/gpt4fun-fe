@@ -568,13 +568,16 @@ export default {
 
 .home-middle-Unchanged {
   width: 1200px;
+  transition: width 0.5s;
 }
 
 .home-middle-change {
   width: 72.6vw;
+  transition: width 0.5s;
 
   .send-button {
     right: 15%;
+    transition: right 0.5s;
   }
 }
 
@@ -667,6 +670,7 @@ button {
   width: 100px;
   position: absolute;
   right: 10%;
+  transition: right 0.5s;
   top: 15px;
   display: flex;
   justify-content: center;

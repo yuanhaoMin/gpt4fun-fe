@@ -28,11 +28,13 @@ import store from "../store/common-data";
   .change {
     width: 258px;
     padding-right: 92px;
-    transition: width 2s;
+    transition: width 0.5s;
   }
 
   .unchanged {
+    width: 60px;
     padding-right: 92px;
+    transition: width 0.5s;
   }
 
   .content {

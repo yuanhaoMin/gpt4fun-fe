@@ -11,7 +11,8 @@
                     <div>
                         AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
                             <el-option label="3.5" value="gpt-3.5-turbo" />
-                            <el-option label="4.0" value="gpt-4" v-show="this.bitmap == 1 ? false : true" />
+                            <el-option :label="this.bitmap == 1 ? '4.0(需充值专业版)' : '4.0'" value="gpt-4"
+                                :disabled="this.bitmap == 1 ? true : false" />
                         </el-select>
                     </div>
                     <div>
@@ -42,7 +43,7 @@
             </div>
         </div>
 
-        <div class="unify" v-show="this.bitmap == 1 ? false : true">
+        <div class="unify">
             <div @click="selectImagineMode">
                 <!-- <el-button type="primary" class="button-finger-hover">图片生成 :</el-button> -->
                 <span>图片生成 :</span>&emsp;
@@ -71,6 +72,7 @@
 
 <script>
 import { info } from "../api/user";
+import { ElNotification } from 'element-plus'
 export default {
     data() {
         return {
@@ -102,7 +104,6 @@ export default {
     methods: {
         async expirationTime() {
             let { data: res } = await info(this.$store.state.username);
-            console.log(res.access_bitmap);
             this.bitmap = res.access_bitmap
         },
         selectChatMode() {
@@ -116,6 +117,15 @@ export default {
             this.selectMode();
         },
         selectImagineMode() {
+            if (this.bitmap == 1) {
+                this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false
+                ElNotification({
+                    title: '提醒',
+                    message: '需充值专业版才能使用!',
+                    type: 'warning',
+                })
+                return
+            }
             this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = true
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = false
             this.selectMode();
@@ -136,6 +146,9 @@ export default {
                 this.$store.commit("selected", this.isChatMode)
             } else if (this.$route.path == '/recruit') {
                 this.isCompletionMode.selectedCompletionModeOnlineOption = "offline";
+            } else if (this.$route.path == '/scene') {
+                this.isChatMode.isChatModeSelected = true
+                this.isChatMode.selectedChatModeTemperature = "0"
             }
 
         }

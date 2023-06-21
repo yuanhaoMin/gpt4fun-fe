@@ -2,7 +2,7 @@
   <div class="page">
     <topVue></topVue>
     <div class="center">
-      <menuList></menuList>
+      <menuList :class="store.state.isSpend == false ? 'change' : 'unchanged'"></menuList>
       <div class="content">
         <router-view></router-view>
       </div>
@@ -13,7 +13,7 @@
 <script setup>
 import topVue from "../components/chat-top/top.vue";
 import menuList from "../components/menu.vue";
-
+import store from "../store/common-data";
 </script>
 
 <style lang="scss" scoped>
@@ -24,6 +24,18 @@ import menuList from "../components/menu.vue";
 
 .center {
   display: flex;
+
+  .change {
+    width: 258px;
+    padding-right: 92px;
+    transition: width 0.5s;
+  }
+
+  .unchanged {
+    width: 60px;
+    padding-right: 92px;
+    transition: width 0.5s;
+  }
 
   .content {
     height: calc(100vh - 100px);

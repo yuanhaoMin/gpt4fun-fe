@@ -5,7 +5,8 @@
       <img src="/img/loading.gif" alt="" />
     </div>
     <!-- 中间 -->
-    <div class="home-middle-container">
+    <div :class="this.$store.state.isSpend == false ? 'home-middle-Unchanged' : 'home-middle-change'"
+      class="home-middle-container">
       <!-- <exitButton /> -->
       <!-- 设置情景弹出框 -->
       <!-- <scenePopover /> -->
@@ -37,7 +38,7 @@
         </div>
         <div class="input-box">
           <input placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
-          <button class="send-button button" ref="sendButton" type="button" @click="sendUserMessageAndDisplayResponse">
+          <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
             发送
           </button>
@@ -49,7 +50,10 @@
     <div class="syan">
       <homeRight ref="homeRight" v-show="$route.fullPath == '/chat'"></homeRight>
       <jobRecruitment ref="jobRecruitment" v-show="$route.fullPath == '/recruit'"></jobRecruitment>
+      <classifyingScenarios v-show="$route.fullPath == '/scene'"
+        @sendUserMessageAndDisplayResponse="sendUserMessageAndDisplayResponse"></classifyingScenarios>
     </div>
+    <userAccount class="userAccount"></userAccount>
   </div>
 </template>
   
@@ -61,7 +65,9 @@ import jobRecruitment from './job-recruitment.vue';
 import exitButton from "./exit-button.vue";
 import scenePopover from "./popover/scene-popover.vue";
 import { info } from "../api/user";
-import { transformTimestamp } from "../utils/time-format"
+import { transformTimestamp } from "../utils/time-format";
+import classifyingScenarios from "./classifying-scenarios.vue";
+import userAccount from '@/components/userAcccountMsg.vue'
 export default {
   name: "HomeMiddle",
   components: {
@@ -69,6 +75,8 @@ export default {
     exitButton,
     jobRecruitment,
     scenePopover,
+    classifyingScenarios,
+    userAccount
   },
   data() {
     return {
@@ -106,10 +114,9 @@ export default {
     //查询
     async expirationTime() {
       let { data: res } = await info(this.$store.state.username);
-      console.log(res);
       let time = transformTimestamp(res.subscription_end_time)
       var myDate = transformTimestamp(new Date())
-      if (time == myDate) {
+      if (time <= myDate) {
         this.$refs.sendButton.classList.add("prohibit");
         this.$refs.inputBox.classList.add("prohibit");
       }
@@ -126,6 +133,15 @@ export default {
         e.cancelBubble = true; //ie阻止冒泡行为
         e.stopPropagation(); //Firefox阻止冒泡行为
         e.preventDefault(); //取消事件的默认动作*换行
+        const userMessage = this.$refs.inputBox.value;
+        if (!userMessage) {
+          return ElMessage({
+            message: "请输入内容!",
+            type: "warning",
+            duration: 800,
+            grouping: true,
+          });
+        }
         this.sendUserMessageAndDisplayResponse();
       }
     },
@@ -222,6 +238,7 @@ export default {
           Authorization: `Basic ${this.encodedCredentials}`,
         },
       });
+
       const responseJsonObject = await response.json();
       if (responseJsonObject.messages.slice(-1)[0].role == 'user') {
         console.log("last message user")
@@ -237,10 +254,8 @@ export default {
         }
       }
     },
-    // 发送用户消息, 基于不同模式获取AI回复
-    async sendUserMessageAndDisplayResponse() {
+    pageSending() {
       const userMessage = this.$refs.inputBox.value;
-      this.$refs.inputBox.value = "";
       if (!userMessage) {
         return ElMessage({
           message: "请输入内容!",
@@ -249,6 +264,12 @@ export default {
           grouping: true,
         });
       }
+      this.sendUserMessageAndDisplayResponse()
+    },
+    // 发送用户消息, 基于不同模式获取AI回复
+    async sendUserMessageAndDisplayResponse() {
+      const userMessage = this.$refs.inputBox.value;
+      this.$refs.inputBox.value = "";
       // 发送按钮失效直到发送完成
       this.$refs.sendButton.classList.add("prohibit");
       const processedText = this.achieveLineBreak(userMessage);
@@ -261,16 +282,19 @@ export default {
       this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.$store.state.selected.isChatModeSelected) {
+        // let { data: res } = await info(this.$store.state.username);
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
           this.baseLLMOpenAIUrl + "/chat-completion-stream";
-        // 首先将用户消息和模型名称等发送到后端
+        // isChatModeSelected
         const requestBody = {
           model: this.$store.state.selected.selectedChatModeModel,
           temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
+          // this.chatModeSystemMessage
+          // 我是一个工地工作者,需要人来帮我,我需要什么样的人
           user_message: userMessage,
         };
         const response = await fetch(chatModeUpdateInfoUrl, {
@@ -281,6 +305,16 @@ export default {
           },
           body: JSON.stringify(requestBody),
         });
+        if (response.status == 418) {
+          ElMessage({
+            message: "您的问题含有政治敏感/暴力/色情有关内容!",
+            type: "error",
+            duration: 3000,
+            grouping: true,
+          });
+          this.$refs.sendButton.classList.remove("prohibit");
+          return
+        }
         const responseJsonObject = await response.json();
         const apiEndpoint =
           chatModeSSEUrl +
@@ -307,7 +341,6 @@ export default {
             template_id: this.$route.path == "/chat" ? 0 : this.$store.state.recruitment.template_id,
             template_args: this.template_args
           };
-
           const response = await fetch(completionModeUpdateInfoUrl, {
             method: "PUT",
             headers: {
@@ -316,6 +349,16 @@ export default {
             },
             body: JSON.stringify(requestBody),
           });
+          if (response.status == 418) {
+            ElMessage({
+              message: "您的问题含有政治敏感/暴力/色情有关内容!",
+              type: "error",
+              duration: 3000,
+              grouping: true,
+            });
+            this.$refs.sendButton.classList.remove("prohibit");
+            return
+          }
           const responseJsonObject = await response.json();
           const apiEndpoint =
             completionModeSSEUrl +
@@ -355,7 +398,6 @@ export default {
       };
 
       //AI持续获取答案，会显到消息容器中
-
       eventSource.onmessage = (event) => {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;  //一直让消息容器右侧滚条触底；
         const response = JSON.parse(event.data);
@@ -403,6 +445,16 @@ export default {
           }),
         }
       );
+      if (response.status == 418) {
+        ElMessage({
+          message: "您的问题含有政治敏感/暴力/色情有关内容!",
+          type: "error",
+          duration: 3000,
+          grouping: true,
+        });
+        this.isShowLoading = false;
+        return
+      }
       const { final_answer, intermediate_steps } = await response.json();
       botParagraph.innerHTML += "<br/>" +
         "思考步骤：<br>" +
@@ -473,6 +525,13 @@ export default {
   height: 100%;
   box-sizing: border-box;
   justify-content: space-between;
+
+  .userAccount {
+    position: absolute;
+    right: 10px;
+    top: 82px;
+    box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.26);
+  }
 }
 
 .loading {
@@ -502,10 +561,24 @@ export default {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  width: 1200px;
   height: 95%;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 40px;
+}
+
+.home-middle-Unchanged {
+  width: 1200px;
+  transition: width 0.5s;
+}
+
+.home-middle-change {
+  width: 72.6vw;
+  transition: width 0.5s;
+
+  .send-button {
+    right: 15%;
+    transition: right 0.5s;
+  }
 }
 
 .messages-container,
@@ -597,6 +670,7 @@ button {
   width: 100px;
   position: absolute;
   right: 10%;
+  transition: right 0.5s;
   top: 15px;
   display: flex;
   justify-content: center;

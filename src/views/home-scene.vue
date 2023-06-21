@@ -1,15 +1,20 @@
 <template>
-        <el-empty :image-size="200" />
+    <div class="rightView">
+        <chatMOdule></chatMOdule>
+    </div>
 </template>
 
 <script>
+import chatMOdule from '../components/home-middle.vue';
 export default {
-
+    components: {
+        chatMOdule
+    }
 }
 </script>
 
-<style scoped>
-.el-empty {
+<style lang="scss" scoped>
+.rightView {
     height: 100%;
 }
 </style>

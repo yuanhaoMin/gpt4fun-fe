@@ -1,7 +1,8 @@
 <template>
   <div class="left">
     <el-menu active-text-color="#ffd04b" background-color="#354455" text-color="rgba(255,255,255,0.7)"
-      :default-active="indexPath" class="el-menu-vertical-demo" router>
+      :default-active="indexPath" class="el-menu-vertical-demo" :collapse="isSpend" @open="handleOpen"
+      @close="handleClose" router>
       <div>
         <el-menu-item index="chat">
           <el-icon>
@@ -17,16 +18,16 @@
         </el-menu-item>
         <!-- <el-menu-item index="scene">
           <el-icon>
-            <img src="/img/fenLei.png" alt="">
+            <img src="/imgs/bi-zhi-images/fenlei.png" alt="" class="fl">
           </el-icon>
-          <template #title>分类场景助手</template>
+          <template #title>分类场景AI助手</template>
         </el-menu-item> -->
-        <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
+        <!-- <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
           <el-icon>
             <img src="/imgs/bi-zhi-images/03.png" alt="">
           </el-icon>
           <template #title>分析AI助手</template>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-menu-item index="about">
           <el-icon>
             <img src="/imgs/bi-zhi-images/04.png" alt="">
@@ -49,7 +50,7 @@
   
 <script setup>
 import { info } from "../api/user";
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, ref, watchEffect, toRefs } from "vue";
 import { useRoute } from 'vue-router';
 import store from "../store/common-data";
 let isShowSelectBox = ref(false);
@@ -60,6 +61,7 @@ let intwo = ref(1);
 watchEffect(() => {
   if (route.path) {
     indexPath.value = route.path.slice(1);
+    store.state.isShowUserMsg = false
   }
   if (route.path != "/about") {
     isShowSelectBox.value = false
@@ -69,20 +71,20 @@ let expirationTime = async () => {
   let { data: res } = await info(store.state.username);
   intwo.value = res.access_bitmap;
 }
+
 expirationTime();
 
-
-// //菜单栏展开
-// const handleOpen = (key, keyPath) => { };
-// //菜单栏折叠
-// const handleClose = (key, keyPath) => { };
+//菜单栏展开
+const handleOpen = (key, keyPath) => { };
+//菜单栏折叠
+const handleClose = (key, keyPath) => { };
 
 //控制菜单栏是否展开
-// let { isSpend } = toRefs(store.state);
+let { isSpend } = toRefs(store.state);
 
-// let isShow = () => {
-//   isShowSelectBox.value = !isShowSelectBox.value
-// }
+let isShow = () => {
+  isShowSelectBox.value = !isShowSelectBox.value
+}
 // //跳转PDF对应模块
 // let jumpToPDFModule = (val) => {
 //   PDFModule.methods.jumpModule(val);
@@ -97,7 +99,6 @@ expirationTime();
 
 .set-up {
   width: 40px;
-  // margin: 0 0 40px 40px;
   position: fixed;
   bottom: 50px;
   left: 50px;
@@ -105,9 +106,9 @@ expirationTime();
 }
 
 .left {
-  width: 258px;
-  padding-right: 92px;
 
+  // width: 258px;
+  // padding-right: 92px;
   .el-menu {
     height: 100%;
     display: flex;
@@ -121,16 +122,20 @@ expirationTime();
       border-radius: 0 100px 100px 0;
       font-size: 16px;
 
+      .fl {
+        width: 24px;
+      }
 
       i {
         filter: contrast(0.5);
 
         img {
-          // margin-left: 44px;
           width: 16px;
         }
       }
     }
+
+
   }
 
   .el-menu-item.is-active {

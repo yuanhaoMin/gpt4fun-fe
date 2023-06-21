@@ -1,14 +1,15 @@
 <template>
     <div class="chat-top">
         <div>
-            <img src="/imgs/log-on-images/shousuo.png" alt="" class="sousuo" v-show="$route.path == '/login' ? false : true">
+            <img src="/imgs/log-on-images/shousuo.png" alt="" class="sousuo" v-show="$route.path == '/login' ? false : true"
+                @click='spendOrContract'>
             <img src="/imgs/log-on-images/logo.png" alt="">
         </div>
         <div>
-            <img src="\imgs\bi-zhi-images/tuichu.png" alt="" @click="logout"
-                v-if="$route.path != '/login' && $route.path != '/contact'">
-            <img src="\imgs\bi-zhi-images/zhuye.png" alt="" @click="$router.push('/')">
-            <img src="\imgs\bi-zhi-images/touxiang.png" alt="" v-if="$route.path == '/contact'" @click="isShowUserAccount">
+            <img src="\imgs\bi-zhi-images/touxiang.png" alt="" @click="isShowUserAccount" class="sculpture"
+                v-if="$route.path != '/login'">
+            <img src=" \imgs\bi-zhi-images/tuichu.png" alt="" @click="logout" v-if="$route.path != '/login'">
+            <img src="\imgs\bi-zhi-images/zhuye.png" alt="" @click="$router.push('/')" v-if="$route.path == '/login'">
         </div>
     </div>
 </template>
@@ -29,7 +30,7 @@ let logout = () => {
         }
     ).then(() => {
         store.commit("delData");
-        router.replace("/login");
+        router.replace("/");
         ElMessage({
             type: 'success',
             message: '退出成功！',
@@ -40,6 +41,10 @@ let logout = () => {
 let isShowUserAccount = () => {
     store.commit('showUserMsg')
 }
+//菜单栏 收缩/展开
+let spendOrContract = () => {
+    store.commit('isContract');
+};
 </script>
 
 <style  lang="scss" scoped>
@@ -81,6 +86,11 @@ let isShowUserAccount = () => {
         align-items: center;
         margin-right: 40px;
 
+        .sculpture {
+            width: 45px;
+            height: 45px;
+        }
+
         img {
             margin-right: 30px;
             width: 30px;
@@ -88,5 +98,6 @@ let isShowUserAccount = () => {
 
         }
     }
+
 }
 </style>

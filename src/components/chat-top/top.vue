@@ -99,5 +99,10 @@ let spendOrContract = () => {
         }
     }
 
+    el-message-box {
+        border: 0;
+        background: red !important;
+    }
+
 }
 </style>

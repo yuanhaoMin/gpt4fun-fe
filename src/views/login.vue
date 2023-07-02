@@ -9,43 +9,60 @@
           <div @click="register" :class="this.isShowRegister == true ? 'active' : 'not'">注册账号</div>
         </div>
         <div v-show="isShowlogin">
-          <div @keydown="onKeyDown">
-            <div class="user">
-              <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
-              <el-input v-model="username" placeholder="请输入用户名/手机号" clearable name="username" />
+          <el-form ref="formRef" :model="userForm" :rules="reles">
+            <div @keydown="onKeyDown">
+              <div class="user">
+                <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
+                <el-form-item prop="username">
+                  <el-input v-model="userForm.username" placeholder="请输入用户名/手机号" clearable name="username" />
+                </el-form-item>
+              </div>
+              <div class="user">
+                <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
+                <el-form-item prop="password">
+                  <el-input v-model="userForm.password" type="password" placeholder="请输入密码" name="password"
+                    show-password />
+                </el-form-item>
+              </div>
             </div>
-            <div class="user">
-              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="password" type="password" placeholder="请输入密码" name="password" show-password />
+            <div class="login">
+              <el-button type="primary" plain @click="jump()" ref="jumplogin">登录</el-button>
             </div>
-          </div>
-          <div class="login">
-            <el-button type="primary" plain @click="jump" ref="jumplogin">登录</el-button>
-          </div>
+          </el-form>
         </div>
         <div v-show="isShowRegister">
-          <div>
-            <div class="user">
-              <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
-              <el-input v-model="registerUsername" placeholder="请输入手机号注册" clearable name="registerUsername" />
-            </div>
-            <div class="user">
-              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="registerpassword" type="password" placeholder="请输入密码" name="registerpassword"
-                show-password />
-            </div>
-            <div class="elasticity">
-              <div class="yzm">
-                <img src="/imgs/log-on-images/yzm.png" alt="" class="logonImg" />
-                <el-input v-model="registerCode" placeholder="请输入验证码" name="registercode" maxlength="6" clearable />
+          <el-form :rules="reles" :model="registernew" ref="registerForm">
+            <div>
+              <div class="user">
+                <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
+                <el-form-item prop="registerUsername">
+                  <el-input v-model="registernew.registerUsername" placeholder="请输入手机号注册" clearable
+                    name="registerUsername" />
+                </el-form-item>
               </div>
-              <el-button type="info" round @click="send" id="btn">{{ codeNum == 60 ? "发送验证码" : `(${codeNum})秒发送`
-              }}</el-button>
+              <div class="user">
+                <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
+                <el-form-item prop="registerpassword">
+                  <el-input v-model="registernew.registerpassword" type="password" placeholder="请输入密码"
+                    name="registerpassword" show-password />
+                </el-form-item>
+              </div>
+              <div class="elasticity">
+                <div class="yzm">
+                  <img src="/imgs/log-on-images/yzm.png" alt="" class="logonImg" />
+                  <el-form-item prop="registerCode">
+                    <el-input v-model="registernew.registerCode" placeholder="请输入验证码" name="registercode" maxlength="6"
+                      clearable />
+                  </el-form-item>
+                </div>
+                <el-button type="info" round @click="send" id="btn">{{ codeNum == 60 ? "发送验证码" : `(${codeNum})秒发送`
+                }}</el-button>
+              </div>
             </div>
-          </div>
-          <div class="register">
-            <el-button type="primary" plain @click="newRegister">注册</el-button>
-          </div>
+            <div class="register">
+              <el-button type="primary" plain @click="newRegister">注册</el-button>
+            </div>
+          </el-form>
         </div>
       </div>
     </div>
@@ -57,89 +74,112 @@ import { login, register } from "../api/user";
 import { codeApi, verificationApi } from "../api/mobile-phone"
 import { ElMessage } from "element-plus";
 import top from "../components/chat-top/top.vue";
+import { isMobile } from '@/utils/validate';
 export default {
   components: {
     top
   },
   data() {
+    const validateMobile = (rule, value, callback) => {
+      if (isMobile(value)) {
+        callback()
+      } else {
+        callback(new Error('手机号格式不正确'))
+      }
+    }
     return {
-      username: "",
-      password: "",
-      registerUsername: '',
-      registerpassword: "",
-      registerCode: '',
+      userForm: {
+        username: "",
+        password: "",
+      },
+      registernew: {
+        registerUsername: '',
+        registerpassword: "",
+        registerCode: ''
+      },
       isShowlogin: true,
       isShowRegister: false,
       codeNum: 60,
-      isClickSend: false
+      isClickSend: false,
+      reles: {
+        username: [
+          { required: true, message: '请输入用户名/手机号', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+        ],
+        registerUsername: [
+          { required: true, message: '请输入手机号注册', trigger: 'blur' },
+          { validator: validateMobile, trigger: 'blur' }
+        ],
+        registerpassword: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 16, message: '密码长度在6~16之间', trigger: 'blur' },
+        ],
+        registerCode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+        ]
+      }
     }
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.username.length == 0) {
+      if (this.userForm.username.length == 0) {
         document.getElementsByName('username')[0].focus()
-      } else if (this.password.length == 0) {
+      } else if (this.userForm.password.length == 0) {
         document.getElementsByName('password')[0].focus()
       }
-
     })
   },
   methods: {
     async newRegister() {
-      let phone = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-      let pasword = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,15}$/;
-      if (!phone.test(this.registerUsername)) return ElMessage.error("请正确的填写手机号格式!");
-      if (!pasword.test(this.registerpassword)) return ElMessage.error("密码必须由数字、字母组成,长度在6-15个字符!");
-      if (this.registerCode == "") return ElMessage.error("请输入验证码!");
-      await verificationApi({
-        "phone": this.registerUsername,
-        "captcha": this.registerCode
+      this.$refs.registerForm.validate(valid => {
+        console.log(valid);
+        if (valid) {
+          let code = verificationApi({
+            "phone": this.registernew.registerUsername,
+            "captcha": this.registernew.registerCode
+          }).then(value => {
+            register({
+              username: this.registernew.registerUsername,
+              password: this.registernew.registerpassword,
+            }).then(value => {
+              ElMessage({
+                showClose: true,
+                message: "注册成功!",
+                type: "success",
+              });
+              this.isShowRegister = false
+              this.isShowlogin = true
+            })
+          })
+        } else {
+          return
+        }
       })
-      let res = await register({
-        username: this.registerUsername,
-        password: this.registerpassword,
-      })
-      if (res.status == 200) {
-        await login({
-          username: this.registerUsername,
-          password: this.registerpassword,
-        });
-        const credentials = `${this.registerUsername}:${this.registerpassword}`;
-        const encodedCredentials = btoa(credentials);
-        this.$store.commit("token", encodedCredentials);
-        this.$store.commit("username", this.registerUsername);
-        ElMessage({
-          showClose: true,
-          message: "登录成功！",
-          type: "success",
-        });
-        this.$router.replace("/chat");
-      }
     },
     async jump() {
-      if (this.username == "" || this.password == "") {
-        ElMessage.error("账户/密码不能为空！");
-        return;
-      } else {
-        let res = await login({
-          username: this.username,
-          password: this.password,
-        });
-        if (res.status == 200) {
-          const credentials = `${this.username}:${this.password}`;
-          const encodedCredentials = btoa(credentials);
-          this.$store.commit("token", encodedCredentials);
-          this.$store.commit("username", this.username);
-          ElMessage({
-            showClose: true,
-            message: "登录成功！",
-            type: "success",
+      this.$refs.formRef.validate(valid => {
+        if (valid) {
+          login({
+            username: this.userForm.username,
+            password: this.userForm.password,
+          }).then(value => {
+            const credentials = `${this.userForm.username}:${this.userForm.password}`;
+            const encodedCredentials = btoa(credentials);
+            this.$store.commit("token", encodedCredentials);
+            this.$store.commit("username", this.userForm.username);
+            ElMessage({
+              showClose: true,
+              message: "登录成功！",
+              type: "success",
+            });
+            this.$router.replace("/chat");
           });
-          this.$router.replace("/chat");
         } else {
-          return;
+          return
         }
-      }
+      })
     },
     onKeyDown(e) {
       if (e.keyCode == 13) {
@@ -156,12 +196,13 @@ export default {
     },
 
     async send() {
+      if (this.registernew.registerUsername == '') return ElMessage({
+        showClose: true,
+        message: "手机号不能为空",
+        type: "error",
+      });
       if (this.isClickSend == true || this.codeNum != 60) return;
       this.isClickSend = true;
-      let res = await codeApi({
-        "phone": this.registerUsername,
-        "token": "bizcampgpt"
-      })
       let clearId = setInterval(() => {
         this.codeNum--;
         if (this.codeNum == 0) {
@@ -170,6 +211,10 @@ export default {
           this.isClickSend = false;
         }
       }, 1000);
+      let res = await codeApi({
+        "phone": this.registernew.registerUsername,
+        "token": "bizcampgpt"
+      })
     }
   }
 }
@@ -245,6 +290,10 @@ export default {
           box-shadow: none;
           background-color: transparent;
         }
+
+        &:deep(.el-form-item__error) {
+          left: 7%;
+        }
       }
 
       .user {
@@ -299,6 +348,16 @@ export default {
       height: 36px;
       margin-top: 20px;
     }
+  }
+}
+
+.el-form-item {
+  width: 100%;
+  margin: 0;
+
+  &:deep(.el-form-item__error) {
+    top: 80%;
+    left: 3%;
   }
 }
 </style>

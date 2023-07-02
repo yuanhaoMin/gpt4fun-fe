@@ -351,7 +351,8 @@ export default {
     components: {
         abouttop,
         bottomVue
-    }
+    },
+    
 }
 </script>
 

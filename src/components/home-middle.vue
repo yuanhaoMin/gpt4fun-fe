@@ -37,7 +37,7 @@
           </el-button>
         </div>
         <div class="input-box">
-          <input placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
+          <textarea placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
           <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
             发送
@@ -51,13 +51,16 @@
       <homeRight ref="homeRight" v-show="$route.fullPath == '/chat'"></homeRight>
       <jobRecruitment ref="jobRecruitment" v-show="$route.fullPath == '/recruit'"></jobRecruitment>
       <classifyingScenarios v-show="$route.fullPath == '/scene'"
-        @sendUserMessageAndDisplayResponse="sendUserMessageAndDisplayResponse"></classifyingScenarios>
+        @sendUserMessageAndDisplayResponse="sendUserMessageAndDisplayResponse" @resetChatHistory="resetChatHistory"
+        ref="classifyingScenarios">
+      </classifyingScenarios>
     </div>
     <userAccount class="userAccount"></userAccount>
   </div>
 </template>
   
 <script>
+
 import { ElMessage } from "element-plus";
 import { getData } from "../utils/store-crud";
 import homeRight from "./home-right.vue";
@@ -93,7 +96,7 @@ export default {
       //默认显示
       isshowshow: true,
       isShowLoading: false,
-      senderAssistant: "senderAssistant",
+      senderAssistant: "获取中···",
       senderUser: "senderUser",
       isStopGeneration: false,
       template_args: [],
@@ -111,7 +114,12 @@ export default {
     this.expirationTime()
   },
   methods: {
-    //查询
+    copy() {
+      const clipboardObj = navigator.clipboard;
+      clipboardObj.writeText(document.getElementsByClassName('text')); // value 是添加到剪切板的内容
+      console.log(1);
+    },
+    //查询到期时间
     async expirationTime() {
       let { data: res } = await info(this.$store.state.username);
       let time = transformTimestamp(res.subscription_end_time)
@@ -165,22 +173,50 @@ export default {
       for (let i = 0; i < a.length; i++) {
         a[i].style.overflow = "hidden";
       }
-      if (messagesContainerChildren.length) {
-        messagesContainerChildren.forEach((v, k) => {
-          v.style.borderRadius = "6px";
-          v.style.padding = "15px";
-          v.style.marginBottom = "15px";
-        });
+      //获取奇数数据
+      let oddArr = [];
+      for (let i = 0; i < messagesContainerChildren.length; i++) {
+        if ([i] % 2 != 0) {
+          oddArr.push(messagesContainerChildren[i]);
+        }
       }
+      oddArr.forEach((v, k) => {
+        v.style.background = '#15122c'
+      });
+      messagesContainerChildren.forEach((v, k) => {
+        v.style.color = '#FFF'
+        v.style.padding = "15px";
+        v.style.marginBottom = "10px";
+        v.style.display = 'flex';
+        v.style.alignItems = "baseline";
+        v.style.justifyContent = "space-between";
+        v.style.lineHeight = "1.5";
+        v.style.borderRadius = '20px';
+      });
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
       // 用户消息和AI消息的颜色不同
       if (sender == this.senderUser) {
-        messageParagraph.style.float = "right";
-        messageParagraph.style.background = "#e8f8ff";
-        messageElement.style.color = "#000000";
+        messageParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/touxiang.png" style="width:28px;padding-right:10px"><div style='margin-top:5px'><div class='iptText' >${text}</div></div></div>`
       } else if (sender == this.senderAssistant) {
-        messageElement.style.color = "#0a0a0a";
-        messageParagraph.style.background = "#eeeeee";
+        // messageParagraph.style.background = "#15122c";
+        messageParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;' ><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${text}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
+        let res = document.querySelectorAll('.copy')
+        for (let i = 0; i < res.length; i++) {
+          res[i].onclick = function () {
+            navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
+
+              ElMessage({
+                message: '文本已经成功复制到剪切板',
+                type: 'success',
+                duration: 800
+              })
+            })
+              .catch(err => {
+                //如果用户没有授权，则抛出异常
+                console.error('无法复制此文本', err);
+              })
+          }
+        }
       }
       messageElement.style.fontFamily = "Microsoft YaHei";
       return messageParagraph;
@@ -197,16 +233,18 @@ export default {
           Authorization: `Basic ${this.encodedCredentials}`,
         },
       });
+      // 清空已显示的消息
+      this.$refs.messagesContainer.innerHTML = "";
       this.$refs.inputBox.value = "";
       ElMessage({
         message: '已成功清空记录！',
         duration: 1100,
         type: 'success',
       })
-      // 清空已显示的消息
-      this.$refs.messagesContainer.innerHTML = "";
     },
-
+    fun() {
+      console.log(1);
+    },
     // 对话模式下, 设置情景
     async updateSystemMessage() {
       this.isShowScenarios = !this.isShowScenarios
@@ -250,7 +288,7 @@ export default {
         if (message.role == 'user') {
           this.createAndAppendMessage(content, this.senderUser)
         } else if (message.role == 'assistant') {
-          this.createAndAppendMessage("AI: " + content, this.senderAssistant)
+          this.createAndAppendMessage(content, this.senderAssistant)
         }
       }
     },
@@ -268,7 +306,7 @@ export default {
     },
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
-      const userMessage = this.$refs.inputBox.value;
+      const userMessage = this.$refs.inputBox.value == "" ? this.$refs.classifyingScenarios.dataList : this.$refs.inputBox.value;
       this.$refs.inputBox.value = "";
       // 发送按钮失效直到发送完成
       this.$refs.sendButton.classList.add("prohibit");
@@ -276,8 +314,7 @@ export default {
       this.createAndAppendMessage(processedText, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
       const botParagraph = this.createAndAppendMessage(
-        "AI: ",
-        this.senderAssistant
+        `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px'>${this.senderAssistant}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' /></div>`
       );
       this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
@@ -322,7 +359,6 @@ export default {
           responseJsonObject.id +
           "&test_mode=" +
           this.testMode;
-        // console.log("ID", apiEndpoint);
         await this.completionWithStream(apiEndpoint, botParagraph);
       } else if (this.$store.state.selected.isCompletionModeSelected) {
         if (this.$store.state.selected.selectedCompletionModeOnlineOption == "offline") {
@@ -377,7 +413,6 @@ export default {
         this.$refs.sendButton.classList.remove("prohibit");
       }
     },
-
     async completionWithStream(apiEndpoint, botParagraph) {
       const eventSource = new EventSource(apiEndpoint);
       let completeResponse = "";
@@ -404,7 +439,6 @@ export default {
         if (response.hasEnd || this.isStopGeneration) {
           eventSource.close();
           this.isStopGeneration = false;
-
           this.$refs.sendButton.classList.remove("prohibit");
         } else {
           const formattedChunkResponse = this.achieveLineBreak(
@@ -422,7 +456,23 @@ export default {
               codeStart = false;
             }
           }
-          botParagraph.innerHTML = completeResponse;
+          botParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${completeResponse}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
+          let res = document.querySelectorAll('.copy')
+          for (let i = 0; i < res.length; i++) {
+            res[i].onclick = function () {
+              navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
+                ElMessage({
+                  message: '文本已经成功复制到剪切板',
+                  type: 'success',
+                  duration: 800
+                })
+              })
+                .catch(err => {
+                  //如果用户没有授权，则抛出异常
+                  console.error('无法复制此文本', err);
+                })
+            }
+          }
         }
       };
     },
@@ -456,13 +506,24 @@ export default {
         return
       }
       const { final_answer, intermediate_steps } = await response.json();
-      botParagraph.innerHTML += "<br/>" +
-        "思考步骤：<br>" +
-        this.formatIntermediateSteps(intermediate_steps) +
-        "\n" +
-        "最终答案：" +
-        final_answer +
-        "<br>\n";
+      botParagraph.innerHTML =
+        `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>思考步骤：<br>${this.formatIntermediateSteps(intermediate_steps)}\n最终答案:${final_answer}<br>\n</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
+      let res = document.querySelectorAll('.copy')
+      for (let i = 0; i < res.length; i++) {
+        res[i].onclick = function () {
+          navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
+            ElMessage({
+              message: '文本已经成功复制到剪切板',
+              type: 'success',
+              duration: 800
+            })
+          })
+            .catch(err => {
+              //如果用户没有授权，则抛出异常
+              console.error('无法复制此文本', err);
+            })
+        }
+      }
       this.isShowLoading = false;
     },
     //处理intermediate_steps的多级数组,暂时按照固定格式处理的数据，后续可持续拓展
@@ -496,12 +557,12 @@ export default {
         body: JSON.stringify(requestBody),
       });
       const { data } = await response.json();
-      botParagraph.innerHTML +=
-        "<br/><span>" + this.handleImage(data) + "</span>";
+      botParagraph.innerHTML =
+        `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${this.handleImage(data)}</div></div><div style='display:flex'></div>`;
     },
     //将图片链接渲染到页面
     handleImage(data) {
-      let htmlStr = "<span>";
+      let htmlStr = "";
       if (Array.isArray(data)) {
         for (let i = 0; i < data.length; i++) {
           htmlStr += "<img src=" + data[i].url + ">";
@@ -509,6 +570,7 @@ export default {
       }
       return htmlStr;
     },
+
   },
 };
 </script>
@@ -581,10 +643,9 @@ export default {
   }
 }
 
-.messages-container,
-.usermsg {
+.messages-container {
   align-self: flex-start;
-  height: 740px;
+  height: 90%;
   overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
@@ -664,14 +725,18 @@ button {
   justify-content: center;
   position: relative;
   margin-bottom: 20px;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .send-button {
-  width: 100px;
+  width: 80px;
+  height: 50px;
   position: absolute;
-  right: 10%;
+  right: 12%;
   transition: right 0.5s;
-  top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -679,6 +744,8 @@ button {
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
   border: 0px;
+
+
 }
 
 .send-icon {
@@ -689,8 +756,8 @@ button {
 
 .syan {
   width: 278px;
-  height: 314px;
   background: #2F1E67;
+  height: 314px;
   border-radius: 40px 0px 0px 40px;
   margin-left: 92px;
 }
@@ -905,5 +972,10 @@ select {
   text-align: center;
   font-weight: 700;
   font-size: 28px;
+}
+
+.user-profile {
+  width: 32px;
+  height: 32px;
 }
 </style>

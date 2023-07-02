@@ -11,7 +11,7 @@
                 </ul>
                 <ul>
                     <li>技术支持</li>
-                    <li>南京毕至企业管理咨询有限公司</li>
+                    <li>南京毕至数科科技有限公司</li>
                 </ul>
                 <ul>
                     <li>联系我们</li>
@@ -26,8 +26,8 @@
             </div>
         </div>
         <div class="secure">
-            <div>ICP备案:</div>
-            <div>公安备案:</div>
+            <div>ICP备案: <span>苏ICP备2020068908号-2</span></div>
+            <div>公安备案:审核中 <span></span></div>
         </div>
     </div>
 </template>
@@ -106,7 +106,7 @@ export default {
     }
 
     .secure {
-        width: 320px;
+        width: 380px;
         height: 60px;
         line-height: 60px;
         display: flex;
@@ -114,6 +114,11 @@ export default {
         font-size: 12px;
         color: rgba(255, 255, 255, 0.8);
         justify-content: space-between;
+
+        span {
+            margin-left: 5px;
+            color: silver;
+        }
     }
 }
 </style>

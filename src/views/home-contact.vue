@@ -4,7 +4,7 @@
         <div class="label">
             <a href="mailto:lby@bizcamp.com.cn">lby@bizcamp.com.cn</a>
             <a href="mailto:hhf@bizcamp.com.cn">hhf@bizcamp.com.cn</a>
-            <a href="mailto:ljq@bizcamp.com.cn">ljq@bizcamp.com.cn</a>
+            <a href="mailto:ljq@bizcamp.com.cn">sjq@bizcamp.com.cn</a>
         </div>
         <userAccount class="userAccount"></userAccount>
     </div>
@@ -14,7 +14,7 @@
 import userAccount from '@/components/userAcccountMsg.vue'
 
 export default {
-    components:{
+    components: {
         userAccount
     }
 }
@@ -32,12 +32,14 @@ export default {
     font-size: 20px;
     box-sizing: border-box;
     position: relative;
-    .userAccount{
+
+    .userAccount {
         position: absolute;
         left: 1090px;
         top: -5px;
-        box-shadow: 0px 3px 12px 0px rgba(0,0,0,0.26);
+        box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.26);
     }
+
     .label {
         margin-top: 20px;
 

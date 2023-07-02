@@ -4,7 +4,6 @@
             <div class="top">
                 <img src="/imgs/bi-zhi-images/touxiang.png" alt="" class="free photo">
                 <div class="usernameAndAccount">
-                    <!-- <p>{{ user }}</p> -->
                     <p>账号：{{ user }}</p>
                 </div>
             </div>

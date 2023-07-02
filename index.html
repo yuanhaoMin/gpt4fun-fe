@@ -11,11 +11,71 @@
       padding: 0;
       margin: 0;
     }
+
+    .loader {
+      transform: scale(0.5);
+      display: inline-block;
+      height: 1em;
+      width: 1em;
+      line-height: 1;
+      vertical-align: middle;
+      border-radius: 1em;
+      transition: all 150ms linear 0s;
+      color: slateblue;
+      box-shadow: 1.618033988747495em 1.1755705045882492em 0 -0.0875em, 0.6180339887421291em 1.9021130325928304em 0 -0.0875em, -0.6180339887615437em 1.9021130325865223em 0 -0.0875em, -1.618033988759494em 1.1755705045717344em 0 -0.0875em, -2em -2.041364786902785e-11em 0 -0.0875em, -1.6180339887354962em -1.1755705046047644em 0 -0.0875em, -0.6180339887227142em -1.9021130325991387em 0 -0.0875em, 0.6180339887809577em -1.9021130325802142em 0 -0.0875em, 1.6180339887714932em -1.1755705045552187em 0 -0.0875em;
+      animation: spinDots 1000ms infinite steps(10);
+    }
+
+    @keyframes spinDots {
+      0% {
+        transform: scale(0.5) rotate(0);
+        animation-timing-function: cubic-bezier(.55, .055, .675, .19);
+      }
+
+      50% {
+        transform: scale(0.5) rotate(180deg);
+        animation-timing-function: cubic-bezier(.215, .61, .355, 1);
+      }
+
+      100% {
+        transform: scale(0.5) rotate(360deg);
+      }
+    }
+
+    .expectation {
+      height: 300px;
+      line-height: 300px;
+      color: slateblue;
+      font-family: 华文楷体;
+      font-size: 80px;
+    }
+
+    .center {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      justify-content: center;
+    }
+
+    .notFind {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
   <div id="app"></div>
+  <div class="notFind">
+    <div class="center">
+      <div class="loader"></div>
+      <div class="expectation">请在电脑端访问此网站!</div>
+    </div>
+  </div>
   <script type="module" src="/src/main.js"></script>
 </body>
 <script>
@@ -49,31 +109,14 @@
   };
 
   //禁用鼠标右击事件
-  document.oncontextmenu = function () { return false; };
-  (function () {
-    var browser = {
-      versions: function () {
-        var u = navigator.userAgent, app = navigator.appVersion;
-        return {
-          mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-          iPad: u.indexOf('iPad') > -1, //是否iPad
-          webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-        };
-      }(),
-      language: (navigator.browserLanguage || navigator.language).toLowerCase()
-    }
-    if (browser.versions.mobile || browser.versions.ios || browser.versions.android || browser.versions.iPhone || browser.versions.iPad) {
-      //移动端具体操作
-      return window.location.href = "./404.html";
+  document.oncontextmenu = function () { return };
 
-    } else {
-      //pc 端操作（可以禁止访问）
+  
+  window.onload = () => {
+    if (window.screen.width < 1366) {
+      document.querySelector('.notFind').style.display = "block";
     }
-  })();
-
+  }
 </script>
 
 </html>

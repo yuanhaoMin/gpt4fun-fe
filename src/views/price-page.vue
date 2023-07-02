@@ -4,9 +4,11 @@
         <h1>价格</h1>
         <p>我们力求通过科学的特性组合，让不同需求的用户感到物超所值</p>
         <div class="tab">
-            <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1">基础版</div>
-            <div :class="tab == 2 ? 'tab-bg' : ''" @click="tab = 2">专业版</div>
-            <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3">终身版</div>
+            <div class="tab-s">
+                <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">基础版</div>
+                <div :class="tab == 2 ? 'tab-bg' : ''" @click="tab = 2">专业版</div>
+                <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3" class="border-r">终身版</div>
+            </div>
         </div>
         <div class="number" v-show="tab == 1">
             <div>
@@ -374,25 +376,44 @@ export default {
 
     .tab {
         margin-top: 50px;
+
         display: flex;
         justify-content: center;
         color: #03001b;
 
-        .tab-bg {
-            background-color: #3b93f3;
-            color: white;
+        .tab-s {
+            display: flex;
+            width: 720px;
+            height: 60px;
+
+            .border-l {
+                border-radius: 40px 0 0 40px;
+            }
+
+            .border-r {
+                border-radius: 0 40px 40px 0;
+            }
+
+            .tab-bg {
+                background-color: #3b93f3;
+                color: white;
+            }
+
+            div {
+                text-align: center;
+                width: 240px;
+                height: 60px;
+                font-size: 22px;
+                line-height: 60px;
+                cursor: pointer;
+                box-sizing: border-box;
+                background-color: white;
+            }
         }
 
-        div {
-            text-align: center;
-            width: 240px;
-            height: 60px;
-            font-size: 22px;
-            line-height: 60px;
-            cursor: pointer;
-            box-sizing: border-box;
-            background-color: white;
-        }
+
+
+
     }
 }
 

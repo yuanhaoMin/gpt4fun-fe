@@ -38,7 +38,6 @@
   }, {
     passive: false
   });
-
   //禁用F12
   document.onkeydown = function (e) {
     var currKey = 0, evt = e || window.event;
@@ -51,6 +50,30 @@
 
   //禁用鼠标右击事件
   document.oncontextmenu = function () { return false; };
+  (function () {
+    var browser = {
+      versions: function () {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+          android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+          iPad: u.indexOf('iPad') > -1, //是否iPad
+          webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+        };
+      }(),
+      language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+    if (browser.versions.mobile || browser.versions.ios || browser.versions.android || browser.versions.iPhone || browser.versions.iPad) {
+      //移动端具体操作
+      return window.location.href = "./404.html";
+
+    } else {
+      //pc 端操作（可以禁止访问）
+    }
+  })();
+
 </script>
 
 </html>

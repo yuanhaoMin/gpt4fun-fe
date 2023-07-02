@@ -16,12 +16,12 @@
           </el-icon>
           <template #title>招聘AI助手</template>
         </el-menu-item>
-        <!-- <el-menu-item index="scene">
+        <el-menu-item index="scene">
           <el-icon>
             <img src="/imgs/bi-zhi-images/fenlei.png" alt="" class="fl">
           </el-icon>
           <template #title>分类场景AI助手</template>
-        </el-menu-item> -->
+        </el-menu-item>
         <!-- <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
           <el-icon>
             <img src="/imgs/bi-zhi-images/03.png" alt="">
@@ -85,10 +85,7 @@ let { isSpend } = toRefs(store.state);
 let isShow = () => {
   isShowSelectBox.value = !isShowSelectBox.value
 }
-// //跳转PDF对应模块
-// let jumpToPDFModule = (val) => {
-//   PDFModule.methods.jumpModule(val);
-// }
+
 </script>
   
 <style lang="scss" scoped>
@@ -106,9 +103,6 @@ let isShow = () => {
 }
 
 .left {
-
-  // width: 258px;
-  // padding-right: 92px;
   .el-menu {
     height: 100%;
     display: flex;

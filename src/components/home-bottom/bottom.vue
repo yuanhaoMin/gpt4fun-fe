@@ -106,7 +106,7 @@ export default {
     }
 
     .secure {
-        width: 380px;
+        width: 400px;
         height: 60px;
         line-height: 60px;
         display: flex;

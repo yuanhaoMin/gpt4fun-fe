@@ -207,7 +207,7 @@ export default {
         position: absolute;
         background-color: #311a67;
         right: 70px;
-        bottom: -250px;
+        bottom: -60px;
         border: 1px solid lightgray;
         padding: 10px 0px;
         color: silver;

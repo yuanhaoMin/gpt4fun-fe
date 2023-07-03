@@ -12,7 +12,7 @@
         </el-menu-item>
         <el-menu-item index="recruit">
           <el-icon>
-            <img src="/imgs/bi-zhi-images/02.png" alt="">
+            <img src="/imgs/bi-zhi-images/jia.png" alt="">
           </el-icon>
           <template #title>招聘AI助手</template>
         </el-menu-item>

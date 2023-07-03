@@ -77,18 +77,10 @@ const router = createRouter({
       name: 'price',
       component: () => import('../views/price-page.vue')
     },
-    {
-      path: '/notFind',//404
-      name: 'notFind',
-      component: () => import('../views/notFind.vue')
-    },
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if (window.screen.width < 1366) {
-    next('/notFind');
-  } else {
     const token = getData('token');
     if (token && to.path != '/') {
       next();
@@ -99,7 +91,6 @@ router.beforeEach((to, from, next) => {
         next('/')
       }
     }
-  };
 });
 
 export default router

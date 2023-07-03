@@ -109,12 +109,13 @@
   };
 
   //禁用鼠标右击事件
-  document.oncontextmenu = function () { return };
+  document.oncontextmenu = function () { return false };
 
-  
+
   window.onload = () => {
     if (window.screen.width < 1366) {
       document.querySelector('.notFind').style.display = "block";
+      document.querySelector('#app').style.display = "none";
     }
   }
 </script>

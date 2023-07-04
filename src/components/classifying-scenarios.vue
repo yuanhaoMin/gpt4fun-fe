@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { ElNotification } from 'element-plus'
 export default {
     data() {
         return {
@@ -90,7 +91,6 @@ export default {
                 7: ['你是一位具有全球影响力的网络红人，你懂得如何生成吸引观众的标题。现在请帮我在这个社交软件上', '，帮我生成', '能吸引到观众的主题。标题内容的方向是', '，我希望能吸引到的对象是', '。要求生成的标题是以下这个风格', '，标题的规则是', '。我的其他要求是', '。请充分发挥你的想象力和创造力，为我生成高质量有趣且能吸引人的标题。'],
                 8: ['你是一位全球顶尖的视频拍摄者。我现在要写一份关于这个主题', '的视频脚本，视频的内容是', '，我想要的视频风格是', '，视频的观众是', ',视频的时长是', '。现在请你根据我的要求帮我生成一份高质量、实操性强的视频脚本。其他要求是', '。请充分发挥你的想象力和创造力，同时严格根据我的要求来撰写视频脚本，禁止胡编乱造。']
             },
-
         }
     },
     methods: {
@@ -103,7 +103,6 @@ export default {
             this.dataList = this.dataList + this.begin[val].at(-1);
             this.$emit('sendUserMessageAndDisplayResponse');
             this.drawer = false;
-            // this.objList = {};
             this.dataList = '';
             this.isShowReEdit = true
         },
@@ -113,7 +112,14 @@ export default {
         eventSocialize() {
             this.isShowsocialize = !this.isShowsocialize;
         },
-        appearDrawer(e) {
+        async appearDrawer(e) {
+            if (this.$store.state.expire == 1) {
+                return ElNotification({
+                    title: '提醒',
+                    message: '抱歉哦，这个功能需要升级专业版，有任何疑问欢迎联系我们',
+                    type: 'warning',
+                })
+            }
             this.drawer = true
             this.isShowdrawer = e
             this.isShowReEdit = false;

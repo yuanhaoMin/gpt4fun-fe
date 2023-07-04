@@ -104,7 +104,7 @@
                 <li></li>
                 <li></li>
                 <li>招聘AI助手</li>
-                <li>分类场景</li>
+                <li>分类AI场景</li>
                 <li></li>
                 <li>开发中</li>
                 <li>分析AI助手</li>

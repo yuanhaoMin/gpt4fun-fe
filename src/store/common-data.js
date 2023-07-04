@@ -8,7 +8,7 @@ const store = createStore({
             selected: {},
             isSpend: false,
             recruitment: {},
-            isShowUserMsg:false,
+            isShowUserMsg: false,
         }
     },
     mutations: {
@@ -35,8 +35,11 @@ const store = createStore({
         recruitment(state, val) {
             state.recruitment = val
         },
-        showUserMsg(state){
-            state.isShowUserMsg=!state.isShowUserMsg;
+        showUserMsg(state) {
+            state.isShowUserMsg = !state.isShowUserMsg;
+        },
+        expire(state, val) {
+            state.expire = val
         }
     }
 })

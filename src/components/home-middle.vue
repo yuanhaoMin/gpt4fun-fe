@@ -61,7 +61,7 @@
   
 <script>
 
-import { ElMessage } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import { getData } from "../utils/store-crud";
 import homeRight from "./home-right.vue";
 import jobRecruitment from './job-recruitment.vue';
@@ -101,32 +101,32 @@ export default {
       isStopGeneration: false,
       template_args: [],
       isShowScenarios: false,
-      dialogTableVisible: true
+      dialogTableVisible: true,
+      timeExpiration: 1
     };
   },
   created() {
+    this.expirationTime();
     this.encodedCredentials = getData("token");
     this.authUsername = getData("username");
     // 用户刷新页面时清除历史记录
     // this.resetChatHistory();
     // 用户刷新页面加载历史记录
     this.loadChatHistory();
-    this.expirationTime()
   },
   methods: {
     copy() {
       const clipboardObj = navigator.clipboard;
       clipboardObj.writeText(document.getElementsByClassName('text')); // value 是添加到剪切板的内容
-      console.log(1);
     },
     //查询到期时间
     async expirationTime() {
       let { data: res } = await info(this.$store.state.username);
+      this.$store.commit("expire", res.access_bitmap);
       let time = transformTimestamp(res.subscription_end_time)
       var myDate = transformTimestamp(new Date())
       if (time <= myDate) {
-        this.$refs.sendButton.classList.add("prohibit");
-        this.$refs.inputBox.classList.add("prohibit");
+        this.timeExpiration = 0
       }
     },
     addContent(value) {
@@ -242,29 +242,9 @@ export default {
         type: 'success',
       })
     },
-    fun() {
-      console.log(1);
-    },
     // 对话模式下, 设置情景
     async updateSystemMessage() {
       this.isShowScenarios = !this.isShowScenarios
-      // if (this.$refs.inputBox.value == "") {
-      //   ElMessage({
-      //     message: "设置情景不能为空！",
-      //     type: "error",
-      //     duration: 1100,
-      //     grouping: true,
-      //   });
-      // } else {
-      //   this.chatModeSystemMessage = this.$refs.inputBox.value;
-      //   this.$refs.inputBox.value = "";
-      //   ElMessage({
-      //     message: "成功设置系统消息",
-      //     type: "success",
-      //     duration: 1100,
-      //     grouping: true,
-      //   });
-      // }
     },
     //获取历史记录
     async loadChatHistory() {
@@ -306,6 +286,7 @@ export default {
     },
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
+      if (this.timeExpiration == 0) return ElNotification({ title: '抱歉哦', message: '您的购买已到期，继续打赏给我们一点支持吧！', type: 'error', });
       const userMessage = this.$refs.inputBox.value == "" ? this.$refs.classifyingScenarios.dataList : this.$refs.inputBox.value;
       this.$refs.inputBox.value = "";
       // 发送按钮失效直到发送完成
@@ -319,7 +300,6 @@ export default {
       this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.$store.state.selected.isChatModeSelected) {
-        // let { data: res } = await info(this.$store.state.username);
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -638,7 +618,7 @@ export default {
   transition: width 0.5s;
 
   .send-button {
-    right: 15%;
+    right: 16%;
     transition: right 0.5s;
   }
 }
@@ -735,7 +715,7 @@ button {
   width: 80px;
   height: 50px;
   position: absolute;
-  right: 12%;
+  right: 11%;
   transition: right 0.5s;
   display: flex;
   justify-content: center;

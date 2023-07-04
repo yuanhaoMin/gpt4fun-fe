@@ -3,7 +3,6 @@
         <div class="tall">
             <div>
                 <div @click="selectChatMode">
-                    <!-- <el-button type="primary" class="button-finger-hover">对话模式 :</el-button> -->
                     <span>对话模式 :</span>&emsp;
                     <el-switch v-model="isChatMode.isChatModeSelected" size="large" />
                 </div>
@@ -11,8 +10,8 @@
                     <div>
                         AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
                             <el-option label="3.5" value="gpt-3.5-turbo" />
-                            <el-option :label="this.bitmap == 1 ? '4.0(需充值专业版)' : '4.0'" value="gpt-4"
-                                :disabled="this.bitmap == 1 ? true : false" />
+                            <el-option :label="this.$store.state.expire == 1 ? '4.0(需充值专业版)' : '4.0'" value="gpt-4"
+                                :disabled="this.$store.state.expire == 1 ? true : false" />
                         </el-select>
                     </div>
                     <div>
@@ -29,7 +28,6 @@
 
         <div class="unify">
             <div @click="selectCompletionMode">
-                <!-- <el-button type="primary" class="button-finger-hover">问答模式 :</el-button> -->
                 <span>问答模式 :</span>&emsp;
                 <el-switch v-model="isCompletionMode.isCompletionModeSelected" size="large" />
             </div>
@@ -45,7 +43,6 @@
 
         <div class="unify">
             <div @click="selectImagineMode">
-                <!-- <el-button type="primary" class="button-finger-hover">图片生成 :</el-button> -->
                 <span>图片生成 :</span>&emsp;
                 <el-switch v-model="isImagineMode.isImagineModeSelected" size="large" />
             </div>
@@ -93,19 +90,13 @@ export default {
                 selectedImagineModeImageNum: "1",
                 selectedImagineModeImageSize: "512x512",
             },
-            bitmap: 1
         }
     },
     created() {
-        this.expirationTime();
         this.selectMode();
         this.selectChat();
     },
     methods: {
-        async expirationTime() {
-            let { data: res } = await info(this.$store.state.username);
-            this.bitmap = res.access_bitmap
-        },
         selectChatMode() {
             this.isChatMode.isChatModeSelected = this.isChatMode.isShowChatMode = true;
             this.isCompletionMode.isCompletionModeSelected = this.isCompletionMode.isShowCompletionMode = this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false;
@@ -117,11 +108,11 @@ export default {
             this.selectMode();
         },
         selectImagineMode() {
-            if (this.bitmap == 1) {
+            if (this.$store.state.expire == 1) {
                 this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false
                 ElNotification({
                     title: '提醒',
-                    message: '需充值专业版才能使用!',
+                    message: '抱歉哦，这个功能需要升级专业版，有任何疑问欢迎联系我们',
                     type: 'warning',
                 })
                 return

@@ -1,0 +1,265 @@
+.bgimgs {
+    width: 100%;
+    height: 100vh;
+    color: white;
+
+    .screenshot {
+        width: 810px;
+        height: 440px;
+        cursor: pointer;
+    }
+
+    .move-in:hover {
+        transform: translate(0px, -100px) scale(1.5);
+    }
+
+    .aaa {
+        width: 810px;
+        height: 440px;
+        background: url(/imgs/home-page-images/aaa.png) no-repeat center;
+        background-size: contain;
+        border-radius: 50px;
+    }
+
+    .bbb {
+        width: 810px;
+        height: 440px;
+        background: url(/imgs/home-page-images/bbb.png) no-repeat center;
+        background-size: contain;
+        border-radius: 50px;
+    }
+
+    .ccc {
+        width: 810px;
+        height: 440px;
+        background: url(/imgs/home-page-images/ccc.png) no-repeat center;
+        background-size: contain;
+        border-radius: 50px;
+    }
+}
+
+.biZhi {
+    background: url(/imgs/home-page-images/01.png) no-repeat center;
+    background-size: cover;
+    box-sizing: border-box;
+
+    .top {
+        width: 1200px;
+        margin: auto;
+        height: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        img {
+            width: 79px;
+            height: 40px;
+        }
+
+        .btn {
+            width: 112px;
+            font-size: 16px;
+            height: 38px;
+            background: #6721FF;
+            border-radius: 24px;
+            text-align: center;
+            line-height: 38px;
+            cursor: pointer;
+        }
+    }
+
+    .bizhiai {
+        text-align: center;
+        margin-top: 120px;
+
+        .bizhiim {
+            width: 600px;
+            height: 100px;
+        }
+    }
+
+    .becomes {
+        margin-top: 97px;
+        display: flex;
+        justify-content: center;
+
+        .becomes-im {
+            display: flex;
+            margin-right: 60px;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .same {
+                width: 326px;
+                background-image: linear-gradient(270deg, rgba(5, 200, 254, 1), rgba(108, 41, 255, 1), rgba(148, 106, 255, 1));
+                padding: 1px;
+                border-radius: 20px;
+
+                .becomes-im-too {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                    background: #160042;
+                    border-radius: 20px;
+
+                    div {
+                        cursor: pointer;
+                    }
+
+                    div:first-child {
+                        display: flex;
+                        align-items: center;
+                        font-size: 20px;
+
+                        img {
+                            margin-right: 5px;
+                        }
+                    }
+
+                    div:not(:first-child) {
+                        font-weight: 400;
+                        color: rgba(255, 255, 255, 0.7);
+                    }
+
+                    img {
+                        width: 21px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            .becomes-im-one {
+                height: 174px;
+            }
+
+            .becomes-im-two {
+                height: 110px;
+            }
+        }
+    }
+}
+
+
+
+.recruit {
+    background: url(/imgs/home-page-images/02.png) no-repeat center;
+    background-size: cover;
+
+    .recruitim {
+        margin-top: 200px;
+        margin-left: 367px;
+        width: 605px;
+        height: 100px;
+    }
+
+    .recruitai {
+        margin-top: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
+
+        .Introduction {
+            width: 328px;
+            height: 240px;
+            font-size: 25px;
+            line-height: 40px;
+            letter-spacing: 5px;
+            margin-left: 60px;
+        }
+    }
+}
+
+.scene {
+    background: url(/imgs/home-page-images/03.png) no-repeat center;
+    background-size: cover;
+
+    .sceneim {
+        margin-left: 827px;
+        margin-top: 217px;
+        width: 680px;
+        height: 100px;
+    }
+
+    .sceneai {
+        display: flex;
+        margin-top: 80px;
+        justify-content: center;
+        align-items: center;
+
+        .scene-scenario {
+            margin-right: 60px;
+            width: 300px;
+            height: 420px;
+            font-size: 20px;
+            line-height: 40px;
+            letter-spacing: 5px;
+        }
+    }
+}
+
+.enterprise {
+    background: url(/imgs/home-page-images/04.png) no-repeat center;
+    background-size: cover;
+
+    .enterpriseim {
+        margin-top: 150px;
+        margin-left: 365px;
+        width: 460px;
+        height: 100px;
+    }
+
+    .enterpriseai {
+        margin-top: 36px;
+        margin-left: 360px;
+
+        padding-bottom: 150px;
+
+        .enterprise-services {
+            .services-one {
+                height: 42px;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 1.5;
+                height: 20%;
+                letter-spacing: 6px;
+                color: white;
+            }
+
+            .services-two {
+                margin-top: 15px;
+                line-height: 2.5;
+                width: 1230px;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 0.8);
+                letter-spacing: 1px;
+            }
+        }
+    }
+}
+
+.aaa {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/aaa.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
+}
+
+.bbb {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/bbb.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
+}
+
+.ccc {
+    width: 810px;
+    height: 440px;
+    background: url(/imgs/home-page-images/ccc.png) no-repeat center;
+    background-size: contain;
+    border-radius: 35px;
+}

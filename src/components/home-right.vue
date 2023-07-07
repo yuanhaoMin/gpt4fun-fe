@@ -9,8 +9,8 @@
                 <div v-show="isChatMode.isShowChatMode">
                     <div>
                         AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
-                            <el-option label="3.5" value="gpt-3.5-turbo" />
-                            <el-option :label="this.$store.state.expire == 1 ? '4.0(需充值专业版)' : '4.0'" value="gpt-4"
+                            <el-option label="基础版" value="gpt-3.5-turbo" />
+                            <el-option :label="this.$store.state.expire == 1 ? '专业版(请联系我们)' : '专业版'" value="gpt-4"
                                 :disabled="this.$store.state.expire == 1 ? true : false" />
                         </el-select>
                     </div>
@@ -43,7 +43,7 @@
 
         <div class="unify">
             <div @click="selectImagineMode">
-                <span>图片生成 :</span>&emsp;
+                <span>图片模式 :</span>&emsp;
                 <el-switch v-model="isImagineMode.isImagineModeSelected" size="large" />
             </div>
 
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import { info } from "../api/user";
 import { ElNotification } from 'element-plus'
 export default {
     data() {
@@ -112,7 +111,7 @@ export default {
                 this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false
                 ElNotification({
                     title: '提醒',
-                    message: '抱歉哦，这个功能需要升级专业版，有任何疑问欢迎联系我们',
+                    message: '抱歉哦，使用这个功能请联系我们！',
                     type: 'warning',
                 })
                 return

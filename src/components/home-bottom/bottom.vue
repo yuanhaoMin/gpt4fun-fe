@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="secure">
-            <div>ICP备案: <span>苏ICP备2020068908号-2</span></div>
+            <div>ICP备案: <a href="https://beian.miit.gov.cn/">苏ICP备2020068908号-</a></div>
             <div>公安备案:审核中 <span></span></div>
         </div>
     </div>
@@ -115,9 +115,14 @@ export default {
         color: rgba(255, 255, 255, 0.8);
         justify-content: space-between;
 
-        span {
+        a {
             margin-left: 5px;
             color: silver;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: blue;
         }
     }
 }

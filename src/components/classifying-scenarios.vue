@@ -116,7 +116,7 @@ export default {
             if (this.$store.state.expire == 1) {
                 return ElNotification({
                     title: '提醒',
-                    message: '抱歉哦，这个功能需要升级专业版，有任何疑问欢迎联系我们',
+                    message: '抱歉哦，使用这个功能请联系我们！',
                     type: 'warning',
                 })
             }
@@ -158,14 +158,13 @@ export default {
     .design {
         color: #bfbfbf;
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         flex-direction: column;
 
         div {
             margin-top: 5px;
             text-align: center;
             font-size: 16px;
-            margin-right: 22px;
             border-radius: 50px;
             padding: 10px;
             border: 1px solid;

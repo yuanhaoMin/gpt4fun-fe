@@ -77,4 +77,14 @@ export let get = (url, data) => {
     });
 };
 
+//put
+export let put = (url, data) => {
+    return new Promise((resolve, reject) => {
+        instance.put(url, data).then((res) => {
+            resolve(res);
+        }).catch(err => {
+            // reject(err);
+        });
+    });
+};
 

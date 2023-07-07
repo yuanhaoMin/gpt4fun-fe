@@ -20,7 +20,7 @@
           <el-icon>
             <img src="/imgs/bi-zhi-images/fenlei.png" alt="" class="fl">
           </el-icon>
-          <template #title>分类场景AI助手</template>
+          <template #title>分类场景助手</template>
         </el-menu-item>
         <!-- <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
           <el-icon>
@@ -50,7 +50,7 @@
   
 <script setup>
 import { info } from "../api/user";
-import { onMounted, ref, watchEffect, toRefs } from "vue";
+import {  ref, watchEffect, toRefs } from "vue";
 import { useRoute } from 'vue-router';
 import store from "../store/common-data";
 let isShowSelectBox = ref(false);

@@ -29,19 +29,22 @@
             清除记录
           </el-button>
           <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
-            v-show="this.$store.state.selected.isChatModeSelected ? true : false">
+            v-show="this.$route.path == '/chat' ? true : false">
             <template #icon>
               <img src="/imgs/bi-zhi-images/shezhi.png" alt="">
             </template>
             设置情景
           </el-button>
         </div>
-        <div class="input-box">
+        <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true">
           <textarea placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
           <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
             发送
           </button>
+        </div>
+        <div class="execute" v-show="this.$route.path == '/recruit' ? true : false" @click="execute">
+          执行
         </div>
       </div>
       <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" />
@@ -115,6 +118,9 @@ export default {
     this.loadChatHistory();
   },
   methods: {
+    execute() {
+      this.sendUserMessageAndDisplayResponse()
+    },
     copy() {
       const clipboardObj = navigator.clipboard;
       clipboardObj.writeText(document.getElementsByClassName('text')); // value 是添加到剪切板的内容
@@ -258,9 +264,13 @@ export default {
       });
 
       const responseJsonObject = await response.json();
-      if (responseJsonObject.messages.slice(-1)[0].role == 'user') {
-        console.log("last message user")
-        responseJsonObject.messages.pop()
+      if (responseJsonObject.messages.length == 0) {
+
+      } else {
+        if (responseJsonObject.messages.slice(-1)[0].role == 'user') {
+          console.log("last message user")
+          responseJsonObject.messages.pop()
+        }
       }
       for (let i = 0; i < responseJsonObject.messages.length; i++) {
         let message = responseJsonObject.messages[i]
@@ -286,8 +296,13 @@ export default {
     },
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
-      if (this.timeExpiration == 0) return ElNotification({ title: '抱歉哦', message: '您的购买已到期，继续打赏给我们一点支持吧！', type: 'error', });
-      const userMessage = this.$refs.inputBox.value == "" ? this.$refs.classifyingScenarios.dataList : this.$refs.inputBox.value;
+      if (this.timeExpiration == 0) return ElNotification({ title: '抱歉哦', message: '已到期，继续使用请联系我们！', type: 'error', });
+      let userMessage = ''
+      if (this.$route.path == '/recruit') {
+        userMessage = this.$refs.jobRecruitment.jobInformation
+      } else {
+        userMessage = this.$refs.inputBox.value == "" ? this.$refs.classifyingScenarios.dataList : this.$refs.inputBox.value;
+      }
       this.$refs.inputBox.value = "";
       // 发送按钮失效直到发送完成
       this.$refs.sendButton.classList.add("prohibit");
@@ -304,14 +319,11 @@ export default {
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
           this.baseLLMOpenAIUrl + "/chat-completion-stream";
-        // isChatModeSelected
         const requestBody = {
           model: this.$store.state.selected.selectedChatModeModel,
           temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
-          // this.chatModeSystemMessage
-          // 我是一个工地工作者,需要人来帮我,我需要什么样的人
           user_message: userMessage,
         };
         const response = await fetch(chatModeUpdateInfoUrl, {
@@ -435,7 +447,7 @@ export default {
               completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "</code></pre>");
               codeStart = false;
             }
-          }
+          };
           botParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${completeResponse}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
           let res = document.querySelectorAll('.copy')
           for (let i = 0; i < res.length; i++) {
@@ -606,6 +618,24 @@ export default {
   height: 95%;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 40px;
+
+  .execute {
+    width: 450px;
+    height: 50px;
+    background: #02001B;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 3px;
+    resize: none;
+    border: 1px solid #2F1E67;
+    font-size: 15px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    margin: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
 }
 
 .home-middle-Unchanged {
@@ -686,8 +716,8 @@ button {
   width: 976px;
   height: 50px;
   background: #02001B;
-  border: 1px solid #2F1E67;
   resize: none;
+  border: 1px solid #2F1E67;
   font-size: 15px;
   box-sizing: border-box;
   border-radius: 30px;

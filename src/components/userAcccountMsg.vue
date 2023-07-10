@@ -32,7 +32,7 @@
                         <p>永久免费使用</p>
                     </div>
                     <div>
-                        <button>永久免费使用!</button>
+                        <button>尊贵的终身版用户!</button>
                     </div>
                 </div>
             </div>

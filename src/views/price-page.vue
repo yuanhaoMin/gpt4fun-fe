@@ -5,7 +5,7 @@
         <p>我们力求通过科学的特性组合，让不同需求的用户感到物超所值</p>
         <div class="tab">
             <div class="tab-s">
-                <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">基础版</div>
+                <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">普通版</div>
                 <div :class="tab == 2 ? 'tab-bg' : ''" @click="tab = 2">专业版</div>
                 <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3" class="border-r">终身版</div>
             </div>
@@ -81,7 +81,7 @@
         <div class="tabulation">
             <ul>
                 <li></li>
-                <li class="bold">基础功能</li>
+                <li class="bold">普通功能</li>
                 <li></li>
                 <li></li>
                 <li></li>
@@ -128,8 +128,8 @@
                 <li></li>
                 <li></li>
                 <li></li>
-                <li>3.5</li>
-                <li>4</li>
+                <li>普通版</li>
+                <li>专业版</li>
                 <li></li>
                 <li></li>
                 <li></li>
@@ -140,13 +140,13 @@
                 <li></li>
             </ul>
             <ul class="Transfer">
-                <li>基础版</li>
+                <li>普通版</li>
                 <li></li>
                 <li>&#10004</li>
                 <li>&#10004</li>
                 <li>&#10006</li>
                 <li>&#10004</li>
-                <li>&#10004</li>
+                <li>&#10006</li>
                 <li></li>
                 <li>&#10004</li>
                 <li>&#10006</li>
@@ -347,7 +347,7 @@ export default {
         },
         async lifebuy(num) {
             let res = await payment({ username: this.$store.state.username, amount: num, dev_mode: false });
-            window.open(res.url)
+            window.location.href = res.url;
         }
     },
 };

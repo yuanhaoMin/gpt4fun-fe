@@ -296,7 +296,7 @@ export default {
     },
     // 发送用户消息, 基于不同模式获取AI回复
     async sendUserMessageAndDisplayResponse() {
-      if (this.timeExpiration == 0) return ElNotification({ title: '抱歉哦', message: '已到期，继续使用请联系我们！', type: 'error', });
+      if (this.timeExpiration == 0) return ElNotification({ title: '提醒', message: '抱歉哦,您的体验时间已到期,继续打赏给我们一点支持吧!', type: 'warning', });
       let userMessage = ''
       if (this.$route.path == '/recruit') {
         userMessage = this.$refs.jobRecruitment.jobInformation

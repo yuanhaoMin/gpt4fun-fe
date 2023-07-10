@@ -9,8 +9,8 @@
                 <div v-show="isChatMode.isShowChatMode">
                     <div>
                         AI模型: &emsp;<el-select placeholder="AI模型" v-model="isChatMode.selectedChatModeModel" size="small">
-                            <el-option label="基础版" value="gpt-3.5-turbo" />
-                            <el-option :label="this.$store.state.expire == 1 ? '专业版(请联系我们)' : '专业版'" value="gpt-4"
+                            <el-option label="普通版" value="gpt-3.5-turbo" />
+                            <el-option :label="this.$store.state.expire == 1 ? '专业版(需开通专业版)' : '专业版'" value="gpt-4"
                                 :disabled="this.$store.state.expire == 1 ? true : false" />
                         </el-select>
                     </div>
@@ -111,7 +111,7 @@ export default {
                 this.isImagineMode.isShowImagineMode = this.isImagineMode.isImagineModeSelected = false
                 ElNotification({
                     title: '提醒',
-                    message: '抱歉哦，使用这个功能请联系我们！',
+                    message: '抱歉哦,需开通专业版才能使用!',
                     type: 'warning',
                 })
                 return

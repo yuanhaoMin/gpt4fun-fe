@@ -116,7 +116,7 @@ export default {
             if (this.$store.state.expire == 1) {
                 return ElNotification({
                     title: '提醒',
-                    message: '抱歉哦，使用这个功能请联系我们！',
+                    message: '抱歉哦，您的体验时间已到期,继续打赏给我们一点支持吧!',
                     type: 'warning',
                 })
             }

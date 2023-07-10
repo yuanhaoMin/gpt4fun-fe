@@ -74,15 +74,15 @@
         <div v-show="isShowModify">
           <div @keydown="onKeyDown">
             <div class="account-number">
-              <div @click="login" :class="this.isShowlogin == true ? 'active' : 'not'">修改账号密码</div>
+              <div @click="login" :class="this.isShowlogin == true ? 'active' : 'not'">修改密码</div>
             </div>
             <div class="user">
               <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifyusername" placeholder="请输入修改用户名/手机号" clearable />
+              <el-input v-model="newmodify.modifyusername" placeholder="请输入手机号" clearable />
             </div>
             <div class="user">
               <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifypassword" type="password" placeholder="请输入修改密码" show-password />
+              <el-input v-model="newmodify.modifypassword" type="password" placeholder="请输入新密码" show-password />
             </div>
           </div>
           <div class="login">
@@ -201,7 +201,7 @@ export default {
       iptdisabled: false,
       reles: {
         username: [
-          { required: true, message: '请输入用户名/手机号', trigger: 'blur' },
+          { required: true, message: '请输入手机号', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },

@@ -7,27 +7,27 @@
             <div class="tab-s">
                 <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">普通版</div>
                 <div :class="tab == 2 ? 'tab-bg' : ''" @click="tab = 2">专业版</div>
-                <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3" class="border-r">终身版</div>
+                <!-- <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3" class="border-r">终身版</div> -->
             </div>
         </div>
         <div class="number" v-show="tab == 1">
             <div>
-                <div>￥<em>153</em><span>元</span></div>
-                <s>原价￥180</s>
+                <div>￥<em>122.4</em><span>元</span></div>
+                <s>原价￥144</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(153)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(122.4)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>288</em><span>元</span></div>
-                <s>原价￥360</s>
+                <div>￥<em>230.4</em><span>元</span></div>
+                <s>原价￥288</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(288)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(230.4)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>504</em><span>元</span></div>
-                <s>原价￥720</s>
+                <div>￥<em>403.2</em><span>元</span></div>
+                <s>原价￥576</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(504)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(403.2)">购买</el-button></div>
             </div>
             <div>
                 <div>￥<em>{{ preferential }}</em> <span>元</span></div>
@@ -42,22 +42,22 @@
         </div>
         <div class="number" v-show="tab == 2">
             <div>
-                <div>￥<em>510</em><span>元</span></div>
-                <s>原价￥600</s>
+                <div>￥<em>224.4</em><span>元</span></div>
+                <s>原价￥264</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(510)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(224.4)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>960</em><span>元</span></div>
-                <s>原价￥1200</s>
+                <div>￥<em>422.4</em><span>元</span></div>
+                <s>原价￥528</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(960)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(422.4)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>1680</em><span>元</span></div>
-                <s>原价￥2400</s>
+                <div>￥<em>739.2</em><span>元</span></div>
+                <s>原价￥1056</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(1680)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(739.2)">购买</el-button></div>
             </div>
             <div>
                 <div>￥<em>{{ preferential1 }}</em><span>元</span></div>
@@ -71,21 +71,15 @@
                 <div> <el-button type="primary" round @click="specialitybuy(preferential1)">购买</el-button></div>
             </div>
         </div>
-        <div class="number" v-show="tab == 3">
+        <!-- <div class="number" v-show="tab == 3">
             <div>
                 <div>￥<em>1688</em><span>元</span></div>
                 <div>永久使用</div>
                 <div> <el-button type="primary" round @click="lifebuy(1688)">购买</el-button></div>
             </div>
-        </div>
+        </div> -->
         <div class="tabulation">
             <ul>
-                <li></li>
-                <li class="bold">普通功能</li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
                 <li></li>
                 <li class="bold">高级功能</li>
                 <li></li>
@@ -97,26 +91,14 @@
             <ul>
                 <li></li>
                 <li></li>
-                <li>毕至AI助手</li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
                 <li>招聘AI助手</li>
                 <li>分类AI场景</li>
                 <li></li>
-                <li>开发中</li>
                 <li>分析AI助手</li>
+                <li>开发中</li>
             </ul>
             <ul>
                 <li></li>
-                <li></li>
-                <li></li>
-                <li>对话</li>
-                <li></li>
-                <li>问答</li>
-                <li>图片</li>
                 <li></li>
                 <li></li>
                 <li></li>
@@ -128,25 +110,13 @@
                 <li></li>
                 <li></li>
                 <li></li>
-                <li>普通版</li>
-                <li>专业版</li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
                 <li></li>
                 <li></li>
                 <li></li>
                 <li></li>
             </ul>
             <ul class="Transfer">
-                <li>普通版</li>
-                <li></li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10006</li>
-                <li>&#10004</li>
-                <li>&#10006</li>
+                <li>基础版</li>
                 <li></li>
                 <li>&#10004</li>
                 <li>&#10006</li>
@@ -157,27 +127,7 @@
             <ul class="Transfer">
                 <li>专业版</li>
                 <li></li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li></li>
-                <li>&#10006</li>
-                <li>&#10006</li>
-            </ul>
-            <ul class="Transfer">
-                <li>终身版</li>
-                <li></li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
-                <li>&#10004</li>
+
                 <li>&#10004</li>
                 <li>&#10004</li>
                 <li></li>
@@ -194,12 +144,12 @@ export default {
     name: 'NewEditionPriceList',
     data() {
         return {
-            cost: 60,
+            cost: 48,
             num: 1,
-            preferential: 54,
-            cost1: 200,
+            preferential: 43.2,
+            cost1: 88,
             num1: 1,
-            preferential1: 180,
+            preferential1: 79.2,
             tab: 1
         };
     },
@@ -208,52 +158,52 @@ export default {
             handler(newValue, oldVal) {
                 switch (newValue) {
                     case 1:
-                        this.cost = 60;
-                        this.preferential = 54;
+                        this.cost = 48;
+                        this.preferential = 43.2;
                         break;
                     case 2:
-                        this.cost = 120;
-                        this.preferential = 108;
+                        this.cost = 96;
+                        this.preferential = 86.4;
                         break;
                     case 3:
-                        this.cost = 180;
-                        this.preferential = 153;
+                        this.cost = 144;
+                        this.preferential = 122.4;
                         break;
                     case 4:
+                        this.cost = 192;
+                        this.preferential = 163.2;
+                        break;
+                    case 5:
                         this.cost = 240;
                         this.preferential = 204;
                         break;
-                    case 5:
-                        this.cost = 300;
-                        this.preferential = 255;
-                        break;
                     case 6:
-                        this.cost = 360;
-                        this.preferential = 288;
+                        this.cost = 288;
+                        this.preferential = 230.4;
                         break;
                     case 7:
-                        this.cost = 420;
-                        this.preferential = 336;
+                        this.cost = 336;
+                        this.preferential = 268.8;
                         break;
                     case 8:
-                        this.cost = 480;
-                        this.preferential = 384;
+                        this.cost = 384;
+                        this.preferential = 307.2;
                         break;
                     case 9:
-                        this.cost = 540;
-                        this.preferential = 405;
+                        this.cost = 432;
+                        this.preferential = 324;
                         break;
                     case 10:
-                        this.cost = 600;
-                        this.preferential = 450;
+                        this.cost = 480;
+                        this.preferential = 360;
                         break;
                     case 11:
-                        this.cost = 660;
-                        this.preferential = 494;
+                        this.cost = 528;
+                        this.preferential = 396;
                         break;
                     case 12:
-                        this.cost = 720;
-                        this.preferential = 504;
+                        this.cost = 576;
+                        this.preferential = 403.2;
                         break;
 
                     default:
@@ -266,52 +216,52 @@ export default {
             handler(newValue, oldVal) {
                 switch (newValue) {
                     case 1:
-                        this.cost1 = 200;
-                        this.preferential1 = 180;
+                        this.cost1 = 88;
+                        this.preferential1 = 79.2;
                         break;
                     case 2:
-                        this.cost1 = 400;
-                        this.preferential1 = 360;
+                        this.cost1 = 176;
+                        this.preferential1 = 158.4;
                         break;
                     case 3:
-                        this.cost1 = 600;
-                        this.preferential1 = 510;
+                        this.cost1 = 264;
+                        this.preferential1 = 224.4;
                         break;
                     case 4:
-                        this.cost1 = 800;
-                        this.preferential1 = 680;
+                        this.cost1 = 352;
+                        this.preferential1 = 299.2;
                         break;
                     case 5:
-                        this.cost1 = 1000;
-                        this.preferential1 = 850;
+                        this.cost1 = 440;
+                        this.preferential1 = 374;
                         break;
                     case 6:
-                        this.cost1 = 1200;
-                        this.preferential1 = 960;
+                        this.cost1 = 528;
+                        this.preferential1 = 422.4;
                         break;
                     case 7:
-                        this.cost1 = 1400;
-                        this.preferential1 = 1120;
+                        this.cost1 = 616;
+                        this.preferential1 = 492.8;
                         break;
                     case 8:
-                        this.cost1 = 1600;
-                        this.preferential1 = 1280;
+                        this.cost1 = 704;
+                        this.preferential1 = 563.2;
                         break;
                     case 9:
-                        this.cost1 = 1800;
-                        this.preferential1 = 1350;
+                        this.cost1 = 792;
+                        this.preferential1 = 594;
                         break;
                     case 10:
-                        this.cost1 = 2000;
-                        this.preferential1 = 1500;
+                        this.cost1 = 880;
+                        this.preferential1 = 660;
                         break;
                     case 11:
-                        this.cost1 = 2200;
-                        this.preferential1 = 1650;
+                        this.cost1 = 968;
+                        this.preferential1 = 726;
                         break;
                     case 12:
-                        this.cost1 = 2400;
-                        this.preferential1 = 1680;
+                        this.cost1 = 1056;
+                        this.preferential1 = 739.2;
                         break;
                     default:
                         break;
@@ -385,6 +335,7 @@ export default {
             display: flex;
             width: 720px;
             height: 60px;
+            justify-content: center;
 
             .border-l {
                 border-radius: 40px 0 0 40px;
@@ -408,6 +359,7 @@ export default {
                 cursor: pointer;
                 box-sizing: border-box;
                 background-color: white;
+                border-radius: 0 30px 30px 0;
             }
         }
 
@@ -485,6 +437,7 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 100px;
+    padding-bottom: 10px;
 
     .bold {
         font-weight: 600;

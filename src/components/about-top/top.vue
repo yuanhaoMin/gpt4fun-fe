@@ -10,7 +10,7 @@
             <router-link to="/productAdvantages"
                 :class="$route.fullPath == '/productAdvantages' ? 'purple' : ''">产品优势</router-link>
             <router-link to="/applicationCases" :class="$route.fullPath == '/applicationCases' ? 'purple' : ''">应用案例</router-link>
-            <div class="go-to-bizhi" @click="$router.push('/chat')">前往毕至AI助手</div>
+            <div class="go-to-bizhi" @click="$router.push('/recruit')">前往毕至AI助手</div>
             <div>
                 <img src="\imgs\bi-zhi-images/touxiang.png" alt="" class="sculpture" @click="$router.push('/contact')">
             </div>

@@ -15,11 +15,11 @@ const router = createRouter({
       component: HomeView,
       // redirect: "chat",
       children: [
-        {
-          path: 'chat',                                               //毕至AI助手
-          name: 'chat',
-          component: () => import('../components/home-middle.vue')
-        },
+        // {
+        //   path: 'chat',                                               //毕至AI助手
+        //   name: 'chat',
+        //   component: () => import('../components/home-middle.vue')
+        // },
         {
           path: 'recruit',                                               //招聘AI助手
           name: 'recruit',

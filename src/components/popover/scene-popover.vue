@@ -57,31 +57,10 @@ export default {
                     0: '广告商：我想让你充当广告商。您将创建一个活动来推广您选择的产品或服务。您将选择目标受众，制定关键信息和口号，选择宣传媒体渠道，并决定实现目标所需的任何其他活动。'
                 },
                 {
-                    0: '图片提示词生成器:'
+                    0: '图片提示词生成器:“Stable Diffusion”是一种类似于DALLE-2的AI艺术生成模型。以下是一些用Stable Diffusion生成AI艺术的提示词示例:例子1:female dressed as storm trooper, lingerie, starship background, (((full body visible))), looking at viewer, portrait, photography, detailed skin, realistic, photo-realistic, 8k, highly detailed, full length frame, High detail RAW color art, piercing, diffused soft lighting, shallow depth of field, sharp focus, hyperrealism, cinematic lighting。例子2:portrait art of blade runner 8 k ultra realistic, lens flare, atmosphere, glow, detailed, intricate, full of colour, cinematic lighting, trending on artstation, 4 k, hyperrealistic, focused, extreme details, unreal engine 5, cinematic, masterpiece 例子3:full body, walking pose, slow motion, female paladin wearing full body (light silver armour:1.2),(insanely detailed, bloom:1.5), (highest quality, Alessandro Casagrande, Greg Rutkowski, Sally Mann, concept art, 4k), (analog:1.2), (high sharpness), (detailed pupils:1.1), (painting:1.1), (digital painting:1.1), detailed face and eyes, Masterpiece, best quality, (highly detailed photo:1.1), 8k, photorealistic, (long blonde Hair, ponytail haircut, ecstatic:1.1), (young woman:1.1), By jeremy mann, by sandra chevrier, by maciej kuciara, sharp, (perfect body:1.1), realistic, real shadow, 3d, (temple background:1.2), (by Michelangelo)例子4:a highly detailed matte painting of a single gas station with a sign in the fog by studio ghibli, makoto shinkai, by artgerm, by wlop, by greg rutkowski, volumetric lighting, octane render, 4 k resolution, trending on artstation, masterpiece'
                 },
                 {
-                    0: '“Stable Diffusion”是一种类似于DALLE-2的AI艺术生成模型。以下是一些用Stable Diffusion生成AI艺术的提示词示例:'
-                },
-                {
-                    0: "例子1:female dressed as storm trooper, lingerie, starship background, (((full body visible))), looking at viewer, portrait, photography, detailed skin, realistic, photo-realistic, 8k, highly detailed, full length frame, High detail RAW color art, piercing, diffused soft lighting, shallow depth of field, sharp focus, hyperrealism, cinematic lighting"
-                },
-                {
-                    0: "例子2:portrait art of blade runner 8 k ultra realistic, lens flare, atmosphere, glow, detailed, intricate, full of colour, cinematic lighting, trending on artstation, 4 k, hyperrealistic, focused, extreme details, unreal engine 5, cinematic, masterpiece "
-                },
-                {
-                    0: '例子3:full body, walking pose, slow motion, female paladin wearing full body (light silver armour:1.2),(insanely detailed, bloom:1.5), (highest quality, Alessandro Casagrande, Greg Rutkowski, Sally Mann, concept art, 4k), (analog:1.2), (high sharpness), (detailed pupils:1.1), (painting:1.1), (digital painting:1.1), detailed face and eyes, Masterpiece, best quality, (highly detailed photo:1.1), 8k, photorealistic, (long blonde Hair, ponytail haircut, ecstatic:1.1), (young woman:1.1), By jeremy mann, by sandra chevrier, by maciej kuciara, sharp, (perfect body:1.1), realistic, real shadow, 3d, (temple background:1.2), (by Michelangelo)'
-                },
-                {
-                    0: '例子4:a highly detailed matte painting of a single gas station with a sign in the fog by studio ghibli, makoto shinkai, by artgerm, by wlop, by greg rutkowski, volumetric lighting, octane render, 4 k resolution, trending on artstation, masterpiece '
-                },
-                {
-                    0: '这些提示词遵循以下规则：'
-                },
-                {
-                    0: '遵循示例提示词的结构，这意味着首先描述绘画主体，然后描述场景，然后添加绘画笔触、情绪、绘画风格、灯光、服装、镜头、头发等， 然后是best quality,、masterpiece、8K这样表达高质量照片的词语，所有这些词语之间用逗号分隔。'
-                },
-                {
-                    0: '每当我列出一个主题,你就写出3个关于主题的详细提示词,记得遵循上述规则,用英语编写。'
+                    0: '这些提示词遵循以下规则：遵循示例提示词的结构，这意味着首先描述绘画主体，然后描述场景，然后添加绘画笔触、情绪、绘画风格、灯光、服装、镜头、头发等， 然后是best quality,、masterpiece、8K这样表达高质量照片的词语,所有这些词语之间用逗号分隔。每当我列出一个主题,你就写出3个关于主题的详细提示词,记得遵循上述规则,用英语编写。'
                 }
             ]
         }

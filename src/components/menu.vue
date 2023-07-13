@@ -4,12 +4,12 @@
       :default-active="indexPath" class="el-menu-vertical-demo" :collapse="isSpend" @open="handleOpen"
       @close="handleClose" router>
       <div>
-        <el-menu-item index="chat">
+        <!-- <el-menu-item index="chat">
           <el-icon>
             <img src="/imgs/bi-zhi-images/01.png" alt="">
           </el-icon>
           <template #title>毕至AI助手</template>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-menu-item index="recruit">
           <el-icon>
             <img src="/imgs/bi-zhi-images/jia.png" alt="">
@@ -50,11 +50,12 @@
   
 <script setup>
 import { info } from "../api/user";
-import {  ref, watchEffect, toRefs } from "vue";
+import { ref, watchEffect, toRefs } from "vue";
 import { useRoute } from 'vue-router';
 import store from "../store/common-data";
 let isShowSelectBox = ref(false);
 let indexPath = ref('chat');//默认选中菜单项路由
+// let indexPath = ref('recruit');
 let route = useRoute();
 let intwo = ref(1);
 //监听当前路由

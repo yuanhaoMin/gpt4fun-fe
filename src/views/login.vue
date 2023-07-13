@@ -297,7 +297,8 @@ export default {
               message: "登录成功！",
               type: "success",
             });
-            this.$router.replace("/chat");
+            this.$router.replace("/recruit");
+            // this.$router.replace("/chat");
           });
         } else {
           return

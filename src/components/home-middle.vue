@@ -33,10 +33,11 @@
             <template #icon>
               <img src="/imgs/bi-zhi-images/shezhi.png" alt="">
             </template>
-            设置情景
+            提示词案例
           </el-button>
         </div>
-        <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true">
+        <!-- <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true"> -->
+        <div class="input-box" v-show="this.$route.path == '/chat' ? true : false">
           <textarea placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
           <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
@@ -61,9 +62,8 @@
     <userAccount class="userAccount"></userAccount>
   </div>
 </template>
-  
-<script>
 
+<script>
 import { ElMessage, ElNotification } from "element-plus";
 import { getData } from "../utils/store-crud";
 import homeRight from "./home-right.vue";

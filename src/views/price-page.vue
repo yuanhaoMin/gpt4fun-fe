@@ -3,6 +3,7 @@
         <el-button type="info" plain @click="this.$router.back()" class="give-back">返回上一页</el-button>
         <h1>价格</h1>
         <p>我们力求通过科学的特性组合，让不同需求的用户感到物超所值</p>
+        <div class="preferential"><u>限时折扣 7月23日恢复原价</u></div>
         <div class="tab">
             <div class="tab-s">
                 <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">普通版</div>
@@ -81,6 +82,13 @@
         <div class="tabulation">
             <ul>
                 <li></li>
+                <li class="bold">基础功能</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
                 <li class="bold">高级功能</li>
                 <li></li>
                 <li></li>
@@ -89,6 +97,13 @@
                 <li></li>
             </ul>
             <ul>
+                <li></li>
+                <li></li>
+                <li>毕至AI助手</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
                 <li></li>
                 <li></li>
                 <li>招聘AI助手</li>
@@ -101,6 +116,13 @@
                 <li></li>
                 <li></li>
                 <li></li>
+                <li>对话</li>
+                <li></li>
+                <li></li>
+                <li>问答</li>
+                <li></li>
+                <li></li>
+                <li></li>
                 <li></li>
                 <li></li>
                 <li></li>
@@ -111,12 +133,26 @@
                 <li></li>
                 <li></li>
                 <li></li>
+                <li>普通版</li>
+                <li>专业版</li>
+                <li></li>
+                <li>联网/离线</li>
+                <li></li>
+                <li></li>
+                <li></li>
                 <li></li>
                 <li></li>
                 <li></li>
             </ul>
             <ul class="Transfer">
                 <li>基础版</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li>&#10004</li>
+                <li>&#10006</li>
+                <li></li>
+                <li>&#10004</li>
                 <li></li>
                 <li>&#10004</li>
                 <li>&#10006</li>
@@ -127,7 +163,13 @@
             <ul class="Transfer">
                 <li>专业版</li>
                 <li></li>
-
+                <li></li>
+                <li></li>
+                <li>&#10004</li>
+                <li>&#10004</li>
+                <li></li>
+                <li>&#10004</li>
+                <li></li>
                 <li>&#10004</li>
                 <li>&#10004</li>
                 <li></li>
@@ -326,7 +368,6 @@ export default {
 
     .tab {
         margin-top: 50px;
-
         display: flex;
         justify-content: center;
         color: #03001b;
@@ -362,119 +403,122 @@ export default {
                 border-radius: 0 30px 30px 0;
             }
         }
-
-
-
-
-    }
-}
-
-.number {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-
-    em {
-        font-size: 48px;
-        margin-right: 5px;
-    }
-}
-
-.el-button.is-round {
-    width: 150px;
-    height: 40px;
-}
-
-.number>div {
-    width: 278px;
-    height: 240px;
-    border-radius: 8px;
-    margin-right: 16px;
-    background-color: #fff;
-    color: #03001b;
-    padding-top: 9px;
-    box-sizing: border-box;
-    box-shadow: 0px 2px 10px 0px #e6e6e6;
-    transition: 0.2s all linear;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-.addReduceNum {
-    position: relative;
-
-    button {
-        padding: 5px 10px;
-        font-size: 20px;
-        border: 0;
-        border-radius: 4px;
-        cursor: pointer;
     }
 
-    input {
-        width: 20px;
-        height: 30px;
-        padding: 0 60px 0 10px;
-        outline: 0;
-        border: 0px;
-    }
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none !important;
-    }
-
-    .month {
-        position: absolute;
-        left: 130px;
-        top: 4px;
-    }
-}
-
-.tabulation {
-    display: flex;
-    justify-content: center;
-    margin-top: 100px;
-    padding-bottom: 10px;
-
-    .bold {
-        font-weight: 600;
-    }
-
-    .Transfer:hover {
-        box-shadow: 0 0 1px 3px skyblue;
-        box-sizing: border-box;
-
-        li:first-child {
-            color: white;
-            background-color: skyblue;
-        }
-
-    }
-
-    ul {
-        width: 240px;
-        list-style: none;
+    .number {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
         text-align: center;
 
-
-
-        li:first-child {
-            border-bottom: 0px;
-            font-weight: 600;
-            font-size: 38px;
-        }
-
-        li {
-            height: 50px;
-            line-height: 50px;
-            border-bottom: 1px solid;
-            box-sizing: border-box;
-
+        em {
+            font-size: 48px;
+            margin-right: 5px;
         }
     }
 
+    .el-button.is-round {
+        width: 150px;
+        height: 40px;
+    }
+
+    .number>div {
+        width: 278px;
+        height: 240px;
+        border-radius: 8px;
+        margin-right: 16px;
+        background-color: #fff;
+        color: #03001b;
+        padding-top: 9px;
+        box-sizing: border-box;
+        box-shadow: 0px 2px 10px 0px #e6e6e6;
+        transition: 0.2s all linear;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .addReduceNum {
+        position: relative;
+
+        button {
+            padding: 5px 10px;
+            font-size: 20px;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input {
+            width: 20px;
+            height: 30px;
+            padding: 0 60px 0 10px;
+            outline: 0;
+            border: 0px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
+
+        .month {
+            position: absolute;
+            left: 130px;
+            top: 4px;
+        }
+    }
+
+    .tabulation {
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+        padding-bottom: 10px;
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .Transfer:hover {
+            box-shadow: 0 0 1px 3px skyblue;
+            box-sizing: border-box;
+
+            li:first-child {
+                color: white;
+                background-color: skyblue;
+            }
+
+        }
+
+        ul {
+            width: 240px;
+            list-style: none;
+            text-align: center;
+
+
+
+            li:first-child {
+                border-bottom: 0px;
+                font-weight: 600;
+                font-size: 38px;
+            }
+
+            li {
+                height: 50px;
+                line-height: 50px;
+                border-bottom: 1px solid;
+                box-sizing: border-box;
+
+            }
+        }
+    }
+}
+
+.preferential {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 28px;
+    color: red;
+    cursor: pointer;
 }
 </style>

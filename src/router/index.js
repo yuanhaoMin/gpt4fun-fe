@@ -15,11 +15,11 @@ const router = createRouter({
       component: HomeView,
       // redirect: "chat",
       children: [
-        // {
-        //   path: 'chat',                                               //毕至AI助手
-        //   name: 'chat',
-        //   component: () => import('../components/home-middle.vue')
-        // },
+        {
+          path: 'chat',                                               //毕至AI助手
+          name: 'chat',
+          component: () => import('../components/home-middle.vue')
+        },
         {
           path: 'recruit',                                               //招聘AI助手
           name: 'recruit',
@@ -39,6 +39,16 @@ const router = createRouter({
           path: 'contact',                                               //联系我们
           name: 'contact',
           component: () => import('../views/home-contact.vue')
+        },
+        {
+          path: 'agreement',                                               //用户协议
+          name: 'agreement',
+          component: () => import('../views/agreement/index.vue')
+        },
+        {
+          path: 'unsubscribe',                                               //注销账户
+          name: 'unsubscribe',
+          component: () => import('../views/unsubscribe.vue')
         },
       ]
     },
@@ -81,16 +91,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const token = getData('token');
-    if (token && to.path != '/') {
-      next();
+  const token = getData('token');
+  if (token && to.path != '/') {
+    next();
+  } else {
+    if (to.path == '/' || to.path == '/login') {
+      next()
     } else {
-      if (to.path == '/' || to.path == '/login') {
-        next()
-      } else {
-        next('/')
-      }
+      next('/')
     }
+  }
 });
 
 export default router

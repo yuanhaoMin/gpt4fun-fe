@@ -4,12 +4,12 @@
       :default-active="indexPath" class="el-menu-vertical-demo" :collapse="isSpend" @open="handleOpen"
       @close="handleClose" router>
       <div>
-        <!-- <el-menu-item index="chat">
+        <el-menu-item index="chat">
           <el-icon>
             <img src="/imgs/bi-zhi-images/01.png" alt="">
           </el-icon>
           <template #title>毕至AI助手</template>
-        </el-menu-item> -->
+        </el-menu-item>
         <el-menu-item index="recruit">
           <el-icon>
             <img src="/imgs/bi-zhi-images/jia.png" alt="">
@@ -40,23 +40,33 @@
           </el-icon>
           <template #title>联系我们</template>
         </el-menu-item>
+        <el-menu-item index="agreement" style="margin-top: 35vh;">
+          <el-icon>
+            <img src="/imgs/bi-zhi-images/xieyi.png" alt="">
+          </el-icon>
+          <template #title>用户使用协议</template>
+        </el-menu-item>
       </div>
     </el-menu>
     <div>
-      <img src="/imgs/bi-zhi-images/xitong.png" alt="" class="set-up">
+      <img src="/imgs/bi-zhi-images/xitong.png" alt="" class="set-up" @click="isShowuser = !isShowuser">
+    </div>
+    <div class="multiple" v-show="isShowuser">
+      <div @click="isShowuser = false, router.push('unsubscribe')">注销账户</div>
     </div>
   </div>
 </template>
   
 <script setup>
-import { info } from "../api/user";
+import { info, login } from "../api/user";
 import { ref, watchEffect, toRefs } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import store from "../store/common-data";
 let isShowSelectBox = ref(false);
 let indexPath = ref('chat');//默认选中菜单项路由
-// let indexPath = ref('recruit');
 let route = useRoute();
+let router = useRouter();
+let isShowuser = ref(false);
 let intwo = ref(1);
 //监听当前路由
 watchEffect(() => {
@@ -68,6 +78,7 @@ watchEffect(() => {
     isShowSelectBox.value = false
   }
 });
+
 let expirationTime = async () => {
   let { data: res } = await info(store.state.username);
   intwo.value = res.access_bitmap;
@@ -129,8 +140,6 @@ let isShow = () => {
         }
       }
     }
-
-
   }
 
   .el-menu-item.is-active {
@@ -144,6 +153,20 @@ let isShow = () => {
 
   .el-menu--vertical:not(.el-menu--collapse):not(.el-menu--popup-container) .el-menu-item {
     padding-left: 40px;
+  }
+
+  .multiple {
+    color: #FFFFFF;
+    position: absolute;
+    bottom: 55px;
+    width: 120px;
+    height: 32px;
+    line-height: 32px;
+    left: 95px;
+    border-radius: 15px;
+    background: #2a253d;
+    text-align: center;
+    cursor: pointer;
   }
 }
 </style>

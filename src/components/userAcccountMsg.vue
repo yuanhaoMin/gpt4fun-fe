@@ -4,7 +4,8 @@
             <div class="top">
                 <img src="/imgs/bi-zhi-images/touxiang.png" alt="" class="free photo">
                 <div class="usernameAndAccount">
-                    <p>账号：{{ user }}</p>
+                    <p>用户名: Bizcamp</p>
+                    <p>账号: {{ user }}</p>
                 </div>
             </div>
             <div class="center">
@@ -155,11 +156,12 @@ export default {
                 }
 
                 button {
-                    padding: 0px 16px;
+                    // padding: 0 10px;
                     border-radius: 16px;
-                    min-width: 68px;
-                    height: 32px;
-                    font-size: 14px;
+                    min-width: 78px;
+                    height: 36px;
+                    // line-height: 36px;
+                    font-size: 12px;
                     color: #2F1E67;
                     background: white;
                     font-weight: 550;
@@ -168,9 +170,6 @@ export default {
                 }
             }
 
-            // .professionalVersion{
-            //     border: 1px dashed lightgray;
-            // }
             .freeVersion {
                 border-radius: 10px;
             }

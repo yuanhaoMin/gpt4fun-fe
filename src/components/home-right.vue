@@ -40,8 +40,7 @@
                 </el-select>
             </div>
         </div>
-
-        <div class="unify">
+        <!-- <div class="unify">
             <div @click="selectImagineMode">
                 <span>图片模式 :</span>&emsp;
                 <el-switch v-model="isImagineMode.isImagineModeSelected" size="large" />
@@ -63,7 +62,7 @@
                     </el-select>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

@@ -62,7 +62,7 @@
                 </div>
                 <div class="agreement">
                   <el-checkbox v-model="checked">我同意并签署了本服务协议。</el-checkbox><span
-                    @click="this.centerDialogVisible = true">《服务协议》</span>
+                    @click="this.centerDialogVisible = true">《用户使用协议》</span>
                 </div>
               </div>
               <div class="register">
@@ -82,11 +82,15 @@
             </div>
             <div class="user">
               <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifypassword" type="password" placeholder="请输入新密码" show-password />
+              <el-input v-model="newmodify.modifypasswordone" type="password" placeholder="请输入新密码" show-password />
+            </div>
+            <div class="user">
+              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
+              <el-input v-model="newmodify.modifypasswordtwo" type="password" placeholder="请确认密码" show-password />
             </div>
           </div>
           <div class="login">
-            <el-button type="primary" plain @click="modify">修改</el-button>
+            <el-button type="primary" class="upda" plain @click="modify">修改</el-button>
           </div>
           <div class="forget" @click="this.isShowLoginBox = true, this.isShowModify = false">去登陆?</div>
 
@@ -101,7 +105,11 @@
         <p>协议细则</p>
         <p> 一、本网站服务条款的确认和接纳</p>
         本网站各项服务的所有权和运作权归本网站拥有。
-        <p> 二、用户在本网站平台上不得输入下列违法信息：</p>
+        1.1 本网站运用生成式人工智能技术,为用户提供生成文本内容的服务。
+        1.2 用户明确了解本服务生成内容系由人工智能算法完成,存在一定的随机性。本网站会通过不断优化算法,提高生成内容的质量和可靠性,但难以完全避免生成错误或不准确的内容。
+        1.3 本服务适用于18岁以上的用户,仅供科学研究、个人学习等合法正当目的使用。用户应合理使用本服务,并承担使用风险。
+        <p> 二、用户规范</p>
+        2.1 用户在本网站平台上不得输入下列违法信息：
         (1)反对宪法所确定的基本原则的；
         (2)危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；
         (3)损害国家荣誉和利益的；
@@ -111,9 +119,14 @@
         (7)散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；
         (8)侮辱或者诽谤他人，侵害他人合法权益的；
         (9)含有法律、行政法规禁止的其他内容的。
+        2.2 用户在使用本服务过程中,应当遵守中华人民共和国的相关法律法规,不得利用本服务生成、复制、发布、传播任何违法信息。
+        2.3 用户不得利用本服务生成任何侵犯他人知识产权、肖像权、隐私权等合法权益的内容。
+        2.4 本网站生成的部分内容可能涉及民族、地域、性别等敏感话题,用户应当审慎使用,并不得利用本服务制造或者传播歧视性内容。
+        2.5 对于本网站明知属于未成年人的用户,我们会限制其使用本服务的功能和时长,以降低未成年人沉迷的风险。
+        2.6 本网站会对所提供服务的安全性和可靠性进行评估和优化,力求为用户提供高质量的服务。
         <p>三、服务条款的修改</p>
         本网站有权在必要时修改服务条款，本网站服务条款一旦发生变动，将会在重要页面上提示修改内容。如果不同意所改动的内容，用户可以主动取消获得的本网站信息服务。如果用户继续享用本网站信息服务，则视为接受服务条款的变动。本网站保留随时修改或中断服务而不需通知用户的权利。本网站行使修改或中断服务的权利，不需对用户或第三方负责。
-        <p>四、用户的帐号、密码和安全性</p>
+        <p>四、个人信息保护</p>
         (1)注册会员有权用本网站提供的服务功能。
         (2)注册会员同意遵守包括但不仅限于《中华人民共和国保守国家秘密法》、 《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》、《互联 网电子公告服务管理规定》、《互联网信息服务管理办法》等在内的法律、法规。
         (3)您注册时有义务提供完整、真实、的个人信息，信息如有变更，应及时更新。
@@ -132,8 +145,10 @@
         (2) 不干扰或混乱网络服务。
         (3)为保障个人及企业信息安全，禁止用户输入个人隐私或企业隐私。
         (4) 遵守所有使用服务的网络协议、规定、程序和惯例。用户的行为准则是以因特网法规，政策、程序和惯例为根据的。
-        <p>九、保障</p>
-        用户同意保障和维护本网站全体成员的利益，负责支付由用户使用超出服务范围引起的律师费用，违反服务条款的损害补偿费用，其它人使用用户的电脑、帐号和其它知识产权的追索费。
+        <p>九、建议与投诉</p>
+        9.1 用户同意保障和维护本网站全体成员的利益，负责支付由用户使用超出服务范围引起的律师费用，违反服务条款的损害补偿费用，其它人使用用户的电脑、帐号和其它知识产权的追索费。
+        9.2 用户对本网站服务存在疑问或者投诉,请通过本网站公示的客服联系方式反馈,我们将及时处理。
+        9.3 用户应依法对违反本协议及相关法律规定的行为进行投诉、举报,以助于本网站不断改进服务。
         <p>十、结束服务</p>
         用户或本网站可随时根据实际情况中断一项或多项服务。本网站不需对任何个人或第三方负责而随时中断服务。用户若反对任何服务条款的建议或对后来的条款修改有异议，或对本网站服务不满，用户可以行使如下权利：
         (1) 不再使用本网站信息服务。
@@ -143,8 +158,14 @@
         所有发给用户的通告都可通过重要页面的公告或电子邮件或常规的信件传送。服务条款的修改、服务变更、或其它重要事件的通告都会以此形式进行。
         <p>十二、信息内容的所有权</p>
         本网站定义的信息内容包括：文字、软件、声音、相片、录象、图表；在广告中全部内容；本网站为用户提供的其它信息。所有这些内容受版权、商标、标签和其它财产所有权法律的保护。所以，用户只能在本网站和广告商授权下才能使用这些内容，而不能擅自复制、再造这些内容、或创造与内容有关的派生产品。
-        <p>十三、法律</p>
-        本网站信息服务条款要与中华人民共和国的法律解释一致。用户和本网站一致同意服从本网站所在地有管辖权的法院管辖。
+        <p>十三、免责条款</p>
+        13.1 本网站可能会提供第三方平台的访问入口,但不承担第三方平台服务质量及合法性的担保责任。
+        13.2 因不可抗力,本网站服务可能会出现中断。造成的损失由用户自行承担。
+        13.3 用户应自行承担利用本网站服务产生的各种风险,本网站不承担任何法律及连带责任。
+        13.4 本网站有权单方面修改本使用协议,用户需及时关注协议更新。
+        <p>十四、生效与争议解决</p>
+        14.1 本协议自公布之日起生效。用户使用本网站服务即表示同意并遵守本协议。
+        14.2 本协议的解释与争议解决,适用中华人民共和国法律并由本网站所在地法院管辖。
       </div>
       <template #footer>
         <span class="dialog-footer">
@@ -190,7 +211,8 @@ export default {
       },
       newmodify: {
         modifyusername: '',
-        modifypassword: ''
+        modifypasswordone: '',
+        modifypasswordtwo: '',
       },
       isShowlogin: true,
       isShowRegister: false,
@@ -231,14 +253,19 @@ export default {
   },
   methods: {
     async modify() {
-      if (this.newmodify.modifyusername == '' || this.newmodify.modifypassword == '') {
+      if (this.newmodify.modifyusername == '' || this.newmodify.modifypasswordone == '' || this.newmodify.modifypasswordtwo == '') {
         return ElMessage({
           showClose: true,
           message: "账户/密码不能为空!",
           type: "error",
         });
       };
-      let res = await change({ "username": this.newmodify.modifyusername, "password": this.newmodify.modifypassword });
+      if (this.newmodify.modifypasswordone !== this.newmodify.modifypasswordtwo) return ElMessage({
+        showClose: true,
+        message: "两个输入的密码不一致!",
+        type: "error",
+      });
+      let res = await change({ "username": this.newmodify.modifyusername, "password": this.newmodify.modifypasswordtwo });
       if (res.status == 200) {
         ElMessage({
           showClose: true,
@@ -297,8 +324,7 @@ export default {
               message: "登录成功！",
               type: "success",
             });
-            this.$router.replace("/recruit");
-            // this.$router.replace("/chat");
+            this.$router.replace("/chat");
           });
         } else {
           return
@@ -506,6 +532,10 @@ export default {
     margin-top: 110px;
     background: #311a67;
     color: white;
+  }
+
+  .upda {
+    margin-top: 40px !important;
   }
 
   .register>.el-button {

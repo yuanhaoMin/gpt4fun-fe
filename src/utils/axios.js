@@ -87,4 +87,14 @@ export let put = (url, data) => {
         });
     });
 };
+//delete
+export let delet = (url, data) => {
+    return new Promise((resolve, reject) => {
+        instance.delete(url, data).then((res) => {
+            resolve(res);
+        }).catch(err => {
+            // reject(err);
+        });
+    });
+};
 

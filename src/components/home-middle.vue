@@ -36,8 +36,7 @@
             提示词案例
           </el-button>
         </div>
-        <!-- <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true"> -->
-        <div class="input-box" v-show="this.$route.path == '/chat' ? true : false">
+        <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true">
           <textarea placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
           <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
@@ -48,7 +47,8 @@
           执行
         </div>
       </div>
-      <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" />
+      <!-- //提示词 -->
+      <!-- <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" /> -->
     </div>
     <!-- 右边 -->
     <div class="syan">
@@ -562,7 +562,6 @@ export default {
       }
       return htmlStr;
     },
-
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="pc">
         <div>
-            <!-- <div class="biZhi bgimgs">
+            <div class="biZhi bgimgs">
                 <div class="top">
                     <div>
                         <img src="/imgs/home-page-images/logo.png" alt="">
@@ -27,28 +27,20 @@
                                 <div>联网模式</div>
                             </div>
                         </div>
-                        <div class="same">
+                        <!-- <div class="same">
                             <div class="becomes-im-two becomes-im-too">
                                 <div><img src="/imgs/home-page-images/07.png" alt="">图片模式</div>
                                 <div>DALL-E模型</div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div>
                         <div class="aaa move-in"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot">
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="recruit bgimgs">
-                <div class="top">
-                    <div>
-                        <img src="/imgs/home-page-images/logo.png" alt="">
-                    </div>
-                    <div class="btn" @click="$router.push('/login')">
-                        登录/注册
-                    </div>
-                </div>
                 <div><img src="/imgs/home-page-images/09.png" alt="" class="recruitim"></div>
                 <div class="recruitai">
                     <div class="bbb move-in"> <img src="/imgs/home-page-images/bc.png" alt="" class="screenshot">

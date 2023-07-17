@@ -1,4 +1,4 @@
-import { post, get, put } from '../utils/axios';
+import { post, get, put, delet } from '../utils/axios';
 
 export let login = (data) => post('/user/login', data);   //登录
 
@@ -8,4 +8,4 @@ export let info = (data) => get('/user/info?username=' + data)  //获取用户�
 
 export let change = (data) => put('/user/password', data)  //忘记密码    
 
-
+export let deleteuser = (data) => delet('/user/delete?username=' + data)  //注销账户   

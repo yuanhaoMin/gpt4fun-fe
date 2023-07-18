@@ -99,5 +99,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/pc-css/homecss.scss'
+@import '../assets/pc-css/homecss.scss';
 </style>

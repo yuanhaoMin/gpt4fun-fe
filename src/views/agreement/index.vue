@@ -1,7 +1,7 @@
 <template>
     <div class="agreement">
         <div>
-            <p>尊敬的客户，欢迎您注册成为本网站用户。在注册前请您仔细阅读如下服务条款：</p>
+            <h2>尊敬的客户，欢迎您注册成为本网站用户。在注册前请您仔细阅读如下服务条款：</h2>
             本服务协议双方为本网站与本网站客户，本服务协议具有合同效力。您确认本服务协议后，本服务协议即在您和本网站之间产生法律效力。请您务必在注册之前认真阅读全部服务协议内容，如有任何疑问，可向本网站咨询。
             无论您事实上是否在注册之前认真阅读了本服务协议，只要您点击协议正本下方的"注册"按钮并按照本网站注册程序成功注册为用户，您的行为仍然表示您同意并签署了本服务协议。
             <p>协议细则</p>
@@ -92,9 +92,17 @@ export default {
     background: #29263d;
     box-sizing: border-box;
     overflow-y: auto;
-
+    line-height: 2;
+    font-size: 18px;
+    color: silver;
+    h2{
+        text-align: center;
+        color: #FFFFFF;
+        margin-bottom: 25px;
+    }
     p {
-        font-size: 22px;
+        font-size: 24px;
+        color: #FFFFFF;
         font-weight: 600;
     }
 

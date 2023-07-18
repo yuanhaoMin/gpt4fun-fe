@@ -119,6 +119,7 @@ export default {
             width: 80px;
             height: 80px;
             margin-right: 20px;
+            cursor: pointer;
         }
 
         .usernameAndAccount {
@@ -140,12 +141,12 @@ export default {
             .purplePart {
                 width: 100%;
                 height: 89px;
-                padding: 20px;
+                padding: 10px;
                 box-sizing: border-box;
                 background: url("/imgs/bi-zhi-images/prefess.png");
                 background-size: 100%;
                 font-size: 16px;
-                line-height: 2;
+                line-height: 1.5;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -156,12 +157,10 @@ export default {
                 }
 
                 button {
-                    // padding: 0 10px;
                     border-radius: 16px;
-                    min-width: 78px;
+                    min-width: 110px;
                     height: 36px;
-                    // line-height: 36px;
-                    font-size: 12px;
+                    font-size: 14px;
                     color: #2F1E67;
                     background: white;
                     font-weight: 550;

@@ -6,7 +6,7 @@
         <div class="preferential"><u>限时折扣 7月23日恢复原价</u></div>
         <div class="tab">
             <div class="tab-s">
-                <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">普通版</div>
+                <div :class="tab == 1 ? 'tab-bg' : ''" @click="tab = 1" class="border-l">基础版</div>
                 <div :class="tab == 2 ? 'tab-bg' : ''" @click="tab = 2">专业版</div>
                 <!-- <div :class="tab == 3 ? 'tab-bg' : ''" @click="tab = 3" class="border-r">终身版</div> -->
             </div>
@@ -107,7 +107,7 @@
                 <li></li>
                 <li></li>
                 <li>招聘AI助手</li>
-                <li>分类AI场景</li>
+                <li>分类场景助手</li>
                 <li></li>
                 <li>分析AI助手</li>
                 <li>开发中</li>
@@ -133,7 +133,7 @@
                 <li></li>
                 <li></li>
                 <li></li>
-                <li>普通版</li>
+                <li>基础版</li>
                 <li>专业版</li>
                 <li></li>
                 <li>联网/离线</li>

@@ -2,12 +2,12 @@
     <div class="unsubscribe">
         <div class="unsubscribe-content" v-show="isShownothave">
             <h3>账号注销</h3>
-            <div>账号注销则视为您主动放弃以下资产和权益，且同意以下规则：</div>
-            <div>1.账户注销后, 您将无法登录、使用Bizcamp AI账号, 且不支持找回个人资料。</div>
-            <div>2.该账号将解除与其他产品的绑定或授权关系，且不支持找回。</div>
-            <div>3.专业版等付费权益，包含已经产生但未消耗完毕的权益或未来预期权益。</div>
-            <div>4.将不在支持使用已注销账户的用户ID注册新的账户。</div>
-            <div>5.注销Bizcamp AI账号并不代表您注销前的账号行为和相关责任得到豁免或减轻。</div>
+            <div class="mRight">账号注销则视为您主动放弃以下资产和权益，且同意以下规则：</div>
+            <div class="mRight">1.账户注销后, 您将无法登录、使用Bizcamp AI账号, 且不支持找回个人资料。</div>
+            <div class="mRight">2.该账号将解除与其他产品的绑定或授权关系，且不支持找回。</div>
+            <div class="mRight">3.专业版等付费权益，包含已经产生但未消耗完毕的权益或未来预期权益。</div>
+            <div class="mRight">4.将不在支持使用已注销账户的用户ID注册新的账户。</div>
+            <div class="mRight">5.注销Bizcamp AI账号并不代表您注销前的账号行为和相关责任得到豁免或减轻。</div>
             <button @click="this.isShownothave = false, this.isShowhave = true">已知悉,确认注销账户</button>
         </div>
         <div class="section" v-show="isShowhave">
@@ -235,13 +235,16 @@ export default {
 
     .unsubscribe-content {
         h3 {
+            margin-top: 25px;
             text-align: center;
+            font-size: 36px;
         }
 
         background:#FFFFFF;
         display: flex;
         flex-direction: column;
-        width: 400px;
+        width: 800px;
+        height: 600px;
         border-radius: 15px;
         line-height: 2;
         color: black;
@@ -251,10 +254,18 @@ export default {
         top: 50%;
         transform: translate(-50%, -50%);
 
+        .mRight {
+            margin-left: 50px;
+            font-size: 18px;
+            line-height: 2;
+        }
+
         button {
-            margin-top: 50px;
+            width: 600px;
             height: 40px;
             border: 0px;
+            margin: auto;
+            margin-top: 200px;
             border-radius: 10px;
             font-weight: 600;
             font-size: 17px;
@@ -266,6 +277,7 @@ export default {
 
     .section {
         h1 {
+            margin-top: 50px;
             text-align: center;
         }
 
@@ -296,13 +308,15 @@ export default {
                 height: 36px;
                 border-radius: 10px;
                 border: 0px;
+                background: #331567;
+                color: #FFFFFF;
                 cursor: pointer;
             }
         }
 
         .permanent {
-            margin-top: 50px;
-            width: 400px;
+            margin-top: 80px;
+            width: 450px;
             height: 40px;
             border-radius: 10px;
             border: 0px;

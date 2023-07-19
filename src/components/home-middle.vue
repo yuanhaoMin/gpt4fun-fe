@@ -129,7 +129,7 @@ export default {
     async expirationTime() {
       let { data: res } = await info(this.$store.state.username);
       this.$store.commit("expire", res.access_bitmap);
-      let time = transformTimestamp(res.subscription_end_time)
+      let time = transformTimestamp(res.subscription_end_time);
       var myDate = transformTimestamp(new Date())
       if (time <= myDate) {
         this.timeExpiration = 0

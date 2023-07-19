@@ -13,22 +13,22 @@
         </div>
         <div class="number" v-show="tab == 1">
             <div>
-                <div>￥<em>122.4</em><span>元</span></div>
+                <div>￥<em>122</em><span>元</span></div>
                 <s>原价￥144</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(122.4)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(122)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>230.4</em><span>元</span></div>
+                <div>￥<em>230</em><span>元</span></div>
                 <s>原价￥288</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(230.4)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(230)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>403.2</em><span>元</span></div>
+                <div>￥<em>403</em><span>元</span></div>
                 <s>原价￥576</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(403.2)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="basicbuy(403)">购买</el-button></div>
             </div>
             <div>
                 <div>￥<em>{{ preferential }}</em> <span>元</span></div>
@@ -43,22 +43,22 @@
         </div>
         <div class="number" v-show="tab == 2">
             <div>
-                <div>￥<em>224.4</em><span>元</span></div>
+                <div>￥<em>224</em><span>元</span></div>
                 <s>原价￥264</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(224.4)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(224)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>422.4</em><span>元</span></div>
+                <div>￥<em>422</em><span>元</span></div>
                 <s>原价￥528</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(422.4)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(422)">购买</el-button></div>
             </div>
             <div>
-                <div>￥<em>739.2</em><span>元</span></div>
+                <div>￥<em>739</em><span>元</span></div>
                 <s>原价￥1056</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(739.2)">购买</el-button></div>
+                <div> <el-button type="primary" round @click="specialitybuy(739)">购买</el-button></div>
             </div>
             <div>
                 <div>￥<em>{{ preferential1 }}</em><span>元</span></div>
@@ -188,10 +188,10 @@ export default {
         return {
             cost: 48,
             num: 1,
-            preferential: 43.2,
+            preferential: 43,
             cost1: 88,
             num1: 1,
-            preferential1: 79.2,
+            preferential1: 79,
             tab: 1
         };
     },
@@ -201,19 +201,19 @@ export default {
                 switch (newValue) {
                     case 1:
                         this.cost = 48;
-                        this.preferential = 43.2;
+                        this.preferential = 43;
                         break;
                     case 2:
                         this.cost = 96;
-                        this.preferential = 86.4;
+                        this.preferential = 86;
                         break;
                     case 3:
                         this.cost = 144;
-                        this.preferential = 122.4;
+                        this.preferential = 122;
                         break;
                     case 4:
                         this.cost = 192;
-                        this.preferential = 163.2;
+                        this.preferential = 163;
                         break;
                     case 5:
                         this.cost = 240;
@@ -221,15 +221,15 @@ export default {
                         break;
                     case 6:
                         this.cost = 288;
-                        this.preferential = 230.4;
+                        this.preferential = 230;
                         break;
                     case 7:
                         this.cost = 336;
-                        this.preferential = 268.8;
+                        this.preferential = 268;
                         break;
                     case 8:
                         this.cost = 384;
-                        this.preferential = 307.2;
+                        this.preferential = 307;
                         break;
                     case 9:
                         this.cost = 432;
@@ -245,7 +245,7 @@ export default {
                         break;
                     case 12:
                         this.cost = 576;
-                        this.preferential = 403.2;
+                        this.preferential = 403;
                         break;
 
                     default:
@@ -259,19 +259,19 @@ export default {
                 switch (newValue) {
                     case 1:
                         this.cost1 = 88;
-                        this.preferential1 = 79.2;
+                        this.preferential1 = 79;
                         break;
                     case 2:
                         this.cost1 = 176;
-                        this.preferential1 = 158.4;
+                        this.preferential1 = 158;
                         break;
                     case 3:
                         this.cost1 = 264;
-                        this.preferential1 = 224.4;
+                        this.preferential1 = 224;
                         break;
                     case 4:
                         this.cost1 = 352;
-                        this.preferential1 = 299.2;
+                        this.preferential1 = 299;
                         break;
                     case 5:
                         this.cost1 = 440;
@@ -279,15 +279,15 @@ export default {
                         break;
                     case 6:
                         this.cost1 = 528;
-                        this.preferential1 = 422.4;
+                        this.preferential1 = 422;
                         break;
                     case 7:
                         this.cost1 = 616;
-                        this.preferential1 = 492.8;
+                        this.preferential1 = 492;
                         break;
                     case 8:
                         this.cost1 = 704;
-                        this.preferential1 = 563.2;
+                        this.preferential1 = 563;
                         break;
                     case 9:
                         this.cost1 = 792;
@@ -303,7 +303,7 @@ export default {
                         break;
                     case 12:
                         this.cost1 = 1056;
-                        this.preferential1 = 739.2;
+                        this.preferential1 = 739;
                         break;
                     default:
                         break;
@@ -337,10 +337,10 @@ export default {
             let res = await payment({ username: this.$store.state.username, amount: num, dev_mode: false });
             window.open(res.url)
         },
-        async lifebuy(num) {
-            let res = await payment({ username: this.$store.state.username, amount: num, dev_mode: false });
-            window.location.href = res.url;
-        }
+        // async lifebuy(num) {
+        //     let res = await payment({ username: this.$store.state.username, amount: num, dev_mode: false });
+        //     window.location.href = res.url;
+        // }
     },
 };
 </script>

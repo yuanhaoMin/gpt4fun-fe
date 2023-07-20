@@ -209,18 +209,29 @@ export default {
         let res = document.querySelectorAll('.copy')
         for (let i = 0; i < res.length; i++) {
           res[i].onclick = function () {
-            navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
-
-              ElMessage({
-                message: '文本已经成功复制到剪切板',
-                type: 'success',
-                duration: 800
-              })
-            })
-              .catch(err => {
-                //如果用户没有授权，则抛出异常
-                console.error('无法复制此文本', err);
-              })
+            //需要在安全网络下进行才可以，localhost或者https,127.0.0.1是本机域名是安全的，所以可以获取到clipboard 。否则navigator.clipboard为null。
+            // console.log(document.querySelectorAll('#text')[i].innerText);
+            // navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
+            //   ElMessage({
+            //     message: '文本已经成功复制到剪切板',
+            //     type: 'success',
+            //     duration: 800
+            //   })
+            // })
+            //   .catch(err => {
+            //     //如果用户没有授权，则抛出异常
+            //     console.error('无法复制此文本', err);
+            //   })
+            var range = document.createRange();
+            range.selectNode(document.querySelectorAll('#text')[i]);
+            var selection = window.getSelection();
+            if (selection.rangeCount > 0) selection.removeAllRanges();
+            selection.addRange(range);
+            return document.execCommand('copy'), selection.removeAllRanges(), ElMessage({
+              message: '文本已经成功复制到剪切板',
+              type: 'success',
+              duration: 800
+            });
           }
         }
       }
@@ -452,17 +463,16 @@ export default {
           let res = document.querySelectorAll('.copy')
           for (let i = 0; i < res.length; i++) {
             res[i].onclick = function () {
-              navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
-                ElMessage({
-                  message: '文本已经成功复制到剪切板',
-                  type: 'success',
-                  duration: 800
-                })
+              var range = document.createRange();
+              range.selectNode(document.querySelectorAll('#text')[i]);
+              var selection = window.getSelection();
+              if (selection.rangeCount > 0) selection.removeAllRanges();
+              selection.addRange(range);
+              return document.execCommand('copy'), selection.removeAllRanges(), ElMessage({
+                message: '文本已经成功复制到剪切板',
+                type: 'success',
+                duration: 800
               })
-                .catch(err => {
-                  //如果用户没有授权，则抛出异常
-                  console.error('无法复制此文本', err);
-                })
             }
           }
         }
@@ -503,17 +513,16 @@ export default {
       let res = document.querySelectorAll('.copy')
       for (let i = 0; i < res.length; i++) {
         res[i].onclick = function () {
-          navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
-            ElMessage({
-              message: '文本已经成功复制到剪切板',
-              type: 'success',
-              duration: 800
-            })
+          var range = document.createRange();
+          range.selectNode(document.querySelectorAll('#text')[i]);
+          var selection = window.getSelection();
+          if (selection.rangeCount > 0) selection.removeAllRanges();
+          selection.addRange(range);
+          return document.execCommand('copy'), selection.removeAllRanges(), ElMessage({
+            message: '文本已经成功复制到剪切板',
+            type: 'success',
+            duration: 800
           })
-            .catch(err => {
-              //如果用户没有授权，则抛出异常
-              console.error('无法复制此文本', err);
-            })
         }
       }
       this.isShowLoading = false;

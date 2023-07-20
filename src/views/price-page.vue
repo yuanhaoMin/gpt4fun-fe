@@ -179,7 +179,7 @@
         </div>
     </div>
 </template>
-
+ 
 <script>
 import { payment } from "../api/payment"
 export default {

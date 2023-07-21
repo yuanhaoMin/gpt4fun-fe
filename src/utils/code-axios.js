@@ -29,6 +29,12 @@ instance.interceptors.response.use(response => {
             message: '验证码错误！',
             type: 'error',
         });
+    } else if (error.response.status == 500) {
+        ElMessage({
+            showClose: true,
+            message: '今日获取验证码已上限！',
+            type: 'error',
+        });
     }
     return Promise.reject(error);
 });

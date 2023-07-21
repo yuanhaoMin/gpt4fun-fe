@@ -39,14 +39,14 @@
                   <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
                   <el-form-item prop="registerUsername">
                     <el-input v-model="registernew.registerUsername" placeholder="请输入手机号注册" clearable
-                      name="registerUsername" :disabled="iptdisabled" />
+                      name="registerUsername" :disabled="isClickSend" />
                   </el-form-item>
                 </div>
                 <div class="user">
                   <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
                   <el-form-item prop="registerpassword">
                     <el-input v-model="registernew.registerpassword" type="password" placeholder="请输入密码"
-                      name="registerpassword" show-password :disabled="iptdisabled" />
+                      name="registerpassword" show-password :disabled="isClickSend" />
                   </el-form-item>
                 </div>
                 <div class="elasticity">
@@ -78,15 +78,24 @@
             </div>
             <div class="user">
               <img src="/imgs/log-on-images/zhanghu.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifyusername" placeholder="请输入手机号" clearable />
+              <el-input v-model="newmodify.modifyusername" placeholder="请输入手机号" clearable :disabled="isClickSendupda" />
             </div>
             <div class="user">
               <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifypasswordone" type="password" placeholder="请输入新密码" show-password />
+              <el-input v-model="newmodify.modifypassword" type="password" placeholder="请输入新密码"
+                :disabled="isClickSendupda" show-password />
             </div>
-            <div class="user">
-              <img src="/imgs/log-on-images/mima.png" alt="" class="logonImg" />
-              <el-input v-model="newmodify.modifypasswordtwo" type="password" placeholder="请确认密码" show-password />
+            <div class="elasticity">
+              <div class="yzm">
+                <img src="/imgs/log-on-images/yzm.png" alt="" class="logonImg" />
+                <el-form-item prop="registerCode">
+                  <el-input v-model="newmodify.modifycode" placeholder="请输入验证码" name="registercode" maxlength="6"
+                    clearable />
+                </el-form-item>
+              </div>
+              <el-button type="info" round @click="sendupda" id="btn">{{ codeNumupda == 60 ? "发送验证码" :
+                `(${codeNumupda})秒发送`
+              }}</el-button>
             </div>
           </div>
           <div class="login">
@@ -211,16 +220,17 @@ export default {
       },
       newmodify: {
         modifyusername: '',
-        modifypasswordone: '',
-        modifypasswordtwo: '',
+        modifypassword: '',
+        modifycode: '',
       },
       isShowlogin: true,
       isShowRegister: false,
       codeNum: 60,
+      codeNumupda: 60,
       isClickSend: false,
       isShowModify: false,
       isShowLoginBox: true,
-      iptdisabled: false,
+      isClickSendupda: false,
       reles: {
         username: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -253,28 +263,35 @@ export default {
   },
   methods: {
     async modify() {
-      if (this.newmodify.modifyusername == '' || this.newmodify.modifypasswordone == '' || this.newmodify.modifypasswordtwo == '') {
+      if (this.newmodify.modifyusername == '' || this.newmodify.modifypassword == '') {
         return ElMessage({
           showClose: true,
           message: "账户/密码不能为空!",
           type: "error",
         });
       };
-      if (this.newmodify.modifypasswordone !== this.newmodify.modifypasswordtwo) return ElMessage({
+      if (!this.newmodify.modifycode) return ElMessage({
         showClose: true,
-        message: "两个输入的密码不一致!",
+        message: "验证码不能为空!",
         type: "error",
       });
-      let res = await change({ "username": this.newmodify.modifyusername, "password": this.newmodify.modifypasswordtwo });
-      if (res.status == 200) {
-        ElMessage({
-          showClose: true,
-          message: "修改密码成功,赶快去登陆叭!",
-          type: "success",
-        });
-        this.newmodify = {}
+      let code = await verificationApi({
+        "phone": this.newmodify.modifyusername,
+        "captcha": this.newmodify.modifycode
+      })
+      if (code == 'Success') {
+        let res = await change({ "username": this.newmodify.modifyusername, "password": this.newmodify.modifypassword });
+        if (res.status == 200) {
+          ElMessage({
+            showClose: true,
+            message: "修改密码成功,赶快去登陆叭!",
+            type: "success",
+          });
+          this.codeNumupda = 60;
+          this.isClickSendupda = false;
+          this.newmodify = {};
+        }
       }
-
     },
     async newRegister() {
       this.$refs.registerForm.validate(valid => {
@@ -299,8 +316,10 @@ export default {
                 message: "注册成功!",
                 type: "success",
               });
-              this.isShowRegister = false
-              this.isShowlogin = true
+              this.isShowRegister = this.isClickSend = false;
+              this.codeNum = 60;
+              this.isShowlogin = true;
+              this.registernew = {};
             })
           })
         } else {
@@ -333,37 +352,56 @@ export default {
     },
     onKeyDown(e) {
       if (e.keyCode == 13) {
-        this.jump()
+        this.jump();
       }
     },
     register() {
-      this.isShowRegister = true
-      this.isShowlogin = false
+      this.isShowRegister = true;
+      this.isShowlogin = false;
     },
     login() {
-      this.isShowRegister = false
-      this.isShowlogin = true
+      this.isShowRegister = false;
+      this.isShowlogin = true;
     },
-
     async send() {
-      if (this.registernew.registerUsername == '') return ElMessage({
+      if (this.registernew.registerUsername == '' || this.registernew.registerpassword == '') return ElMessage({
         showClose: true,
-        message: "手机号不能为空",
+        message: "手机号/密码不能为空！",
         type: "error",
       });
-      this.iptdisabled = true
       if (this.isClickSend == true || this.codeNum != 60) return;
       this.isClickSend = true;
       let clearId = setInterval(() => {
         this.codeNum--;
-        if (this.codeNum == 0) {
+        if (this.codeNum == 0 || this.isClickSend == false) {
           clearInterval(clearId);
           this.codeNum = 60;
-          this.iptdisabled = this.isClickSend = false;
+          this.isClickSend = false;
         }
       }, 1000);
       let res = await codeApi({
         "phone": this.registernew.registerUsername,
+        "token": "bizcampgpt"
+      })
+    },
+    async sendupda() {
+      if (this.newmodify.modifyusername == '' || this.newmodify.modifypassword == '') return ElMessage({
+        showClose: true,
+        message: "手机号/密码不能为空！",
+        type: "error",
+      });
+      if (this.isClickSendupda == true || this.codeNumupda != 60) return;
+      this.isClickSendupda = true;
+      let clearId = setInterval(() => {
+        this.codeNumupda--;
+        if (this.codeNumupda == 0 || this.isClickSendupda == false) {
+          clearInterval(clearId);
+          this.codeNumupda = 60;
+          this.isClickSendupda = false;
+        }
+      }, 1000);
+      let res = await codeApi({
+        "phone": this.newmodify.modifyusername,
         "token": "bizcampgpt"
       })
     }

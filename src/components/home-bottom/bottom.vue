@@ -4,19 +4,18 @@
             <div class="left">
                 <ul>
                     <li>友情链接</li>
-                    <li><a href="http://bizcamp.com.cn/">毕至咨询</a></li>
+                    <li><a href="http://bizcamp.com.cn/">毕至数科科技</a></li>
                     <li><a href="http://a-y.com.cn/AYwebsite/home">安元科技</a></li>
                     <li><a href="https://www.mingdao.com/">明道云</a></li>
                     <li><a href="https://www.qiyuesuo.com/">契约锁</a></li>
                 </ul>
                 <ul>
                     <li>技术支持</li>
-                    <li>南京毕至数科科技有限公司</li>
+                    <li><a href="http://bizcamp.com.cn/">南京毕至数科科技有限公司</a></li>
                 </ul>
                 <ul>
                     <li>联系我们</li>
                     <li>lby@bizcamp.com.cn</li>
-                    <li>sjq@bizcamp.com.cn</li>
                     <li>hhf@bizcamp.com.cn</li>
                 </ul>
             </div>
@@ -26,8 +25,10 @@
             </div>
         </div>
         <div class="secure">
-            <div>ICP备案: <a href="https://beian.miit.gov.cn/">苏ICP备2020068908号-</a></div>
-            <div>公安备案:审核中 <span></span></div>
+            <div>ICP备案: <a href="https://beian.miit.gov.cn/">苏ICP备2020068908号-2</a></div>
+            <div class="filings"><img src="/imgs/filings.png" alt="">苏公网安备
+                <a href="https://beian.miit.gov.cn/">32011502011891号</a>
+            </div>
         </div>
     </div>
 </template>
@@ -38,7 +39,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped >
 .bottom-box {
     height: 330px;
     background-color: #190044;
@@ -106,14 +107,23 @@ export default {
     }
 
     .secure {
-        width: 400px;
+        width: 600px;
         height: 60px;
         line-height: 60px;
         display: flex;
         font-weight: 500;
         font-size: 12px;
         color: rgba(255, 255, 255, 0.8);
-        justify-content: space-between;
+        justify-content: space-evenly;
+
+        .filings {
+            display: flex;
+            align-items: center;
+
+            img {
+                margin-right: 5px;
+            }
+        }
 
         a {
             margin-left: 5px;
@@ -122,7 +132,7 @@ export default {
         }
 
         a:hover {
-            color: blue;
+            color: white;
         }
     }
 }

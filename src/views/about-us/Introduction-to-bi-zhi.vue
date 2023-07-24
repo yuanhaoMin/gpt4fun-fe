@@ -99,7 +99,7 @@
                     <li>数字化办公</li>
                     <li>奇点人力</li>
                     <li>积分系统</li>
-                    <li>点子签</li>
+                    <li>电子签</li>
                     <li>为企业定制专属的功能和模块</li>
                 </ul>
             </div>
@@ -331,6 +331,7 @@ export default {
             justify-content: center;
             align-items: center;
             margin: 0 44px 0 10px;
+            cursor: pointer;
 
             div {
                 width: 176px;

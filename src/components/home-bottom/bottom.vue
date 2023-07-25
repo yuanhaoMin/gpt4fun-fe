@@ -25,9 +25,10 @@
             </div>
         </div>
         <div class="secure">
-            <div>ICP备案: <a href="https://beian.miit.gov.cn/">苏ICP备2020068908号-2</a></div>
-            <div class="filings"><img src="/imgs/filings.png" alt="">苏公网安备
-                <a href="https://beian.miit.gov.cn/">32011502011891号</a>
+            <div><a href="https://beian.miit.gov.cn/" target="_blank">ICP备案:&nbsp;苏ICP备2020068908号-2</a></div>
+            <div class="filings"><img src="/imgs/filings.png" alt="">
+                <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011502011891"
+                    target="_blank">苏公网安备&nbsp;32011502011891号</a>
             </div>
         </div>
     </div>

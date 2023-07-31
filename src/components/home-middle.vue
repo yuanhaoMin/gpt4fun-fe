@@ -37,8 +37,10 @@
           </el-button>
         </div>
         <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true">
-          <textarea placeholder="请输入对话内容" class="input-textarea textarea" ref="inputBox" @keydown.enter="sendMessage" />
-          <button class="send-button button" ref="sendButton" type="button" @click="pageSending">
+          <textarea placeholder="请输入对话内容" class="input-textarea textarea" :class="prohibit ? 'prohibit' : ''"
+            :disabled="prohibit" ref="inputBox" @keydown.enter="sendMessage" />
+          <button class="send-button button" ref="sendButton" :class="prohibit ? 'prohibit' : ''" type="button"
+            :disabled="prohibit" @click="pageSending">
             <img src="/imgs/bi-zhi-images/fasong.png" alt="" class="send-icon" />
             发送
           </button>
@@ -51,15 +53,19 @@
       <!-- <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" /> -->
     </div>
     <!-- 右边 -->
-    <div class="syan">
-      <homeRight ref="homeRight" v-show="$route.fullPath == '/chat'"></homeRight>
-      <jobRecruitment ref="jobRecruitment" v-show="$route.fullPath == '/recruit'"></jobRecruitment>
-      <classifyingScenarios v-show="$route.fullPath == '/scene'"
-        @sendUserMessageAndDisplayResponse="sendUserMessageAndDisplayResponse" @resetChatHistory="resetChatHistory"
-        ref="classifyingScenarios">
-      </classifyingScenarios>
-    </div>
-    <userAccount class="userAccount"></userAccount>
+    <keep-alive>
+      <div class="syan">
+        <homeRight ref="homeRight" v-show="$route.fullPath == '/chat'"></homeRight>
+        <jobRecruitment ref="jobRecruitment" v-show="$route.fullPath == '/recruit'"></jobRecruitment>
+        <classifyingScenarios v-show="$route.fullPath == '/scene'"
+          @sendUserMessageAndDisplayResponse="sendUserMessageAndDisplayResponse" @resetChatHistory="resetChatHistory"
+          ref="classifyingScenarios">
+        </classifyingScenarios>
+      </div>
+    </keep-alive>
+    <keep-alive>
+      <userAccount class="userAccount"></userAccount>
+    </keep-alive>
   </div>
 </template>
 
@@ -105,7 +111,8 @@ export default {
       template_args: [],
       isShowScenarios: false,
       dialogTableVisible: true,
-      timeExpiration: 1
+      timeExpiration: 1,
+      prohibit: false
     };
   },
   created() {
@@ -210,7 +217,6 @@ export default {
         for (let i = 0; i < res.length; i++) {
           res[i].onclick = function () {
             //需要在安全网络下进行才可以，localhost或者https,127.0.0.1是本机域名是安全的，所以可以获取到clipboard 。否则navigator.clipboard为null。
-            // console.log(document.querySelectorAll('#text')[i].innerText);
             // navigator.clipboard.writeText(document.querySelectorAll('#text')[i].innerText).then(() => {
             //   ElMessage({
             //     message: '文本已经成功复制到剪切板',
@@ -316,7 +322,7 @@ export default {
       }
       this.$refs.inputBox.value = "";
       // 发送按钮失效直到发送完成
-      this.$refs.sendButton.classList.add("prohibit");
+      this.prohibit = true;
       const processedText = this.achieveLineBreak(userMessage);
       this.createAndAppendMessage(processedText, this.senderUser);
       // 然后显示AI对话框, 但等待AI的回复
@@ -352,7 +358,7 @@ export default {
             duration: 3000,
             grouping: true,
           });
-          this.$refs.sendButton.classList.remove("prohibit");
+          this.prohibit = false;
           return
         }
         const responseJsonObject = await response.json();
@@ -395,7 +401,7 @@ export default {
               duration: 3000,
               grouping: true,
             });
-            this.$refs.sendButton.classList.remove("prohibit");
+            this.prohibit = false;
             return
           }
           const responseJsonObject = await response.json();
@@ -408,12 +414,12 @@ export default {
           await this.completionWithStream(apiEndpoint, botParagraph);
         } else if (this.$store.state.selected.selectedCompletionModeOnlineOption == "online") {
           await this.agentSearch(userMessage, botParagraph);
-          this.$refs.sendButton.classList.remove("prohibit");
+          this.prohibit = false;
         }
       } else if (this.$store.state.selected.isImagineModeSelected) {
         //图片模式
         await this.imagine(userMessage, botParagraph);
-        this.$refs.sendButton.classList.remove("prohibit");
+        this.prohibit = false;
       }
     },
     async completionWithStream(apiEndpoint, botParagraph) {
@@ -440,9 +446,10 @@ export default {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;  //一直让消息容器右侧滚条触底；
         const response = JSON.parse(event.data);
         if (response.hasEnd || this.isStopGeneration) {
+          console.log(response.hasEnd);
           eventSource.close();
           this.isStopGeneration = false;
-          this.$refs.sendButton.classList.remove("prohibit");
+          this.prohibit = false;
         } else {
           const formattedChunkResponse = this.achieveLineBreak(
             response.content

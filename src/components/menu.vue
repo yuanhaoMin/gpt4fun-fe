@@ -161,6 +161,7 @@ let isShow = () => {
     bottom: 55px;
     width: 120px;
     height: 32px;
+    font-size: 16px;
     line-height: 32px;
     left: 95px;
     border-radius: 15px;

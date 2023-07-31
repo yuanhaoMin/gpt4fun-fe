@@ -1,16 +1,13 @@
 <template>
-    <div class="rightView">
-        <chatMOdule></chatMOdule>
-    </div>
+    <keep-alive>
+        <div class="rightView">
+            <chatMOdule></chatMOdule>
+        </div>
+    </keep-alive>
 </template>
 
-<script>
+<script setup>
 import chatMOdule from '../components/home-middle.vue';
-export default {
-    components: {
-        chatMOdule
-    }
-}
 </script>
 
 <style scoped>

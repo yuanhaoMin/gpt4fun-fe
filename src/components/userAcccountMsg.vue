@@ -150,6 +150,7 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                border-radius: 8px;
 
                 &>div>p:last-child {
                     font-size: 12px;

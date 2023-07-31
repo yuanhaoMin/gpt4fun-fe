@@ -6,17 +6,13 @@
             <a href="mailto:hhf@bizcamp.com.cn">hhf@bizcamp.com.cn</a>
         </div>
         <userAccount class="userAccount"></userAccount>
+        <agreement />
     </div>
 </template>
 
-<script>
+<script setup>
 import userAccount from '@/components/userAcccountMsg.vue'
-
-export default {
-    components: {
-        userAccount
-    }
-}
+import agreement from "@/components/serviceAgreement/index.vue"
 </script>
 
 

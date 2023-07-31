@@ -1,6 +1,6 @@
 .prohibit {
-    pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .content {
@@ -47,7 +47,7 @@
     flex-direction: column;
     height: 95%;
     background: rgba(255, 255, 255, 0.15);
-    border-radius: 40px;
+    border-radius: 20px;
 
     .execute {
         width: 450px;
@@ -86,7 +86,7 @@
 .messages-container {
     align-self: flex-start;
     height: 90%;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     overflow-x: hidden;
     width: 100%;
     padding: 10px 30px;
@@ -385,19 +385,6 @@ select {
 
 .imagine-mode-size-list {
     margin-top: var(--dl-space-space-halfunit);
-}
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: silver;
-    border-radius: 30px;
-}
-
-::-webkit-scrollbar-track {
-    border-radius: 30px;
 }
 
 .userTip {

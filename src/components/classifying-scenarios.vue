@@ -49,7 +49,7 @@ export default {
             dataList: "",
             drawer: false,
             isShowwork: true,
-            isShowsocialize: true,
+            isShowsocialize: false,
             isShowdrawer: "",
             isShowReEdit: false,
             objList: {
@@ -124,9 +124,11 @@ export default {
         },
         eventWork() {
             this.isShowwork = !this.isShowwork;
+            this.isShowsocialize = !this.isShowsocialize;
         },
         eventSocialize() {
             this.isShowsocialize = !this.isShowsocialize;
+            this.isShowwork = !this.isShowwork;
         },
         async appearDrawer(e) {
             if (this.$store.state.expire == 1) {

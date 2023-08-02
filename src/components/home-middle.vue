@@ -28,12 +28,19 @@
             </template>
             清除记录
           </el-button>
-          <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
+          <!-- <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
             v-show="this.$route.path == '/chat' ? true : false">
             <template #icon>
               <img src="/imgs/bi-zhi-images/shezhi.png" alt="">
             </template>
             提示词案例
+          </el-button> -->
+          <el-button class="update-button button" ref="optimize" @click="optimize"
+            v-show="this.$route.path == '/chat' ? true : false">
+            <template #icon>
+              <img src="/imgs/bi-zhi-images/youhua.png" alt="">
+            </template>
+            优化提示词
           </el-button>
         </div>
         <div class="input-box" v-show="this.$route.path == '/recruit' ? false : true">
@@ -66,6 +73,16 @@
     <keep-alive>
       <userAccount class="userAccount"></userAccount>
     </keep-alive>
+    <div id="cover" v-show="isShowoptimize">
+      <div class="optimize">
+        <h1>优化提示词</h1>
+        <textarea name="optimize" id="" cols="30" rows="10" placeholder="请输入你需要优化的提示词" v-model="textoptimize"></textarea>
+        <div class="btn">
+          <button style="background-color: #4f3390;" @click="jumptextoptimize">发送</button>
+          <button style="background-color: gray;" @click=" this.isShowoptimize = false;">取消</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,7 +96,7 @@ import scenePopover from "./popover/scene-popover.vue";
 import { info } from "../api/user";
 import { transformTimestamp } from "../utils/time-format";
 import classifyingScenarios from "./classifying-scenarios.vue";
-import userAccount from '@/components/userAcccountMsg.vue'
+import userAccount from '@/components/userAcccountMsg.vue';
 export default {
   name: "HomeMiddle",
   components: {
@@ -112,7 +129,20 @@ export default {
       isShowScenarios: false,
       dialogTableVisible: true,
       timeExpiration: 1,
-      prohibit: false
+      prohibit: false,
+      isShowoptimize: false,
+      textoptimize: '',
+      Prompt: `
+          Act as a prompt engineer. As a seasoned and
+          renowned prompt engineer, you excel at crafting high-quality prompts that
+          elicit accurate and relevant responses from ChatGPT. I'm thrilled to utilize
+          your expertise to enhance my prompts further.
+
+          Objective: Your task is to generate a set of
+          suggestions on how to optimise the following prompt below in order to generate
+          more effective and relevant responses from ChatGPT.
+
+          Prompt:`
     };
   },
   created() {
@@ -125,6 +155,23 @@ export default {
     this.loadChatHistory();
   },
   methods: {
+    optimize() {
+      this.isShowoptimize = true;
+    },
+    jumptextoptimize() {
+      if (!this.textoptimize) {
+        return ElMessage({
+          message: "请输入内容!",
+          type: "warning",
+          duration: 800,
+          grouping: true,
+        });
+      }
+      this.$refs.inputBox.value = this.textoptimize;
+      this.sendUserMessageAndDisplayResponse();
+      this.isShowoptimize = false;
+      this.textoptimize = '';
+    },
     execute() {
       this.sendUserMessageAndDisplayResponse()
     },
@@ -341,7 +388,7 @@ export default {
           temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
-          user_message: userMessage,
+          user_message: this.isShowoptimize == true ? this.Prompt + `"${userMessage}"` : userMessage,
         };
         const response = await fetch(chatModeUpdateInfoUrl, {
           method: "PUT",
@@ -446,7 +493,6 @@ export default {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;  //一直让消息容器右侧滚条触底；
         const response = JSON.parse(event.data);
         if (response.hasEnd || this.isStopGeneration) {
-          console.log(response.hasEnd);
           eventSource.close();
           this.isStopGeneration = false;
           this.prohibit = false;
@@ -584,4 +630,68 @@ export default {
   
 <style scoped lang="scss">
 @import "../assets/pc-css/home-middlecss.scss";
+
+#cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%; //宽度设置为100%，这样才能使遮罩层覆盖原页面
+  height: 100%;
+  opacity: 1; //非IE浏览器下设置透明度为60%
+  z-index: 100;
+
+  .optimize {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    z-index: 101;
+    background: #220e51;
+    border-radius: 20px;
+
+    h1 {
+      margin-top: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    textarea {
+      list-style: none;
+      outline: none;
+      margin-top: 40px;
+      width: 100%;
+      height: 200px;
+      background: darkgray;
+      border: 1px #220e51 solid;
+      resize: none;
+      border-radius: 20px;
+      font-size: 18px;
+      padding: 15px;
+      box-sizing: border-box;
+      color: #220e51;
+    }
+
+    .btn {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-evenly;
+
+      button {
+        width: 200px;
+        height: 40px;
+        border-radius: 20px;
+        color: #220e51;
+        font-size: 16px;
+        border: 0;
+        color: white;
+        letter-spacing: 4px;
+      }
+    }
+
+  }
+}
 </style>

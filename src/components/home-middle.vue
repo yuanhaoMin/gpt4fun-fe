@@ -301,11 +301,12 @@ export default {
       // 清空已显示的消息
       this.$refs.messagesContainer.innerHTML = "";
       this.$refs.inputBox.value = "";
+      this.isStopGeneration = true;
       ElMessage({
         message: '已成功清空记录！',
         duration: 1100,
         type: 'success',
-      })
+      });
     },
     // 对话模式下, 设置情景
     async updateSystemMessage() {
@@ -358,7 +359,8 @@ export default {
       if (this.timeExpiration == 0) return ElNotification({ title: '提醒', message: '抱歉哦,您的体验时间已到期,继续打赏给我们一点支持吧!', type: 'warning', });
       let userMessage = ''
       if (this.$route.path == '/recruit') {
-        userMessage = this.$refs.jobRecruitment.jobInformation
+        if (!this.$refs.jobRecruitment.jobInformation) return ElMessage({ message: "请输入内容!", type: "warning", duration: 800, grouping: true, });
+        userMessage = this.$refs.jobRecruitment.jobInformation;
       } else {
         userMessage = this.$refs.inputBox.value == "" ? this.$refs.classifyingScenarios.dataList : this.$refs.inputBox.value;
       }

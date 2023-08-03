@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="responsibility">岗位需求</div>
-        <textarea name="" id="" cols="30" rows="10" v-model="jobInformation" class="jobStyle"></textarea>
+        <textarea name="" id="" cols="30" rows="10" :placeholder="Job" v-model="jobInformation" class="jobStyle"></textarea>
         <div @click="matching">
             <span>简历打分 :</span>&emsp;
             <el-switch v-model="isShowUploadResume" size="large" />
@@ -38,6 +38,7 @@ export default {
             isShowPositionMatching: false,
             isShowportraitOfBelbin: true,
             jobInformation: '',
+            Job: "",
             Position: {
                 name: "position_description",
                 template_id: 10,
@@ -54,6 +55,9 @@ export default {
                 model: "gpt-3.5-turbo"
             },
         }
+    },
+    mounted() {
+        this.portrait();
     },
     methods: {
         async uploadPDF(e) {
@@ -74,22 +78,19 @@ export default {
             await response.json();
         },
         matching() {
-            this.isShowUploadResume != this.isShowUploadResume;
+            this.isShowUploadResume = true;
             this.isShowportraitOfBelbin = this.isShowPositionMatching = false;
-            let text = document.getElementsByClassName("input-textarea")[0];
-            text.placeholder = "请先上传简历pdf,然后在此输入岗位要求: 例如:\n1.本科以上学历,3年以上移动端或App运营活动策划经验 \n2.熟悉银行客户经营工作，有银行 / 保险 / 证券等金融相关的活动运营相关经验者优先; \n3.熟悉移动端营销活动相关的产品逻辑，有一定的交互输出能力， 关注运营数据,善于挖掘总结经验;\n4.有出色的执行力、良好的沟通能力，团队协作精神;\n5.具有创新精神,勇于打破常规,敢于承担;\n6.有强烈的学习欲望和好奇心"
+            this.Job = "请先上传简历pdf,然后在此输入岗位要求: 例如:\n1.本科以上学历,3年以上移动端或App运营活动策划经验 \n2.熟悉银行客户经营工作，有银行 / 保险 / 证券等金融相关的活动运营相关经验者优先; \n3.熟悉移动端营销活动相关的产品逻辑，有一定的交互输出能力， 关注运营数据,善于挖掘总结经验;\n4.有出色的执行力、良好的沟通能力，团队协作精神;\n5.具有创新精神,勇于打破常规,敢于承担;\n6.有强烈的学习欲望和好奇心"
         },
         InterviewQuestion() {
-            this.isShowPositionMatching != this.isShowPositionMatching;
+            this.isShowPositionMatching = true;
             this.isShowportraitOfBelbin = this.isShowUploadResume = false;
-            let text = document.getElementsByClassName("input-textarea")[0]
-            text.placeholder = "请输入你想考察的领域或技术:如: UI设计"
+            this.Job = "请输入你想考察的领域或技术:如: UI设计"
         },
         portrait() {
             this.isShowportraitOfBelbin = true;
             this.isShowUploadResume = this.isShowPositionMatching = false
-            let text = document.getElementsByClassName("input-textarea")[0]
-            text.placeholder = "请输入岗位需求, 将生成贝尔宾团队角色画像"
+            this.Job = "请输入岗位需求, 将生成贝尔宾团队角色画像"
         },
         recruitment_event() {
             if (this.isShowUploadResume == true) {
@@ -165,9 +166,9 @@ export default {
         box-sizing: border-box;
         resize: none;
 
-        ::-webkit-scrollbar {
-            display: none;
-        }
+        // ::-webkit-scrollbar {
+        //     display: none;
+        // }
     }
 }
 

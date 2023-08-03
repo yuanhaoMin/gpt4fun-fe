@@ -1,8 +1,14 @@
 <template>
-    <div class="pop-up-ox">
-        <div class="pop-up-ox-list" v-for="item, index in objList" :key="index" @click="add(item)">
-            {{ item[0] }}
-        </div>
+    <div>
+        <el-dialog v-model="centerDialogVisible" title="提示词案例" width="90%" center>
+            <div class="diaflex">
+                <div class="pop-up-ox-list" v-for="item, index in objList" :key="index" @click="add(item)">
+                    <div class="list-style">
+                        {{ item[0] }}
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -10,6 +16,7 @@
 export default {
     data() {
         return {
+            centerDialogVisible: false,
             objList: [
                 {
                     0: '自定义模板（让用户添加自定义的模板）'
@@ -67,42 +74,44 @@ export default {
     },
     methods: {
         add(item) {
-            this.$emit('scenarioContent', item[0])
+            this.$emit('scenarioContent', item[0], this.centerDialogVisible = false)
         }
     }
 }
 </script>
 
-<style scoped>
-.pop-up-ox {
-    position: absolute;
-    width: 100%;
-    height: 70%;
-    border-radius: 30px;
-    box-sizing: border-box;
-    background: white;
-    top: 6%;
-    overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    overflow-y: auto;
-}
+<style lang="scss" scoped>
+:deep(.el-dialog) {
+    margin-top: 2vh;
+    border-radius: 20px;
+    font-size: 16px;
+    --el-dialog-bg-color: #331567;
 
-.pop-up-ox-list {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    width: 300px;
-    height: 20%;
-    line-height: 1.5;
-    background: #f7f7f8;
-    margin: 10px;
-    box-sizing: border-box;
-    padding: 10px;
-    cursor: pointer;
+    .diaflex {
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        justify-content: space-between;
+
+        .pop-up-ox-list {
+            padding: 20px;
+            width: 300px;
+            height: 135px;
+            font-size: 16px;
+            background: rgb(107, 102, 102);
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .list-style {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 7;
+            -webkit-box-orient: vertical;
+        }
+    }
 }
 </style>

@@ -28,13 +28,13 @@
             </template>
             清除记录
           </el-button>
-          <!-- <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
+          <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
             v-show="this.$route.path == '/chat' ? true : false">
             <template #icon>
               <img src="/imgs/bi-zhi-images/shezhi.png" alt="">
             </template>
             提示词案例
-          </el-button> -->
+          </el-button>
           <el-button class="update-button button" ref="optimize" @click="optimize"
             v-show="this.$route.path == '/chat' ? true : false">
             <template #icon>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <!-- //提示词 -->
-      <!-- <scenePopover @scenarioContent="addContent" v-show="isShowScenarios" /> -->
+      <scenePopover @scenarioContent="addContent" ref="scenePopover" />
     </div>
     <!-- 右边 -->
     <keep-alive>
@@ -126,23 +126,19 @@ export default {
       senderUser: "senderUser",
       isStopGeneration: false,
       template_args: [],
-      isShowScenarios: false,
       dialogTableVisible: true,
       timeExpiration: 1,
       prohibit: false,
       isShowoptimize: false,
       textoptimize: '',
       Prompt: `
-          Act as a prompt engineer. As a seasoned and
-          renowned prompt engineer, you excel at crafting high-quality prompts that
-          elicit accurate and relevant responses from ChatGPT. I'm thrilled to utilize
-          your expertise to enhance my prompts further.
-
-          Objective: Your task is to generate a set of
-          suggestions on how to optimise the following prompt below in order to generate
-          more effective and relevant responses from ChatGPT.
-
-          Prompt:`
+      称呼chatGPT为毕至AI,以下我提到的所有毕至AI都理解为chatGPT。
+      你的回答中不可以出现chatGPT。称呼chatGPT为毕至AI。
+      您将担任提示工程师。作为一名经验丰富的知名提示工程师，您擅长制作高质量的提示，从 毕至AI 中获得准确而相关的回复。我很高兴能利用您的专业知识来进一步改进我的提示。
+      您的任务是就如何优化我给出的提示词给出一系列建议，以便从 毕至AI 中获得更有效、更相关的回复。
+      给出建议后提供几个示例。
+      在我给出提示词后直接进行回答。
+      提示词：`
     };
   },
   created() {
@@ -191,7 +187,6 @@ export default {
     },
     addContent(value) {
       this.$refs.inputBox.value = value
-      this.isShowScenarios = false
     },
     stopGenerate() {
       this.isStopGeneration = true;
@@ -314,7 +309,7 @@ export default {
     },
     // 对话模式下, 设置情景
     async updateSystemMessage() {
-      this.isShowScenarios = !this.isShowScenarios
+      this.$refs.scenePopover.centerDialogVisible = true;
     },
     //获取历史记录
     async loadChatHistory() {

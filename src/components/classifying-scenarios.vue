@@ -50,7 +50,7 @@ export default {
             dataList: "",
             drawer: false,
             isShowwork: true,
-            isShowsocialize: false,
+            isShowsocialize: true,
             isShowdrawer: "",
             isShowReEdit: false,
             objList: {

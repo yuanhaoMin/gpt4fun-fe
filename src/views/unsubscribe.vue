@@ -26,6 +26,7 @@
         </div>
         <agreement ref="agreement" @agreement="getservice"></agreement>
         <userAccount class="userAccount"></userAccount>
+        <instructions />
     </div>
 </template>
 
@@ -36,10 +37,12 @@ import { getData, removeData } from '../utils/store-crud';
 import userAccount from '@/components/userAcccountMsg.vue';
 import { ElMessage } from 'element-plus';
 import agreement from "@/components/serviceAgreement/index.vue";
+import instructions from "@/components/instructions/index.vue";
 export default {
     components: {
         userAccount,
-        agreement
+        agreement,
+        instructions
     },
     data() {
         return {

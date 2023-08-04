@@ -92,6 +92,8 @@ export default {
         flex-wrap: wrap;
         box-sizing: border-box;
         justify-content: space-between;
+        overflow-y: hidden;
+
 
         .pop-up-ox-list {
             padding: 20px;

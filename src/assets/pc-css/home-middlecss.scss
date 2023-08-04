@@ -14,7 +14,28 @@
         position: absolute;
         right: 10px;
         top: 82px;
-        box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.26);
+        box-shadow: 0px 3px 12px 0px rgba(215, 24, 24, 0.26);
+    }
+
+    .tooltip-base-box {
+        width: 600px;
+      
+    }
+
+    .tooltip-base-box .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+    }
+
+    .tooltip-base-box .center {
+        justify-content: center;
+    }
+
+    .tooltip-base-box .box-item {
+        width: 110px;
+        margin-top: 10px;
     }
 }
 

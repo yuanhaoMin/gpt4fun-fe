@@ -1,15 +1,18 @@
 <template>
     <div class="chat-top">
         <div>
-            <img src="/imgs/log-on-images/shousuo.png" alt="" class="sousuo" v-show="$route.path == '/login' ? false : true"
+            <img src="/imgs/log-on-images/shousuo.png" alt="" class="sousuo" v-show="$route.path != '/login'"
                 @click='spendOrContract'>
             <img src="/imgs/log-on-images/logo.png" alt="">
         </div>
         <div>
+            <el-tooltip class="box-item" effect="dark" content="用户使用说明书" placement="left">
+                <img src="\imgs\bi-zhi-images/illustrate.png" alt="" v-show="$route.path != '/login'" @click="illustrate">
+            </el-tooltip>
             <img src="\imgs\bi-zhi-images/touxiang.png" alt="" @click="isShowUserAccount" class="sculpture"
                 v-if="$route.path != '/login'">
             <img src=" \imgs\bi-zhi-images/tuichu.png" alt="" @click="logout" v-if="$route.path != '/login'">
-            <img src="\imgs\bi-zhi-images/zhuye.png" alt="" @click="$router.push('/')" v-if="$route.path == '/login'">
+            <img src="\imgs\bi-zhi-images/zhuye.png" alt="退出" @click="$router.push('/')" v-if="$route.path == '/login'">
         </div>
     </div>
 </template>
@@ -44,6 +47,10 @@ let isShowUserAccount = () => {
 //菜单栏 收缩/展开
 let spendOrContract = () => {
     store.commit('isContract');
+};
+let illustrate = () => {
+    store.commit('illustrate');
+    console.log(1);
 };
 </script>
 

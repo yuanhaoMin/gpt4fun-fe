@@ -7,12 +7,14 @@
         </div>
         <userAccount class="userAccount"></userAccount>
         <agreement />
+        <instructions />
     </div>
 </template>
 
 <script setup>
-import userAccount from '@/components/userAcccountMsg.vue'
-import agreement from "@/components/serviceAgreement/index.vue"
+import userAccount from '@/components/userAcccountMsg.vue';
+import agreement from "@/components/serviceAgreement/index.vue";
+import instructions from "@/components/instructions/index.vue";
 </script>
 
 

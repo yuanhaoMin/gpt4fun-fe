@@ -70,14 +70,17 @@
             14.2 本协议的解释与争议解决,适用中华人民共和国法律并由本网站所在地法院管辖。
         </div>
         <userAccount class="userAccount"></userAccount>
+        <instructions />
     </div>
 </template>
 
 <script>
 import userAccount from '@/components/userAcccountMsg.vue';
+import instructions from "@/components/instructions/index.vue";
 export default {
     components: {
-        userAccount
+        userAccount,
+        instructions
     }
 }
 </script>
@@ -95,11 +98,13 @@ export default {
     line-height: 2;
     font-size: 18px;
     color: silver;
-    h2{
+
+    h2 {
         text-align: center;
         color: #FFFFFF;
         margin-bottom: 25px;
     }
+
     p {
         font-size: 24px;
         color: #FFFFFF;

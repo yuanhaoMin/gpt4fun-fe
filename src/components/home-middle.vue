@@ -22,12 +22,14 @@
             </template>
             停止生成
           </el-button>
-          <el-button class="delete-button button" ref="resetButton" @click="resetChatHistory">
-            <template #icon>
-              <img src="/imgs/bi-zhi-images/qingkong.png" alt="">
-            </template>
-            清除记录
-          </el-button>
+          <el-tooltip class="box-item" effect="dark" content="记得经常清除历史记录哦~" placement="top">
+            <el-button class="delete-button button" ref="resetButton" @click="resetChatHistory">
+              <template #icon>
+                <img src="/imgs/bi-zhi-images/qingkong.png" alt="">
+              </template>
+              清除记录
+            </el-button>
+          </el-tooltip>
           <el-button class="update-button button" ref="updateButton" @click="updateSystemMessage"
             v-show="this.$route.path == '/chat' ? true : false">
             <template #icon>
@@ -73,6 +75,7 @@
     <keep-alive>
       <userAccount class="userAccount"></userAccount>
     </keep-alive>
+    <instructions />
     <div id="cover" v-show="isShowoptimize">
       <div class="optimize">
         <h1>优化提示词</h1>
@@ -82,6 +85,7 @@
           <button style="background-color: gray;" @click=" this.isShowoptimize = false;">取消</button>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -97,6 +101,7 @@ import { info } from "../api/user";
 import { transformTimestamp } from "../utils/time-format";
 import classifyingScenarios from "./classifying-scenarios.vue";
 import userAccount from '@/components/userAcccountMsg.vue';
+import instructions from "@/components/instructions/index.vue";
 export default {
   name: "HomeMiddle",
   components: {
@@ -104,8 +109,10 @@ export default {
     exitButton,
     jobRecruitment,
     scenePopover,
+    instructions,
     classifyingScenarios,
-    userAccount
+    userAccount,
+
   },
   data() {
     return {

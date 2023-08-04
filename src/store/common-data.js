@@ -9,6 +9,7 @@ const store = createStore({
             isSpend: false,
             recruitment: {},
             isShowUserMsg: false,
+            isstrate: false
         }
     },
     mutations: {
@@ -31,6 +32,9 @@ const store = createStore({
         },
         isContract(state) {
             state.isSpend = !state.isSpend;
+        },
+        illustrate(state) {
+            state.isstrate = !state.isstrate;
         },
         recruitment(state, val) {
             state.recruitment = val

@@ -116,9 +116,11 @@ export default {
   },
   data() {
     return {
-      baseUrl: "https://albatross21python.azurewebsites.net",
+      // baseUrl: "https://albatross21python.azurewebsites.net",
+      baseUrl: "http://bizcampgpt.com/api/",
       baseLLMOpenAIUrl:
-        "https://albatross21python.azurewebsites.net/llm/openai",
+        // "https://albatross21python.azurewebsites.net/llm/openai",
+        "http://bizcampgpt.com/api/llm/openai",
       // 调用后端API时的认证信息
       // TODO
       authUsername: "",
@@ -485,7 +487,7 @@ export default {
         eventSource.close();
         this.isStopGeneration = false;
         ElMessage({
-          message: "请刷新页面或清除记录!",
+          message: "错误提示,请刷新页面或清除记录!",
           type: "error",
           duration: 6000,
           grouping: true,
@@ -501,9 +503,7 @@ export default {
           this.isStopGeneration = false;
           this.prohibit = false;
         } else {
-          const formattedChunkResponse = this.achieveLineBreak(
-            response.content
-          );
+          const formattedChunkResponse = this.achieveLineBreak(response.content);
           completeResponse += formattedChunkResponse;
           const indexOfTripleBackticks = completeResponse.indexOf("```");
           if (indexOfTripleBackticks > 0) {
@@ -517,7 +517,7 @@ export default {
             }
           };
           botParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${completeResponse}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
-          let res = document.querySelectorAll('.copy')
+          let res = document.querySelectorAll('.copy');
           for (let i = 0; i < res.length; i++) {
             res[i].onclick = function () {
               var range = document.createRange();

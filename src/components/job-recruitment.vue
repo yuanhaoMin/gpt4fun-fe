@@ -33,7 +33,8 @@ export default {
     data() {
         return {
             fileName: '',
-            baseUrl: "https://albatross21python.azurewebsites.net",
+            // baseUrl: "https://albatross21python.azurewebsites.net",
+            baseUrl: "http://bizcampgpt.com/api/",
             isShowUploadResume: false,
             isShowPositionMatching: false,
             isShowportraitOfBelbin: true,

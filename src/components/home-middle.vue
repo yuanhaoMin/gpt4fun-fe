@@ -117,7 +117,7 @@ export default {
   data() {
     return {
       // baseUrl: "https://albatross21python.azurewebsites.net",
-      baseUrl: "http://bizcampgpt.com/api/",
+      baseUrl: "http://bizcampgpt.com/api",
       baseLLMOpenAIUrl:
         // "https://albatross21python.azurewebsites.net/llm/openai",
         "http://bizcampgpt.com/api/llm/openai",

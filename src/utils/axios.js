@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ElMessage } from "element-plus";
 
 const instance = axios.create({
-    baseURL: 'http://bizcampgpt.com/api/',
+    baseURL: 'http://bizcampgpt.com/api',
     timeout: 8000
 });
 

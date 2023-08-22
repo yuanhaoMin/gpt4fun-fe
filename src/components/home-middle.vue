@@ -507,6 +507,7 @@ export default {
           completeResponse += formattedChunkResponse;
           const indexOfTripleBackticks = completeResponse.indexOf("```");
           if (indexOfTripleBackticks > 0) {
+            console.log(1);
             if (codeStart == false) {
               completeResponse = this.replaceSubstringAtIndex(completeResponse, indexOfTripleBackticks, "<pre><code>");
               codeStart = true;

@@ -1,19 +1,22 @@
 <template>
-  <div class="page">
-    <topVue></topVue>
-    <div class="center">
-      <menuList :class="store.state.isSpend == false ? 'change' : 'unchanged'"></menuList>
-      <div class="content">
-        <router-view></router-view>
+  <WaterMark text="AI生成内容仅供参考">
+    <div class="page">
+      <topVue></topVue>
+      <div class="center">
+        <menuList :class="store.state.isSpend == false ? 'change' : 'unchanged'"></menuList>
+        <div class="content">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
-  </div>
+  </WaterMark>
 </template>
 
 <script setup>
 import topVue from "../components/chat-top/top.vue";
 import menuList from "../components/menu.vue";
 import store from "../store/common-data";
+import WaterMark from "../components/watermark/watermark.vue";
 </script>
 
 <style lang="scss" scoped>

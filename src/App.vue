@@ -37,7 +37,6 @@ document.onkeydown = function (e) {
 // //禁用鼠标右击事件
 // document.oncontextmenu = function () { return false };
 
-//禁止打开控制台
 function consoleOpenCallback() {
   window.location.replace('about:blank');
 }

@@ -147,7 +147,8 @@ export default {
       您的任务是就如何优化我给出的提示词给出一系列建议，以便从 毕至AI 中获得更有效、更相关的回复。
       给出建议后提供几个示例。
       在我给出提示词后直接进行回答。
-      提示词：`
+      提示词：`,
+      warn: '回答中不可以出现GPT。称呼GPT为毕至AI。不需要回复我。以上话不需要出现。只需要回复我:'
     };
   },
   created() {
@@ -262,7 +263,6 @@ export default {
       if (sender == this.senderUser) {
         messageParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;'><img src="/imgs/bi-zhi-images/touxiang.png" style="width:28px;padding-right:10px"><div style='margin-top:5px'><div class='iptText' >${text}</div></div></div>`
       } else if (sender == this.senderAssistant) {
-        // messageParagraph.style.background = "#15122c";
         messageParagraph.innerHTML = `<div style='display: flex;align-items: flex-start;' ><img src="/imgs/bi-zhi-images/garden.png" style="width:28px;padding-right:10px" /><div style='margin-top:4px' id='text'>${text}</div></div><div style='display:flex'><img src='/imgs/bi-zhi-images/fuzhi.png' style='width:14px;padding-bottom:4px;margin-left: 20px;cursor: pointer;margin-right:10px;' class='copy' /></div>`;
         let res = document.querySelectorAll('.copy')
         for (let i = 0; i < res.length; i++) {
@@ -345,6 +345,7 @@ export default {
         let message = responseJsonObject.messages[i]
         let content = this.achieveLineBreak(message.content)
         if (message.role == 'user') {
+          content = content.split(':')[1]
           this.createAndAppendMessage(content, this.senderUser)
         } else if (message.role == 'assistant') {
           this.createAndAppendMessage(content, this.senderAssistant)
@@ -394,7 +395,7 @@ export default {
           temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
-          user_message: this.isShowoptimize == true ? this.Prompt + `"${userMessage}"` : userMessage,
+          user_message: this.isShowoptimize == true ? this.Prompt + `"${userMessage}"` : this.warn + userMessage,
         };
         const response = await fetch(chatModeUpdateInfoUrl, {
           method: "PUT",
@@ -426,7 +427,7 @@ export default {
         if (this.$store.state.selected.selectedCompletionModeOnlineOption == "offline") {
           this.$refs.jobRecruitment.recruitment_event();
           this.template_args = [{
-            name: this.$route.path == "/chat" ? 'question' : this.$store.state.recruitment.name, value: userMessage
+            name: this.$route.path == "/chat" ? 'question' : this.$store.state.recruitment.name, value: this.warn + userMessage
           }]
           const completionModeUpdateInfoUrl =
             this.baseLLMOpenAIUrl + "/completion";
@@ -551,7 +552,7 @@ export default {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            question: userMessage,
+            question: this.warn + userMessage,
           }),
         }
       );

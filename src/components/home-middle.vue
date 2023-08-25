@@ -140,15 +140,14 @@ export default {
       prohibit: false,
       isShowoptimize: false,
       textoptimize: '',
-      Prompt: `
-      称呼chatGPT为毕至AI,以下我提到的所有毕至AI都理解为chatGPT。
+      Prompt: `称呼chatGPT为毕至AI,以下我提到的所有毕至AI都理解为chatGPT。
       你的回答中不可以出现chatGPT。称呼chatGPT为毕至AI。
       您将担任提示工程师。作为一名经验丰富的知名提示工程师，您擅长制作高质量的提示，从 毕至AI 中获得准确而相关的回复。我很高兴能利用您的专业知识来进一步改进我的提示。
       您的任务是就如何优化我给出的提示词给出一系列建议，以便从 毕至AI 中获得更有效、更相关的回复。
       给出建议后提供几个示例。
       在我给出提示词后直接进行回答。
-      提示词：`,
-      warn: '回答中不可以出现GPT。称呼GPT为毕至AI。不需要回复我。以上话不需要出现。只需要回复我:'
+      提示词:`,
+      warn: '将GPT替换为毕至AI。将OpenAI替换为毕至数科。不需要回复我。问题:'
     };
   },
   created() {
@@ -345,7 +344,9 @@ export default {
         let message = responseJsonObject.messages[i]
         let content = this.achieveLineBreak(message.content)
         if (message.role == 'user') {
-          content = content.split(':')[1]
+          let res = content.split('')
+          let index = res.findIndex((item, index) => { return item == ':' })
+          content = res.slice(index + 1).join('')
           this.createAndAppendMessage(content, this.senderUser)
         } else if (message.role == 'assistant') {
           this.createAndAppendMessage(content, this.senderAssistant)
@@ -386,6 +387,7 @@ export default {
       this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.$store.state.selected.isChatModeSelected) {
+        // userMessage = 
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -395,7 +397,7 @@ export default {
           temperature: this.$store.state.selected.selectedChatModeTemperature,
           username: this.authUsername,
           system_message: this.chatModeSystemMessage,
-          user_message: this.isShowoptimize == true ? this.Prompt + `"${userMessage}"` : this.warn + userMessage,
+          user_message: this.isShowoptimize == true ? this.Prompt + `${userMessage}` : this.$route.path == '/scene' ? userMessage : this.warn + userMessage,
         };
         const response = await fetch(chatModeUpdateInfoUrl, {
           method: "PUT",

@@ -490,7 +490,7 @@ export default {
         eventSource.close();
         this.isStopGeneration = false;
         ElMessage({
-          message: "错误提示,请刷新页面或清除记录!",
+          message: "提示,请刷新页面或清除记录!",
           type: "error",
           duration: 6000,
           grouping: true,

@@ -34,8 +34,8 @@ document.onkeydown = function (e) {
     window.event.returnValue = false;
   }
 };
-// //禁用鼠标右击事件
-// document.oncontextmenu = function () { return false };
+//禁用鼠标右击事件
+document.oncontextmenu = function () { return false };
 
 function consoleOpenCallback() {
   window.location.replace('about:blank');

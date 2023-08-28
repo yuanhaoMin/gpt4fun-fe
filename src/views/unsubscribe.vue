@@ -81,7 +81,6 @@ export default {
         async sendCod() {
             if (this.isClickSend == true || this.codeNum != 60) return;
             this.isClickSend = true;
-
             let clearId = setInterval(() => {
                 this.codeNum--;
                 document.getElementsByClassName('yzmbtn')[0].style.color = 'darkgrey';

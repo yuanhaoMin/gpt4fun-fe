@@ -101,7 +101,7 @@ export default {
 
     h2 {
         text-align: center;
-        color: #FFFFFF;
+        color: #ee1b1b;
         margin-bottom: 25px;
     }
 

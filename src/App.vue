@@ -35,7 +35,7 @@ document.onkeydown = function (e) {
   }
 };
 //禁用鼠标右击事件
-document.oncontextmenu = function () { return false };
+// document.oncontextmenu = function () { return false };
 
 function consoleOpenCallback() {
   window.location.replace('about:blank');

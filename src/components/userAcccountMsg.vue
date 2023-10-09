@@ -15,7 +15,7 @@
                         <p>到期时间：{{ overtime }}</p>
                     </div>
                     <div>
-                        <button @click="this.$router.push('/price')">续费专业版!</button>
+                        <button @click="this.$router.push('/contact')">续费专业版!</button>
                     </div>
                 </div>
                 <div class="purplePart freeVersion" v-if="role == '1'">
@@ -24,7 +24,7 @@
                         <p>到期时间：{{ overtime }}</p>
                     </div>
                     <div>
-                        <button @click="this.$router.push('/price')">开通专业版!</button>
+                        <button @click="this.$router.push('/contact')">开通专业版!</button>
                     </div>
                 </div>
                 <div class="purplePart freeVersion" v-if="role == '31'">

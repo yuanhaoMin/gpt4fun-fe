@@ -82,11 +82,16 @@ const router = createRouter({
       name: 'introduction',
       component: () => import('../views/about-us/Introduction-to-bi-zhi.vue')
     },
+    // {
+    //   path: '/price',//价格
+    //   name: 'price',
+    //   component: () => import('../views/price-page.vue')
+    // },
     {
-      path: '/price',//价格
-      name: 'price',
-      component: () => import('../views/price-page.vue')
-    },
+      path: '/:pathMatch(.*)',
+      name: '404',
+      component: () => import('@/components/notFind.vue')
+  },
   ]
 });
 

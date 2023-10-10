@@ -15,19 +15,19 @@
                 <div>￥<em>96</em><span>元</span></div>
                 <s>原价￥114</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(96)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="basicbuy(96)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>182</em><span>元</span></div>
                 <s>原价￥228</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(182)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="basicbuy(182)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>319</em><span>元</span></div>
                 <s>原价￥456</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="basicbuy(319)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="basicbuy(319)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>{{ preferential }}</em> <span>元</span></div>
@@ -37,7 +37,7 @@
                         @input="handleNum"><button @click="addNum">+</button>
                     <span class="month">个月</span>
                 </div>
-                <div> <el-button type="primary" round @click="basicbuy(preferential)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="basicbuy(preferential)">购买</el-button></div> -->
             </div>
         </div>
         <div class="number" v-show="tab == 2">
@@ -45,19 +45,19 @@
                 <div>￥<em>224</em><span>元</span></div>
                 <s>原价￥264</s>
                 <div>3个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(224)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="specialitybuy(224)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>422</em><span>元</span></div>
                 <s>原价￥528</s>
                 <div>6个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(422)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="specialitybuy(422)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>739</em><span>元</span></div>
                 <s>原价￥1056</s>
                 <div>12个月</div>
-                <div> <el-button type="primary" round @click="specialitybuy(739)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="specialitybuy(739)">购买</el-button></div> -->
             </div>
             <div>
                 <div>￥<em>{{ preferential1 }}</em><span>元</span></div>
@@ -68,7 +68,7 @@
                     <button @click="addNum1">+</button>
                     <span class="month">个月</span>
                 </div>
-                <div> <el-button type="primary" round @click="specialitybuy(preferential1)">购买</el-button></div>
+                <!-- <div> <el-button type="primary" round @click="specialitybuy(preferential1)">购买</el-button></div> -->
             </div>
         </div>
         <!-- <div class="number" v-show="tab == 3">
@@ -78,6 +78,11 @@
                 <div> <el-button type="primary" round @click="lifebuy(1688)">购买</el-button></div>
             </div>
         </div> -->
+        <div class="display-price">
+            <div> 线上充值渠道因异常暂时关闭，在此期间如有充值需求，请点击下方联系我们进行人工充值渠道。</div>
+            <div>为您带来的不便，敬请谅解！</div>
+            <div> <el-button type="danger" plain @click="this.$router.push('/contact')">联系我们</el-button></div>
+        </div>
         <div class="tabulation">
             <ul>
                 <li></li>
@@ -349,6 +354,21 @@ export default {
     background-color: #03001b;
     box-sizing: border-box;
     color: #bfbfbf;
+
+    .display-price {
+        margin-top: 40px;
+        text-align: center;
+        color: red;
+        line-height: 2;
+        font-size: 20px;
+        .el-button--danger{
+            margin-top: 20px;
+            width: 200px;
+            height: 50px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
 
     .give-back {
         width: 120px;

@@ -15,8 +15,10 @@
                 </ul>
                 <ul>
                     <li>联系我们</li>
-                    <li>lby@bizcamp.com.cn</li>
-                    <li>hhf@bizcamp.com.cn</li>
+                    <li><a href="mailto:lby@bizcamp.com.cn">lby@bizcamp.com.cn</a></li>
+                    <li><a href="mailto:hhf@bizcamp.com.cn">hhf@bizcamp.com.cn</a></li>
+                    <li><a href="mailto:gzw@bizcamp.com.cn">gzw@bizcamp.com.cn</a></li>
+                    <li><a href="mailto:syp@bizcamp.com.cn">syp@bizcamp.com.cn</a></li>
                 </ul>
             </div>
             <div class="right">

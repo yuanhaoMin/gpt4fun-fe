@@ -37,22 +37,22 @@ document.onkeydown = function (e) {
 //禁用鼠标右击事件
 // document.oncontextmenu = function () { return false };
 
-// function consoleOpenCallback() {
-//   window.location.replace('about:blank');
-// }
+function consoleOpenCallback() {
+  window.location.replace('about:blank');
+}
 
-// !function () {
-//   const handler = setInterval(() => {
-//     const before = new Date();
-//     (function () { }["constructor"]("debugger")())
-//     const after = new Date();
-//     const cost = after.getTime() - before.getTime();
-//     if (cost > 100) {
-//       consoleOpenCallback();
-//       clearInterval(handler)
-//     }
-//   }, 1500)
-// }();
+!function () {
+  const handler = setInterval(() => {
+    const before = new Date();
+    (function () { }["constructor"]("debugger")())
+    const after = new Date();
+    const cost = after.getTime() - before.getTime();
+    if (cost > 100) {
+      consoleOpenCallback();
+      clearInterval(handler)
+    }
+  }, 1500)
+}();
 
 </script>
  

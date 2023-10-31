@@ -10,7 +10,7 @@
           </el-icon>
           <template #title>毕至AI助手</template>
         </el-menu-item>
-        <el-menu-item index="recruit">
+        <!-- <el-menu-item index="recruit">
           <el-icon>
             <img src="/imgs/bi-zhi-images/jia.png" alt="">
           </el-icon>
@@ -21,7 +21,7 @@
             <img src="/imgs/bi-zhi-images/fenlei.png" alt="" class="fl">
           </el-icon>
           <template #title>分类场景助手</template>
-        </el-menu-item>
+        </el-menu-item> -->
         <!-- <el-menu-item index="analysis" v-if="intwo == 1 ? false : true">
           <el-icon>
             <img src="/imgs/bi-zhi-images/03.png" alt="">
@@ -51,9 +51,9 @@
     <div>
       <img src="/imgs/bi-zhi-images/xitong.png" alt="" class="set-up" @click="isShowuser = !isShowuser">
     </div>
-    <div class="multiple" v-show="isShowuser">
+    <!-- <div class="multiple" v-show="isShowuser">
       <div @click="isShowuser = false, router.push('unsubscribe')">注销账户</div>
-    </div>
+    </div> -->
   </div>
 </template>
   
@@ -79,12 +79,13 @@ watchEffect(() => {
   }
 });
 
-let expirationTime = async () => {
-  let { data: res } = await info(store.state.username);
-  intwo.value = res.access_bitmap;
-}
+//路由跳转查询信息
+// let expirationTime = async () => {
+//   let { data: res } = await info(store.state.username);
+//   intwo.value = res.access_bitmap;
+// }
 
-expirationTime();
+// expirationTime();
 
 //菜单栏展开
 const handleOpen = (key, keyPath) => { };

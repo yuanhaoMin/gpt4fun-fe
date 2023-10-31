@@ -11,8 +11,8 @@
       <!-- 设置情景弹出框 -->
       <!-- <scenePopover /> -->
       <!-- 消息容器div -->
-      <div class="messages-container" ref="messagesContainer" v-if="$route.fullPath != '/user'">
-        <!-- Messages will appear here -->
+      <!-- <div class="messages-container" ref="messagesContainer" v-if="$route.fullPath != '/user'">
+        Messages will appear here 
       </div>
       <div class="bottom-border" v-if="$route.fullPath != '/user'">
         <div class="bottom-button">
@@ -58,8 +58,28 @@
           执行
         </div>
       </div>
-      <!-- //提示词 -->
-      <scenePopover @scenarioContent="addContent" ref="scenePopover" />
+       //提示词
+      <scenePopover @scenarioContent="addContent" ref="scenePopover" /> -->
+      <div class="prohibition-of-use">
+        尊敬的用户，<div>&emsp;</div>
+        感谢您一直以来对我们AI网站的支持和信任。为了提供更优质的服务和用户体验,我们将于本月底进行一次重要的网站维护和更新。在此期间,我们的网站将暂停使用,并将更换现有的后台数据。<div>&emsp;</div>
+        这次维护和更新的主要内容包括：<div>&emsp;</div>
+        &emsp;&emsp;&emsp;1.升级和优化现有的网站功能,以提供更快速、更稳定的运行环境；<div>&emsp;</div>
+        &emsp;&emsp;&emsp;2.更换后台数据,以提供更全面、更准确的信息和数据；<div>&emsp;</div>
+        &emsp;&emsp;&emsp;3.修复已知的一些小问题和bug,以提升网站的整体稳定性。<div>&emsp;</div>
+        为了确保您的使用体验和数据安全,我们诚挚地建议您在收到通知后,尽快做好备份和保存您需要的重要信息。同时,在维护期间,您将无法访问我们的网站,给您带来的不便我们深感抱歉。<div>&emsp;</div>
+        如果您在维护期间遇到任何问题或需要帮助,请随时联系我们的客服团队,我们将竭诚为您服务。<div>&emsp;</div>
+        再次感谢您对我们AI网站的支持和信任。如果您有任何疑问或建议,也欢迎随时联系我们。<div>&emsp;</div>
+        <div>
+          <div class="right">祝您生活愉快!&emsp;
+          </div>
+        </div>
+        <div>&emsp;</div>
+        <div>
+          <div class="right">Bizcamp AI网站团队&emsp;
+          </div>
+        </div>
+      </div>
     </div>
     <!-- 右边 -->
     <keep-alive>
@@ -85,7 +105,6 @@
           <button style="background-color: gray;" @click=" this.isShowoptimize = false;">取消</button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -151,13 +170,14 @@ export default {
     };
   },
   created() {
-    this.expirationTime();
-    this.encodedCredentials = getData("token");
-    this.authUsername = getData("username");
-    // 用户刷新页面时清除历史记录
-    // this.resetChatHistory();
-    // 用户刷新页面加载历史记录
-    this.loadChatHistory();
+    //请求关闭 转换为静态
+    // this.expirationTime();
+    // this.encodedCredentials = getData("token");
+    // this.authUsername = getData("username");
+    // // 用户刷新页面时清除历史记录
+    // // this.resetChatHistory();
+    // // 用户刷新页面加载历史记录
+    // this.loadChatHistory();
   },
   methods: {
     optimize() {
@@ -387,7 +407,6 @@ export default {
       this.$refs.homeRight.selectMode();
       // 根据不同的模式, 调用不同的函数获取AI回复
       if (this.$store.state.selected.isChatModeSelected) {
-        // userMessage = 
         const chatModeUpdateInfoUrl =
           this.baseLLMOpenAIUrl + "/chat-completion";
         const chatModeSSEUrl =
@@ -700,6 +719,18 @@ export default {
       }
     }
 
+  }
+}
+
+.prohibition-of-use {
+  color: rgb(242, 55, 55);
+  width: 800px;
+  height: 600px;
+  font-size: 18px;
+
+  .right {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 </style>

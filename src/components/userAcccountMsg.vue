@@ -60,7 +60,8 @@ export default {
         }
     },
     created() {
-        this.expiration()
+        //转静态 关闭接口请求
+        // this.expiration()
     },
     methods: {
         async expiration() {

@@ -1,10 +1,6 @@
 <template>
     <div class="contact">
-        <div>
-            线上充值渠道因异常暂时关闭，在此期间如有充值需求，请联系下方邮箱进行人工充值渠道。
-        </div>
-        <div>任何问题请随时联系我们：</div>
-        <div class="red">为您带来的不便，敬请谅解！</div>
+        <div class="red">任何问题请随时联系我们：</div>
         <div class="label">
             <a href="mailto:lby@bizcamp.com.cn">lby@bizcamp.com.cn</a>
             <a href="mailto:hhf@bizcamp.com.cn">hhf@bizcamp.com.cn</a>

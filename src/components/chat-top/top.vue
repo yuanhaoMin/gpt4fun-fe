@@ -9,9 +9,9 @@
             <el-tooltip class="box-item" effect="dark" content="用户使用说明书" placement="left">
                 <img src="\imgs\bi-zhi-images/illustrate.png" alt="" v-show="$route.path != '/login'" @click="illustrate">
             </el-tooltip>
-            <img src="\imgs\bi-zhi-images/touxiang.png" alt="" @click="isShowUserAccount" class="sculpture"
-                v-if="$route.path != '/login'">
-            <img src=" \imgs\bi-zhi-images/tuichu.png" alt="" @click="logout" v-if="$route.path != '/login'">
+            <!-- <img src="\imgs\bi-zhi-images/touxiang.png" alt="" @click="isShowUserAccount" class="sculpture"
+                v-if="$route.path != '/login'"> -->
+            <!-- <img src=" \imgs\bi-zhi-images/tuichu.png" alt="" @click="logout" v-if="$route.path != '/login'"> -->
             <img src="\imgs\bi-zhi-images/zhuye.png" alt="退出" @click="$router.push('/')" v-if="$route.path == '/login'">
         </div>
     </div>

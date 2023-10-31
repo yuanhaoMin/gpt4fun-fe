@@ -5,36 +5,36 @@ import HomeView from '../views/home-view.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: '/home',
-      component: () => import('../views/home.vue')
-    },
+    // {
+    //   path: '/',
+    //   name: '/home',
+    //   component: () => import('../views/home.vue')
+    // },
     {
       path: "/",
       component: HomeView,
-      // redirect: "chat",
+      redirect: "chat",
       children: [
         {
           path: 'chat',                                               //毕至AI助手
           name: 'chat',
           component: () => import('../components/home-middle.vue')
         },
-        {
-          path: 'recruit',                                               //招聘AI助手
-          name: 'recruit',
-          component: () => import('../views/home-recruit.vue')
-        },
-        {
-          path: 'scene',                                               //分类场景AI助手
-          name: 'scene',
-          component: () => import('../views/home-scene.vue')
-        },
-        {
-          path: 'analysis',                                               //分析AI助手
-          name: 'analysis',
-          component: () => import('../views/home-analysis.vue')
-        },
+        // {
+        //   path: 'recruit',                                               //招聘AI助手
+        //   name: 'recruit',
+        //   component: () => import('../views/home-recruit.vue')
+        // },
+        // {
+        //   path: 'scene',                                               //分类场景AI助手
+        //   name: 'scene',
+        //   component: () => import('../views/home-scene.vue')
+        // },
+        // {
+        //   path: 'analysis',                                               //分析AI助手
+        //   name: 'analysis',
+        //   component: () => import('../views/home-analysis.vue')
+        // },
         {
           path: 'contact',                                               //联系我们
           name: 'contact',
@@ -82,11 +82,11 @@ const router = createRouter({
       name: 'introduction',
       component: () => import('../views/about-us/Introduction-to-bi-zhi.vue')
     },
-    {
-      path: '/price',//价格
-      name: 'price',
-      component: () => import('../views/price-page.vue')
-    },
+    // {
+    //   path: '/price',//价格
+    //   name: 'price',
+    //   component: () => import('../views/price-page.vue')
+    // },
     {
       path: '/:pathMatch(.*)',
       name: '404',
@@ -95,18 +95,18 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  const token = getData('token');
-  if (token && to.path != '/') {
-    next();
-  } else {
-    if (to.path == '/' || to.path == '/login') {
-      next()
-    } else {
-      next('/')
-    }
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const token = getData('token');
+//   if (token && to.path != '/') {
+//     next();
+//   } else {
+//     if (to.path == '/' || to.path == '/login') {
+//       next()
+//     } else {
+//       next('/')
+//     }
+//   }
+// });
 
 export default router
 

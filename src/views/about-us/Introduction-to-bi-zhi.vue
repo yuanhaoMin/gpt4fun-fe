@@ -121,14 +121,13 @@
             <div class="title-brother">Partners</div>
         </div>
         <div class="partner-images">
-            <div><img src="/imgs/Introduction-to-bizhi-images/08.png" alt="" class="anYuan"></div>
             <div><img src="/imgs/Introduction-to-bizhi-images/09.png" alt="" class="mingDao"></div>
             <div><img src="/imgs/Introduction-to-bizhi-images/10.png" alt="" class="gongYe"></div>
             <div><img src="/imgs/Introduction-to-bizhi-images/11.png" alt="" class="qiYu"></div>
             <div><img src="/imgs/Introduction-to-bizhi-images/12.png" alt="" class="SAP"></div>
-            <div><img src="/imgs/Introduction-to-bizhi-images/13.png" alt="" class="aoYuan"></div>
             <div><img src="/imgs/Introduction-to-bizhi-images/14.png" alt="" class="qianKun"></div>
-            <div><img src="/imgs/Introduction-to-bizhi-images/15.png" alt="" class="shiDai"></div>
+            <div><img src="/imgs/Introduction-to-bizhi-images/16.png" alt="" class="haiNei"></div>
+            <div><img src="/imgs/Introduction-to-bizhi-images/17.png" alt="" class="nuoYi"></div>
         </div>
     </div>
     <bottom />
@@ -392,11 +391,6 @@ export default {
             align-items: center;
             cursor: pointer;
 
-            .anYuan {
-                width: 258px;
-                height: 74px;
-            }
-
             .mingDao {
                 width: 158px;
                 height: 84px;
@@ -417,19 +411,19 @@ export default {
                 height: 71px;
             }
 
-            .aoYuan {
-                width: 181px;
-                height: 50px;
-            }
-
             .qianKun {
                 width: 193px;
                 height: 75px;
             }
 
-            .shiDai {
-                width: 188px;
-                height: 71px;
+            .haiNei {
+                width: 180px;
+                height: 55px;
+            }
+
+            .nuoYi {
+                width: 120px;
+                height: 80px;
             }
         }
     }

@@ -278,7 +278,8 @@
                 </div>
             </div>
         </div>
-        <div class="AnyuanTechnology">
+        <!-- 安源科技删除 -->
+        <!-- <div class="AnyuanTechnology">
             <p class="partTitle">安元科技</p>
             <p class="englishTrans">Anyuan Technology</p>
             <div class="content">
@@ -294,7 +295,7 @@
                     <img src="/imgs/application-cases-images/21.png" alt="">
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="SmartPartyBuilding">
             <p class="partTitle">智慧党建</p>
             <p class="englishTrans">Smart Party Building</p>

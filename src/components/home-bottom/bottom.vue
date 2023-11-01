@@ -4,8 +4,7 @@
             <div class="left">
                 <ul>
                     <li>友情链接</li>
-                    <li><a href="http://bizcamp.com.cn/">毕至数科科技</a></li>
-                    <li><a href="http://a-y.com.cn/AYwebsite/home">安元科技</a></li>
+                    <li><a href="http://bizcamp.com.cn/">毕至数科</a></li>
                     <li><a href="https://www.mingdao.com/">明道云</a></li>
                     <li><a href="https://www.qiyuesuo.com/">契约锁</a></li>
                 </ul>
